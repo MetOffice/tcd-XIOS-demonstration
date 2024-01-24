@@ -85,6 +85,7 @@ for f in glob.glob('{}/*.cdl'.format(this_dir)):
             subprocess.run(['mpiexec', '-n', '1', './resample.exe', ':',
                             '-n', '1', './xios_server.exe'],
                             cwd=this_dir, check=True)
+                            infile], cwd=this_dir)
             # load the result netCDF file
             rootgrp = netCDF4.Dataset('{}/axis_output.nc'.format(this_dir),
                                       'r')
