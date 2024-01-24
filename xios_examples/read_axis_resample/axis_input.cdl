@@ -1,0 +1,32 @@
+netcdf axis_input {
+dimensions:
+        z = 10 ;
+        z_resample = 4 ;
+variables:
+        float z(z) ;
+                z:long_name = "original z coordinate" ;
+                z:units = "1";
+        float z_resample(z_resample) ;
+                z_resample:long_name = "resampled z coordinate" ;
+                z_resample:units = "1";
+        double original_data(z) ;
+                original_data:long_name = "input data values" ;
+                original_data:units = "1";
+        double resample_data(z_resample) ;
+                resample_data:long_name = "expected resampled data values" ;
+                resample_data:units = "1";
+
+// global attributes:
+                :title = "Input data for XIOS Axis resampling; data is a square function of the z coordinate." ;
+
+data:
+
+ z = 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ;
+
+ z_resample = 1.5, 3.5, 5.5, 7.5 ;
+
+ original_data = 1, 4, 9, 16, 25, 36, 49, 64, 81, 100 ;
+
+ resample_data = 2.25, 12.25, 30.25, 56.25 ;
+
+}
