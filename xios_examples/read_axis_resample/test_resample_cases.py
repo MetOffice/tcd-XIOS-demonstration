@@ -7,59 +7,16 @@ import subprocess
 import glob
 import unittest
 
+import xios_examples.shared_testing as xshared
+
 this_path = os.path.realpath(__file__)
 this_dir = os.path.dirname(this_path)
 
-class TestResample(unittest.TestCase):
-    """
-    UnitTest class to contain tests,
-    1 test case function per input `.cdl` file
 
-    """
-    @classmethod
-    def setUpClass(cls):
-        """
-        First, build the fortran code only once for this class.
-
-        """
-        subprocess.run(['make', 'clean'], cwd=this_dir, check=True)
-        subprocess.run(['make'], cwd=this_dir, check=True)
-        if os.environ.get('MVER', '') == 'XIOS3/trunk':
-            with open(os.path.join(this_dir, 'iodef.xml'), 'r') as ioin:
-                iodef_in = ioin.read()
-            # patch in transport protocol choice for XIOS3
-            # needed for CI runners
-            in2 = '<variable_group id="parameters" >'
-            in3 = ('<variable_group id="parameters" >\n'
-                   '    <variable id="transport_protocol" '
-                   'type="string" >p2p</variable>')
-            iodef_out = iodef_in.replace(in2, in3)
-            with open(os.path.join(this_dir, 'iodef.xml'), 'w') as ioout:
-                ioout.write(iodef_out)
-
-    def tearDown(self):
-        """
-        After each test function,
-        report any errors from XIOS, then
-        remove the input and output netCDF files.
-
-        """
-
-        for ef in glob.glob('{}/*.err'.format(this_dir)):
-            print(ef)
-            with open(ef, 'r') as efile:
-                print(efile.read(), flush=True)
-
-        os.remove('{}/axis_input.nc'.format(this_dir))
-        os.remove('{}/axis_output.nc'.format(this_dir))
-
-    @classmethod
-    def tearDownClass(cls):
-        """
-        Finally, clean the build the fortran code only once for this class.
-
-        """
-        subprocess.run(['make', 'clean'], cwd=this_dir)
+class TestResampleAxis(xshared._TestCase):
+    test_dir = this_dir
+    transient_inputs = ['axis_input.nc']
+    transient_outputs = ['axis_output.nc']
 
 # A list of input `.cdl` files where XIOS is known to produce different
 # output from the expected output data
@@ -110,6 +67,6 @@ for f in glob.glob('{}/*.cdl'.format(this_dir)):
     # add the test as an attribute (function) to the test class
     if tname in known_failures:
         # set decorator @unittest.expectedFailure
-        setattr(TestResample, tname, unittest.expectedFailure(make_a_test(f)))
+        setattr(TestResampleAxis, tname, unittest.expectedFailure(make_a_test(f)))
     else:
-        setattr(TestResample, tname, make_a_test(f))
+        setattr(TestResampleAxis, tname, make_a_test(f))
