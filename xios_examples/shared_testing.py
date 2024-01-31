@@ -54,9 +54,13 @@ class _TestCase(unittest.TestCase):
                 print(efile.read(), flush=True)
 
         for t_in in self.transient_inputs:
-            os.remove('{}/{}'.format(self.test_dir, t_in))
+            rf = '{}/{}'.format(self.test_dir, t_in)
+            if os.path.exists(rf):
+                os.remove(rf)
         for t_out in self.transient_outputs:
-            os.remove('{}/{}'.format(self.test_dir, t_out))
+            rf = '{}/{}'.format(self.test_dir, t_out)
+            if os.path.exists(rf):
+                os.remove(rf)
 
     @classmethod
     def tearDownClass(cls):
