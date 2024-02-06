@@ -58,23 +58,18 @@ contains
     call xios_get_axis_attr('y', n_glo=leny)
     call xios_get_axis_attr('y_resample', n_glo=lenry)
 
-    print *, 'x, y', lenx, ', ', leny
-    print *, 'rx, ry', lenrx, ', ', lenry
-
-    ! ensure to finalize this checking context before initialising
-    ! the domain context for further use
-    call xios_context_finalize()
+    ! print *, 'x, y', lenx, ', ', leny
+    ! print *, 'rx, ry', lenrx, ', ', lenry
 
     ! initialize the main context for interacting with the data.
     call xios_context_initialize('main', comm)
+
     call xios_set_time_origin(origin)
     call xios_set_start_date(start)
     call xios_set_timestep(tstep)
 
     call xios_set_domain_attr("original_domain", ni=lenx, nj=leny, ibegin=0, jbegin=0)
     call xios_set_domain_attr("resampled_domain", ni=lenrx, nj=lenry, ibegin=0, jbegin=0)
-
-    print *, 'closing context definition for main'
 
     call xios_close_context_definition()
 
@@ -84,7 +79,10 @@ contains
 
     integer :: mpi_error
 
-    ! Finalise XIOS and MPI
+    ! Finalise all XIOS contexts and MPI
+    call xios_set_current_context('axis_check')
+    call xios_context_finalize()
+    call xios_set_current_context('main')
     call xios_context_finalize()
     call MPI_Comm_free(comm, mpi_error)
     call xios_finalize()
@@ -109,7 +107,6 @@ contains
     call xios_get_domain_attr('original_domain', nj_glo=leny)
     call xios_get_domain_attr('resampled_domain', ni_glo=lenrx)
     call xios_get_domain_attr('resampled_domain', nj_glo=lenry)
-    print *, 'x, y', lenx, ', ', leny
 
     allocate ( inodata(leny, lenx) )
     allocate ( inedata(lenry, lenrx) )

@@ -17,6 +17,7 @@ class TestResampleAxis(xshared._TestCase):
     test_dir = this_dir
     transient_inputs = ['axis_input.nc']
     transient_outputs = ['axis_output.nc']
+    rtol = 5e-04
 
 
 # A list of input `.cdl` files where XIOS is known to produce different

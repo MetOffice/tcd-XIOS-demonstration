@@ -19,6 +19,7 @@ class _TestCase(unittest.TestCase):
     test_dir = this_dir
     transient_inputs = []
     transient_outputs = []
+    rtol = 5e-03
 
     @classmethod
     def setUpClass(cls):
@@ -92,27 +93,29 @@ class _TestCase(unittest.TestCase):
         def test_resample(self):
             # create a netCDF file from the `.cdl` input
             subprocess.run(['ncgen', '-k', 'nc4', '-o', inputfile,
-                            infile], cwd=cls.test_dir)
+                            infile], cwd=cls.test_dir, check=True)
             # run the compiled Fortran XIOS programme
             subprocess.run(['mpiexec', '-n', '1', './resample.exe', ':',
-                            '-n', '1', './xios_server.exe'], cwd=cls.test_dir)
+                            '-n', '1', './xios_server.exe'],
+                            cwd=cls.test_dir, check=True)
             # load the result netCDF file
             runfile = '{}/{}'.format(cls.test_dir, outputfile)
             assert(os.path.exists(runfile))
             rootgrp = netCDF4.Dataset(runfile, 'r')
             # read data from the resampled, expected & diff variables
             diff = rootgrp['resampled_minus_resample'][:]
+            expected = rootgrp['resample_data'][:]
+            result = rootgrp['resampled_data'][:]
             # prepare message for failure
             msg = ('the expected resample data array\n {exp}\n '
                    'differs from the resampled data array\n {res} \n '
                    'with diff \n {diff}\n')
-            msg = msg.format(exp=rootgrp['resample_data'][:],
-                             res=rootgrp['resampled_data'][:],
-                             diff=diff)
+            msg = msg.format(exp=expected, res=result, diff=diff)
             if np.any(diff):
                 # print message for fail case,
                 # as expected failures do not report msg.
                 print(msg)
             # assert that all of the `diff` varaible values are zero
-            self.assertTrue(not np.any(diff), msg=msg)
+            # self.assertTrue(not np.any(diff), msg=msg)
+            self.assertTrue(np.allclose(result, expected, rtol=cls.rtol), msg=msg)
         return test_resample

@@ -6,7 +6,7 @@
 
     <domain id="original_domain" type="rectilinear" />
     <domain id="resampled_domain" type="rectilinear" >
-      <interpolate_domain id="interpolator" order="2"/>
+      <interpolate_domain id="interpolator" order="1"/>
     </domain>
 
   </domain_definition>

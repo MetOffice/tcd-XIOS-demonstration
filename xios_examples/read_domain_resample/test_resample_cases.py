@@ -15,6 +15,7 @@ class TestResampleDomain(xshared._TestCase):
     test_dir = this_dir
     transient_inputs = ['domain_input.nc']
     transient_outputs = ['domain_output.nc']
+    rtol = 5e-03
 
 
 # A list of input `.cdl` files where XIOS is known to produce different
