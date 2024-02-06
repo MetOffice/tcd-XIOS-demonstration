@@ -9,6 +9,7 @@ import unittest
 this_path = os.path.realpath(__file__)
 this_dir = os.path.dirname(this_path)
 
+
 class _TestCase(unittest.TestCase):
     """
     UnitTest class to contain tests,
@@ -46,6 +47,9 @@ class _TestCase(unittest.TestCase):
         report any errors from XIOS, then
         remove the input and output netCDF files.
 
+        Use environment variable 'files' to avoid clean up of transient files
+        note; this can cause multi-test classes to fail with ncgen errors, use
+        for single test functions only.
         """
 
         for ef in glob.glob('{}/*.err'.format(this_dir)):
@@ -55,11 +59,11 @@ class _TestCase(unittest.TestCase):
 
         for t_in in self.transient_inputs:
             rf = '{}/{}'.format(self.test_dir, t_in)
-            if os.path.exists(rf):
+            if os.path.exists(rf) and not os.environ.get("files"):
                 os.remove(rf)
         for t_out in self.transient_outputs:
             rf = '{}/{}'.format(self.test_dir, t_out)
-            if os.path.exists(rf):
+            if os.path.exists(rf) and not os.environ.get("files"):
                 os.remove(rf)
 
     @classmethod
@@ -67,6 +71,48 @@ class _TestCase(unittest.TestCase):
         """
         Finally, clean the build the fortran code only once for this class.
 
+        Use environment variable 'logs' to avoid clean up, e.g. to keep logs
         """
-        subprocess.run(['make', 'clean'], cwd=cls.test_dir)
+        if not os.environ.get('logs'):
+            subprocess.run(['make', 'clean'], cwd=cls.test_dir)
 
+
+    @classmethod
+    def make_a_resample_test(cls, inf):
+        """
+        this function makes a test case and returns it as a test function,
+        suitable to be dynamically added to a TestCase for running.
+
+        """
+        # always copy for value, don't pass by reference.
+        infile = copy.copy(inf)
+        # expected by the fortran XIOS resample program's main.xml
+        inputfile = cls.transient_inputs[0]
+        outputfile = cls.transient_outputs[0]
+        def test_resample(self):
+            # create a netCDF file from the `.cdl` input
+            subprocess.run(['ncgen', '-k', 'nc4', '-o', inputfile,
+                            infile], cwd=cls.test_dir)
+            # run the compiled Fortran XIOS programme
+            subprocess.run(['mpiexec', '-n', '1', './resample.exe', ':',
+                            '-n', '1', './xios_server.exe'], cwd=cls.test_dir)
+            # load the result netCDF file
+            runfile = '{}/{}'.format(cls.test_dir, outputfile)
+            assert(os.path.exists(runfile))
+            rootgrp = netCDF4.Dataset(runfile, 'r')
+            # read data from the resampled, expected & diff variables
+            diff = rootgrp['resampled_minus_resample'][:]
+            # prepare message for failure
+            msg = ('the expected resample data array\n {exp}\n '
+                   'differs from the resampled data array\n {res} \n '
+                   'with diff \n {diff}\n')
+            msg = msg.format(exp=rootgrp['resample_data'][:],
+                             res=rootgrp['resampled_data'][:],
+                             diff=diff)
+            if np.any(diff):
+                # print message for fail case,
+                # as expected failures do not report msg.
+                print(msg)
+            # assert that all of the `diff` varaible values are zero
+            self.assertTrue(not np.any(diff), msg=msg)
+        return test_resample
