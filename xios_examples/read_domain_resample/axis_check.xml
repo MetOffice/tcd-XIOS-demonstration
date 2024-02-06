@@ -1,0 +1,33 @@
+<context>
+
+  <calendar type="Gregorian"/>
+
+  <axis_definition>
+    <axis id="x" unit="1" long_name="original x coordinate" />
+    <axis id="y" unit="1" long_name="original y coordinate" />
+    <axis id="x_resample" unit="1" long_name="resampled x coordinate" />
+    <axis id="y_resample" unit="1" long_name="resampled y coordinate" />
+
+  </axis_definition>
+
+  <grid_definition>
+    <grid id="oax_grid">
+      <axis axis_ref="x" />
+      <axis axis_ref="y" />
+    </grid>
+
+    <grid id="reax_grid">
+      <axis axis_ref="x_resample" />
+      <axis axis_ref="y_resample" />
+    </grid>
+
+  </grid_definition>
+
+  <file_definition type="one_file">
+    <file id="din" name="domain_input" output_freq="1ts" mode="read" enabled=".true.">
+      <field id="odatax" name="original_data" grid_ref="oax_grid" operation="instant" />
+      <field id="edatax" name="resample_data" grid_ref="reax_grid" operation="instant" />
+    </file>
+  </file_definition>
+  
+</context>

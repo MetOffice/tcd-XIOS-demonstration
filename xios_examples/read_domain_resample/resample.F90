@@ -26,6 +26,10 @@ contains
     type(xios_date) :: start
     type(xios_duration) :: tstep
     integer :: mpi_error
+    integer :: lenx
+    integer :: lenrx
+    integer :: leny
+    integer :: lenry
 
     ! Arbitrary datetime setup, required for XIOS but unused
     origin = xios_date(2022, 2, 2, 12, 0, 0)
@@ -40,10 +44,37 @@ contains
     call MPI_Comm_rank(comm, rank, mpi_error)
     call MPI_Comm_size(comm, npar, mpi_error)
 
+    ! use the axis_check context to obtain sizing information on all arrays
+    ! for use in defining the main context interpretation
+    call xios_context_initialize('axis_check', comm)
+    call xios_set_time_origin(origin)
+    call xios_set_start_date(start)
+    call xios_set_timestep(tstep)
+
+    call xios_close_context_definition()
+
+    call xios_get_axis_attr('x', n_glo=lenx)
+    call xios_get_axis_attr('x_resample', n_glo=lenrx)
+    call xios_get_axis_attr('y', n_glo=leny)
+    call xios_get_axis_attr('y_resample', n_glo=lenry)
+
+    print *, 'x, y', lenx, ', ', leny
+    print *, 'rx, ry', lenrx, ', ', lenry
+
+    ! ensure to finalize this checking context before initialising
+    ! the domain context for further use
+    call xios_context_finalize()
+
+    ! initialize the main context for interacting with the data.
     call xios_context_initialize('main', comm)
     call xios_set_time_origin(origin)
     call xios_set_start_date(start)
     call xios_set_timestep(tstep)
+
+    call xios_set_domain_attr("original_domain", ni=lenx, nj=leny, ibegin=0, jbegin=0)
+    call xios_set_domain_attr("resampled_domain", ni=lenrx, nj=lenry, ibegin=0, jbegin=0)
+
+    print *, 'closing context definition for main'
 
     call xios_close_context_definition()
 
@@ -74,10 +105,11 @@ contains
     double precision, dimension (:,:), allocatable :: inodata
     double precision, dimension (:,:), allocatable :: inedata
 
-    call xios_get_axis_attr('x', n_glo=lenx)
-    call xios_get_axis_attr('x_resample', n_glo=lenrx)
-    call xios_get_axis_attr('y', n_glo=leny)
-    call xios_get_axis_attr('y_resample', n_glo=lenry)
+    call xios_get_domain_attr('original_domain', ni_glo=lenx)
+    call xios_get_domain_attr('original_domain', nj_glo=leny)
+    call xios_get_domain_attr('resampled_domain', ni_glo=lenrx)
+    call xios_get_domain_attr('resampled_domain', nj_glo=lenry)
+    print *, 'x, y', lenx, ', ', leny
 
     allocate ( inodata(leny, lenx) )
     allocate ( inedata(lenry, lenrx) )
@@ -90,11 +122,8 @@ contains
       call xios_update_calendar(ts)
       call xios_get_current_date(current)
       ! Send (copy) the original data to the output file.
-      ! The interpolate_axis and field-ref in main.xml will
-      ! also write the interpolated data into the output file.
       call xios_send_field('odata', inodata)
       ! Send (copy) the expected data to the output file.
-      ! The diff field in main.xml will also output a diff variable. 
       call xios_send_field('edata', inedata)
     enddo
 
