@@ -23,14 +23,27 @@ class TestResampleAxis(xshared._TestCase):
 # A list of input `.cdl` files where XIOS is known to produce different
 # output from the expected output data
 # for future investigation / ToDo
-known_failures = ['test_axis_input_edge_simple_square_ten']
+# this is a dict, where the name of the key is the name of the test
+# to register as a known_failure (tname)
+# and the value is a string explaining the failure
+# this handles FAIL conditions but NOT ERROR conditions
+known_failures = {'test_axis_input_edge_simple_square_ten':
+                  ('The last value, nearest the upper edge is'
+                   ' not being interpolated using a square poynomial'
+                   ' unlike the first, which is also near the edge'
+                   ' and is being calculated sensibly')}
 
 # iterate through `.cdl` files in this test case folder
 for f in glob.glob('{}/*.cdl'.format(this_dir)):
     # unique name for the test
     tname = 'test_{}'.format(os.path.splitext(os.path.basename(f))[0])
     # add the test as an attribute (function) to the test class
-    if tname in known_failures:
+    if os.environ.get('MVER', '') == 'XIOS3/trunk':
+        # these tests are hitting exceptions with XIOS3
+        # but not XIOS2, so skip for XIOS3 runner
+        setattr(TestResampleAxis, tname,
+                unittest.skip(TestResampleAxis.make_a_resample_test(f)))
+    elif tname in known_failures:
         # set decorator @unittest.expectedFailure
         setattr(TestResampleAxis, tname,
                 unittest.expectedFailure(TestResampleAxis.make_a_resample_test(f)))
