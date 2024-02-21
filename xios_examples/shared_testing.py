@@ -53,7 +53,7 @@ class _TestCase(unittest.TestCase):
         for single test functions only.
         """
 
-        for ef in glob.glob('{}/*.err'.format(this_dir)):
+        for ef in glob.glob('{}/*.err'.format(self.test_dir)):
             print(ef)
             with open(ef, 'r') as efile:
                 print(efile.read(), flush=True)

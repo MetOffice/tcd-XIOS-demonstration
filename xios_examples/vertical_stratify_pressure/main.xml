@@ -1,0 +1,52 @@
+<context>
+
+  <calendar type="Gregorian"/>
+
+    <axis_definition>
+      <axis id="model_levels" unit="1" name="levels" n_glo="39" value="(0,38)[1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 171 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39]"/>
+      <axis id="pressure_levels1" positive="down" long_name="Air Pressure" standard_name="air_pressure" unit="Pa" n_glo="5" value="(0,4)[100000. 92500. 85000. 75000. 65000. ]">
+        <interpolate_axis type="polynomial" order="1" coordinate="pressure" />
+      </axis>
+      <axis id="pressure_levels2" positive="down" n_glo="17" value="(0,16)[100000. 92500. 85000. 70000. 60000. 50000. 40000. 30000. 25000. 20000. 15000. 10000. 7000. 5000. 3000. 2000. 1000.]">
+        <interpolate_axis type="polynomial" order="2" coordinate="pressure" />
+      </axis>
+    </axis_definition>
+
+    <domain_definition>
+      <domain id="latlon1_domain" ni_glo="1" nj_glo="1" type="rectilinear" nvertex="1">
+        <generate_rectilinear_domain />
+        <interpolate_domain order="1" />
+      </domain>
+    </domain_definition>
+ 
+    <grid_definition>
+      <grid id="model">
+        <domain domain_ref="latlon1_domain" />
+        <axis axis_ref="model_levels" />
+      </grid>
+      <grid id="model_plev">
+        <domain domain_ref="latlon1_domain" />
+        <axis axis_ref="pressure_levels1" />
+      </grid>
+    </grid_definition>
+
+    <field_definition freq_op="1ts" enabled=".TRUE." operation="instant" >
+      <field id="pressure" name="pressure" long_name="Air Pressure" standard_name="air_pressure" unit="Pa" grid_ref="model" />
+      <field id="temperature" name="temperature" long_name="Air Temperature" standard_name="air_temperature" unit="K" grid_ref="model" />
+      <field id="temperature_on_P" name="temponP" long_name="Air Temperature" standard_name="air_temperature" unit="K" field_ref="temperature" grid_ref="model_plev" />
+
+    </field_definition>
+
+
+  <file_definition type="one_file">
+    <file id="axis_output" output_freq="1ts">
+      <field_group operation="once">
+        <field field_ref="pressure" />
+        <field field_ref="temperature"/>
+        <field field_ref="temperature_on_P"/>
+
+      </field_group>
+    </file>
+  </file_definition>
+  
+</context>
