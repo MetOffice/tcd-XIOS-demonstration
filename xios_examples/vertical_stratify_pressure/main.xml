@@ -14,7 +14,6 @@
 
     <domain_definition>
       <domain id="latlon1_domain" ni_glo="1" nj_glo="1" type="rectilinear" nvertex="1">
-        <generate_rectilinear_domain />
         <interpolate_domain order="1" />
       </domain>
     </domain_definition>
