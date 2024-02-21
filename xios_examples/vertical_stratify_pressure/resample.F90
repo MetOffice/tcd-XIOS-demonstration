@@ -47,6 +47,8 @@ contains
     call xios_set_start_date(start)
     call xios_set_timestep(tstep)
 
+    call xios_set_domain_attr('latlon1_domain', ni=1, nj=1, ibegin=0, jbegin=0)
+
     call xios_close_context_definition()
 
   end subroutine initialise
