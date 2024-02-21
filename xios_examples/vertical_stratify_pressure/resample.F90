@@ -29,6 +29,11 @@ contains
     integer :: mpi_error
     double precision, dimension (1) :: lons = [-4.5]
     double precision, dimension (1) :: lats = [51.5]
+    double precision, dimension (2,1) :: blons
+    double precision, dimension (2,1) :: blats
+
+    blons = reshape((/-6.0, -3.0/), shape(blons))
+    blats = reshape((/50.0, 53.0/), shape(blats))
 
     ! Arbitrary datetime setup, required for XIOS but unused
     ! in this example
@@ -50,8 +55,7 @@ contains
     call xios_set_timestep(tstep)
 
     call xios_set_domain_attr('latlon1_domain', ni=1, nj=1, ibegin=0, jbegin=0)
-    call xios_set_domain_attr('latlon1_domain', lonvalue_1d=lons, latvalue_1d=lats)
-    print *, lons, lats
+    call xios_set_domain_attr('latlon1_domain', lonvalue_1d=lons, latvalue_1d=lats, bounds_lon_1d=blons, bounds_lat_1d=blats)
 
     call xios_close_context_definition()
 

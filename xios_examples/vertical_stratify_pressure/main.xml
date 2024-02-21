@@ -13,7 +13,7 @@
     </axis_definition>
 
     <domain_definition>
-      <domain id="latlon1_domain" ni_glo="1" nj_glo="1" type="rectilinear" nvertex="1">
+      <domain id="latlon1_domain" ni_glo="1" nj_glo="1" type="rectilinear" nvertex="2">
         <interpolate_domain order="1" />
       </domain>
     </domain_definition>
