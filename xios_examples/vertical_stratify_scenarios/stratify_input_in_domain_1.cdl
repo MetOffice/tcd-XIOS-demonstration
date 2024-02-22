@@ -1,8 +1,8 @@
-netcdf axis_output {
+netcdf stratify_input_in_domain_1 {
 dimensions:
-	axis_nbounds = 2 ;
 	lon = 1 ;
 	lat = 1 ;
+        nvertex = 2 ;
 	levels = 39 ;
 	pressure_levels1 = 5 ;
 	time_counter = UNLIMITED ; // (0 currently)
@@ -12,16 +12,19 @@ variables:
 		lat:standard_name = "latitude" ;
 		lat:long_name = "Latitude" ;
 		lat:units = "degrees_north" ;
+                lat:bounds = "bounds_lat" ;
 	float lon(lon) ;
 		lon:axis = "X" ;
 		lon:standard_name = "longitude" ;
 		lon:long_name = "Longitude" ;
 		lon:units = "degrees_east" ;
+                lon:bounds = "bounds_lon" ;
+        float bounds_lon(lon, nvertex) ;
+        float bounds_lat(lat, nvertex) ;
 	float levels(levels) ;
 		levels:name = "levels" ;
 		levels:units = "1" ;
 	float pressure_levels1(pressure_levels1) ;
-		pressure_levels1:name = "pressure_levels1" ;
 		pressure_levels1:standard_name = "air_pressure" ;
 		pressure_levels1:long_name = "Air Pressure" ;
 		pressure_levels1:units = "Pa" ;
@@ -46,21 +49,21 @@ variables:
 		temponP:coordinates = "" ;
 
 // global attributes:
-		:name = "axis_output" ;
-		:description = "Created by xios" ;
-		:title = "Created by xios" ;
 		:Conventions = "CF-1.6" ;
-		:timeStamp = "2024-Feb-21 16:04:41 GMT" ;
-		:uuid = "f37ac2ba-85d7-47fd-b1ba-4748d5eb9bb6" ;
+
 data:
 
  lat = 51.5 ;
 
  lon = -4.5 ;
 
- levels = 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 171, 18, 19, 
-    20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 
-    38, 39 ;
+ bounds_lon =
+  -6.0, -3.0 ;
+
+ bounds_lat =
+  50.0, 53.0 ;
+
+ levels = 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 171, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39 ;
 
  pressure_levels1 = 100000, 92500, 85000, 75000, 65000 ;
 

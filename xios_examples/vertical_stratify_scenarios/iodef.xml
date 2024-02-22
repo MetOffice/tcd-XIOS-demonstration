@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<simulation>
+<simulation id="simulation">
 
 <context id="main" src="main.xml"/>
 <context id="axis_check" src="axis_check.xml"/>

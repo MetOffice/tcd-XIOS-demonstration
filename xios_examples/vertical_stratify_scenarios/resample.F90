@@ -71,9 +71,11 @@ contains
     allocate ( lonb(2, lenx) )
     allocate ( latb(2, leny) )
 
+    ! call xios_get_axis_attr('xm', bounds=lonb)
+    ! call xios_get_axis_attr('ym', bounds=latb)
+
     lonb = reshape((/-6.0, -3.0/), shape(lonb))
     latb = reshape((/50.0, 53.0/), shape(latb))
-
 
     call xios_get_axis_attr('xm', value=lonvals)
     call xios_get_axis_attr('ym', value=latvals)

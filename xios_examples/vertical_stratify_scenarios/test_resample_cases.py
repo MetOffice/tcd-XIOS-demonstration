@@ -17,16 +17,6 @@ class TestResampleDomain(xshared._TestCase):
     transient_outputs = ['pressure_stratify.nc']
     rtol = 5e-03
 
-    # def test_running(self):
-    #     subprocess.run(['ncgen', '-k', 'nc4', '-o',
-    #                     self.transient_inputs[0],
-    #                     'stratify_input_in_domain_1.cdl'],
-    #                     cwd=self.test_dir, check=True)
-    #     # run the compiled Fortran XIOS programme
-    #     subprocess.run(['mpiexec', '-n', '1', './resample.exe', ':',
-    #                     '-n', '1', './xios_server.exe'],
-    #                     cwd=self.test_dir, check=True)
-
 
 # A list of input `.cdl` files where XIOS is known to produce different
 # output from the expected output data
