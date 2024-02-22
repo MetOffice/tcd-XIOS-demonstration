@@ -30,7 +30,7 @@ class _TestCase(unittest.TestCase):
         subprocess.run(['make', 'clean'], cwd=cls.test_dir)
         subprocess.run(['make'], cwd=cls.test_dir)
         if os.environ.get('MVER', '') == 'XIOS3/trunk':
-            with open(os.path.join(cls.test_dir, 'main.xml'), 'r') as ioin:
+            with open(os.path.join(cls.test_dir, 'xios.xml'), 'r') as ioin:
                 iodef_in = ioin.read()
             # patch in transport protocol choice for XIOS3
             # needed for CI runners
