@@ -111,11 +111,12 @@ class _TestCase(unittest.TestCase):
                    'differs from the resampled data array\n {res} \n '
                    'with diff \n {diff}\n')
             msg = msg.format(exp=expected, res=result, diff=diff)
-            if np.any(diff):
+            if not np.allclose(result, expected, rtol=cls.rtol):
                 # print message for fail case,
                 # as expected failures do not report msg.
                 print(msg)
             # assert that all of the `diff` varaible values are zero
             # self.assertTrue(not np.any(diff), msg=msg)
-            self.assertTrue(np.allclose(result, expected, rtol=cls.rtol), msg=msg)
+            self.assertTrue(np.allclose(result, expected, rtol=cls.rtol),
+                            msg=msg)
         return test_resample

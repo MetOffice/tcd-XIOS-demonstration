@@ -1,0 +1,155 @@
+netcdf axis_output {
+dimensions:
+	axis_nbounds = 2 ;
+	lon = 1 ;
+	lat = 1 ;
+	levels = 39 ;
+	pressure_levels1 = 5 ;
+	time_counter = UNLIMITED ; // (0 currently)
+variables:
+	float lat(lat) ;
+		lat:axis = "Y" ;
+		lat:standard_name = "latitude" ;
+		lat:long_name = "Latitude" ;
+		lat:units = "degrees_north" ;
+	float lon(lon) ;
+		lon:axis = "X" ;
+		lon:standard_name = "longitude" ;
+		lon:long_name = "Longitude" ;
+		lon:units = "degrees_east" ;
+	float levels(levels) ;
+		levels:name = "levels" ;
+		levels:units = "1" ;
+	float pressure_levels1(pressure_levels1) ;
+		pressure_levels1:name = "pressure_levels1" ;
+		pressure_levels1:standard_name = "air_pressure" ;
+		pressure_levels1:long_name = "Air Pressure" ;
+		pressure_levels1:units = "Pa" ;
+		pressure_levels1:positive = "down" ;
+	float pressure(levels, lat, lon) ;
+		pressure:standard_name = "air_pressure" ;
+		pressure:long_name = "Air Pressure" ;
+		pressure:units = "Pa" ;
+		pressure:online_operation = "once" ;
+		pressure:coordinates = "" ;
+	float temperature(levels, lat, lon) ;
+		temperature:standard_name = "air_temperature" ;
+		temperature:long_name = "Air Temperature" ;
+		temperature:units = "K" ;
+		temperature:online_operation = "once" ;
+		temperature:coordinates = "" ;
+	float temponP(pressure_levels1, lat, lon) ;
+		temponP:standard_name = "air_temperature" ;
+		temponP:long_name = "Air Temperature" ;
+		temponP:units = "K" ;
+		temponP:online_operation = "once" ;
+		temponP:coordinates = "" ;
+
+// global attributes:
+		:name = "axis_output" ;
+		:description = "Created by xios" ;
+		:title = "Created by xios" ;
+		:Conventions = "CF-1.6" ;
+		:timeStamp = "2024-Feb-21 16:04:41 GMT" ;
+		:uuid = "f37ac2ba-85d7-47fd-b1ba-4748d5eb9bb6" ;
+data:
+
+ lat = 51.5 ;
+
+ lon = -4.5 ;
+
+ levels = 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 171, 18, 19, 
+    20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 
+    38, 39 ;
+
+ pressure_levels1 = 100000, 92500, 85000, 75000, 65000 ;
+
+ pressure =
+  99966.52,
+  99940,
+  99879.76,
+  99777.79,
+  99635.3,
+  99451.58,
+  99227.03,
+  98960.88,
+  98652.27,
+  98301.46,
+  97908.8,
+  97473.21,
+  96994.06,
+  96470.88,
+  95901.79,
+  95284.84,
+  94617.56,
+  93898.15,
+  93123.02,
+  92287.81,
+  91391.58,
+  90430.98,
+  89403.66,
+  88321.39,
+  87213.38,
+  86106.06,
+  84999.27,
+  83877.21,
+  82723.67,
+  81516.41,
+  80240.48,
+  78881.3,
+  77425.96,
+  75842.56,
+  74128.77,
+  72079.17,
+  69945.03,
+  65667.62,
+  63427.28 ;
+
+ temperature =
+  273.397,
+  273.1499,
+  272.8791,
+  272.5021,
+  271.7729,
+  270.7062,
+  269.6043,
+  268.3927,
+  266.901,
+  265.293,
+  263.3909,
+  261.4854,
+  258.9944,
+  256.2176,
+  252.8339,
+  248.6966,
+  243.8681,
+  238.5736,
+  232.8045,
+  226.6296,
+  220.0291,
+  213.4798,
+  206.9573,
+  205.6388,
+  210.235,
+  216.9331,
+  221.4403,
+  223.9893,
+  224.6684,
+  224.1535,
+  223.6944,
+  223.15,
+  222.6664,
+  222.8033,
+  223.2064,
+  223.0187,
+  227.3453,
+  219.2042,
+  266.7715 ;
+
+ temponP =
+  273.709,
+  228.1983,
+  221.4373,
+  223.0015,
+  233.3793 ;
+}

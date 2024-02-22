@@ -1,0 +1,30 @@
+<context id="axis_check">
+
+  <calendar type="Gregorian"/>
+
+
+  <grid_definition>
+    <grid id="mlev_grid">
+      <axis id="xm" />
+      <axis id="ym" />
+      <axis id="mlev" />
+    </grid>
+
+    <grid id="plev_grid">
+      <axis id="xp" />
+      <axis id="yp" />
+      <axis id="plev" />
+    </grid>
+
+  </grid_definition>
+
+  <file_definition type="one_file">
+    <file id="din" name="stratify_input_in_domain_1" output_freq="1ts" mode="read" enabled=".true.">
+      <field id="pressure_in" name="pressure" grid_ref="mlev_grid" operation="instant" />
+      <field id="temperature_in" name="temperature" grid_ref="mlev_grid" operation="instant" />
+      <field id="temponp_in" name="temponP" grid_ref="plev_grid" operation="instant" />
+
+    </file>
+  </file_definition>
+  
+</context>

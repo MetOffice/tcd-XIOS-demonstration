@@ -1,0 +1,52 @@
+<context id="main">
+
+  <calendar type="Gregorian"/>
+
+    <axis_definition>
+      <axis id="model_levels" unit="1" name="levels"/>
+      <axis id="pressure_levels1" positive="down" long_name="Air Pressure" standard_name="air_pressure" unit="Pa">
+        <interpolate_axis type="polynomial" order="1" coordinate="pressure" />
+      </axis>
+
+    </axis_definition>
+
+    <domain_definition>
+      <domain id="latlon_domain" type="rectilinear" nvertex="2"/>
+
+    </domain_definition>
+ 
+    <grid_definition>
+      <grid id="model">
+        <domain domain_ref="latlon_domain" />
+        <axis axis_ref="model_levels" />
+      </grid>
+      <grid id="model_plev">
+        <domain domain_ref="latlon_domain" />
+        <axis axis_ref="pressure_levels1" />
+      </grid>
+    </grid_definition>
+
+    <field_definition freq_op="1ts" enabled=".TRUE." operation="instant" >
+      <field id="pressure" name="pressure" long_name="Air Pressure" standard_name="air_pressure" unit="Pa" grid_ref="model" />
+      <field id="temperature" name="temperature" long_name="Air Temperature" standard_name="air_temperature" unit="K" grid_ref="model" />
+      <field id="temperature_on_P" name="resampled_data" long_name="Air Temperature" standard_name="air_temperature" unit="K" field_ref="temperature" grid_ref="model_plev" />
+      <field id="expected" name="resample_data" long_name="Expected Air Temperature" standard_name="air_temperature" unit="K" grid_ref="model_plev" />
+      <field id="diff" name="resampled_minus_resample" long_name="Air Temperature difference" unit="K" grid_ref="model_plev">temperature_on_P - expected</field>
+
+    </field_definition>
+
+
+  <file_definition type="one_file">
+    <file id="pressure_stratify" output_freq="1ts">
+      <field_group operation="once">
+        <field field_ref="pressure" />
+        <field field_ref="temperature"/>
+        <field field_ref="temperature_on_P"/>
+        <field field_ref="expected"/>
+        <field field_ref="diff"/>
+
+      </field_group>
+    </file>
+  </file_definition>
+  
+</context>
