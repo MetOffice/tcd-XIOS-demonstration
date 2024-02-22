@@ -29,7 +29,6 @@ class _TestCase(unittest.TestCase):
         """
         subprocess.run(['make', 'clean'], cwd=cls.test_dir)
         subprocess.run(['make'], cwd=cls.test_dir)
-        print('MVER:: ', os.environ.get('MVER', ''))
         if os.environ.get('MVER', '') == 'XIOS3/trunk':
             with open(os.path.join(cls.test_dir, 'xios.xml'), 'r') as ioin:
                 iodef_in = ioin.read()
@@ -40,10 +39,8 @@ class _TestCase(unittest.TestCase):
                    '    <variable id="transport_protocol" '
                    'type="string" >p2p</variable>')
             iodef_out = iodef_in.replace(in2, in3)
-            with open(os.path.join(this_dir, 'iodef.xml'), 'w') as ioout:
+            with open(os.path.join(cls.test_dir, 'iodef.xml'), 'w') as ioout:
                 ioout.write(iodef_out)
-            with open(os.path.join(this_dir, 'iodef.xml'), 'r') as ioout:
-                print(ioout.read())
 
     def tearDown(self):
         """
