@@ -1,0 +1,4 @@
+read_axis_resample
+------------------
+
+This example reads in a sample NetCDF file of arbitrary data of 10 values on the z axis and interpolates to 4 new z axis values using polynomial order 2. Known good values for interpolated data are included in the input file for comparison. The original and resampled data are written to one output NetCDF file. The unit tests include one known failure test case where the expected result is not produced.

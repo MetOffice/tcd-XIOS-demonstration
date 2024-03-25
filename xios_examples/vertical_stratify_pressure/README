@@ -1,0 +1,4 @@
+vertical_stratify_pressure
+--------------------------
+
+This example demonstrates XIOS vertical interpolation for the specific case of interpolating data held on model levels to pressure levels. It takes a canned dataset of temperature and pressure on 39 model levels at one lat-lon point and interpolates temperature to 5 pressure levels using polynomial order 1. The original model level pressure and temperature data as well as the interpolated temperature data are written out to one netCDF file.

@@ -1,0 +1,4 @@
+vertical_stratify_scenarios
+---------------------------
+
+This example reads in a sample NetCDF file consisting of a horizontal domain with one lat-lon point with temperature and pressure on 39 model levels. It interpolates temperature to 5 pressure levels using polynomial order 1. The original model level pressure and temperature data as well as the interpolated temperature data are written out to one netCDF file.
