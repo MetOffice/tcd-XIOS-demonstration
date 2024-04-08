@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        version: [XIOS/trunk@2252, XIOS2/trunk, XIOS3/trunk]
+        version: [XIOS/trunk@2252, XIOS2/trunk, XIOS3/trunk@2627]
     steps:
       # Check out repository branch
       - uses: actions/checkout@v4
