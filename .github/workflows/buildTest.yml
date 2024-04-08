@@ -26,7 +26,7 @@ jobs:
           svn co http://forge.ipsl.jussieu.fr/ioserver/svn/${{ matrix.version }} XIOS
           cp arch/* XIOS/arch/
           cd XIOS
-          if [ ${{ matrix.version }} == 'XIOS3/trunk' ]; then
+          if [[ ${{ matrix.version }} == XIOS3/trunk* ]]; then
             patch -p0 < ../patches/xios3/revert_svn2517_transport.patch
             sed -i 's/<variable_group id="parameters" >/<variable_group id="parameters" > <variable id="transport_protocol" type="string" >p2p<\/variable>/g' generic_testcase/iodef.xml
             cat generic_testcase/iodef.xml
