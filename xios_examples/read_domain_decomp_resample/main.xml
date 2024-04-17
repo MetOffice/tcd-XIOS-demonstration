@@ -1,0 +1,48 @@
+<context>
+
+  <calendar type="Gregorian"/>
+
+  <domain_definition>
+
+    <domain id="original_domain" type="rectilinear" />
+    <domain id="resampled_domain" type="rectilinear" >
+      <interpolate_domain id="interpolator" order="1"/>
+    </domain>
+
+  </domain_definition>
+
+  <grid_definition>
+
+    <grid id="original_grid">
+      <domain domain_ref="original_domain" />
+    </grid>
+    <grid id="resampled_grid">
+      <domain domain_ref="resampled_domain" />
+    </grid>
+
+  </grid_definition>
+
+  <field_definition prec="8">
+    <field id="edata" name="resample_data" grid_ref="resampled_grid" long_name="expected resampled data values" unit="1" />
+    <field id="odata" name="original_data" grid_ref="original_grid" long_name="input data values" unit="1"  />
+    <field id="rdata" name="resampled_data" field_ref="odata" grid_ref="resampled_grid" long_name="resampled data values" unit="1"  />
+    <field id="diff" name="resampled_minus_resample" grid_ref="resampled_grid" long_name="resampled - expected" unit="1" >rdata-edata</field>
+  </field_definition>
+
+
+  <file_definition type="one_file">
+    <file id="domain_input" output_freq="1ts" mode="read" enabled=".true.">
+      <field id="odatain" name="original_data" grid_ref="original_grid" operation="instant" />
+      <field id="edatain" name="resample_data" grid_ref="resampled_grid" operation="instant" />
+    </file>
+    <file id="domain_output" output_freq="1ts">
+      <field_group operation="once">
+        <field field_ref="edata" />
+        <field field_ref="odata" />
+        <field field_ref="rdata" />
+        <field field_ref="diff" />
+      </field_group>
+    </file>
+  </file_definition>
+  
+</context>

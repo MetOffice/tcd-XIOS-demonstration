@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<simulation>
+
+<context id="main" src="main.xml"/>
+<context id="domain_check" src="domain_check.xml"/>
+
+<context id="xios" src="xios.xml"/>
+
+</simulation>

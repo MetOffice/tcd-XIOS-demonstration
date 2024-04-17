@@ -22,18 +22,25 @@ class _TestCase(unittest.TestCase):
     rtol = 5e-03
 
     @classmethod
-    def run_mpi_xios(cls):
+    def run_mpi_xios(cls, nclients=1, nservers=1):
         # run the compiled Fortran XIOS programme
         if os.environ.get('PLATFORM', '') == 'Archer2':
-            subprocess.run(['srun', '--distribution=block:block', '--hint=nomultithread',
-                            '--het-group=0', '--nodes=1', '-n', '1',
-                            './resample.exe', ':',
-                            '--het-group=1', '--nodes=1', '-n', '1',
-                            './xios_server.exe'],cwd=cls.test_dir, check=True)
+            run_cmd = ['srun', '--distribution=block:block', '--hint=nomultithread',
+                       '--het-group=0', '--nodes=1', '-n', str(nclients),
+                       './resample.exe', ':',
+                       '--het-group=1', '--nodes=1', '-n', str(nservers),
+                       './xios_server.exe']
+            print(' '.join(run_cmd))
+            subprocess.run(run_cmd,cwd=cls.test_dir, check=True)
         else:
-            subprocess.run(['mpiexec', '-n', '1', './resample.exe', ':',
-                           '-n', '1', './xios_server.exe'],
-                           cwd=cls.test_dir, check=True)
+            run_cmd = ['mpiexec', '-n', str(nclients), './resample.exe', ':',
+                       '-n', str(nservers), './xios_server.exe']
+            if os.environ.get('MPI_FLAVOUR', '') == 'openmpi':
+                # use hwthread for github ubuntu runner
+                # but only for known openMPI (set by env var)
+                run_cmd = run_cmd[0:1] + ['--use-hwthread-cpus'] + run_cmd[1:]
+            print(' '.join(run_cmd))
+            subprocess.run(run_cmd, cwd=cls.test_dir, check=True)
 
     @classmethod
     def setUpClass(cls):
@@ -105,7 +112,7 @@ class _TestCase(unittest.TestCase):
 
 
     @classmethod
-    def make_a_resample_test(cls, inf):
+    def make_a_resample_test(cls, inf, nclients=1, nservers=1):
         """
         this function makes a test case and returns it as a test function,
         suitable to be dynamically added to a TestCase for running.
@@ -120,7 +127,7 @@ class _TestCase(unittest.TestCase):
             # create a netCDF file from the `.cdl` input
             subprocess.run(['ncgen', '-k', 'nc4', '-o', inputfile,
                             infile], cwd=cls.test_dir, check=True)
-            cls.run_mpi_xios()
+            cls.run_mpi_xios(nclients=nclients, nservers=nservers)
 
             # load the result netCDF file
             runfile = '{}/{}'.format(cls.test_dir, outputfile)
