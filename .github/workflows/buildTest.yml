@@ -51,5 +51,6 @@ jobs:
           export XIOS_LIBDIR=$PWD/XIOS/lib
 
           export MVER=${{ matrix.version }}
+          export MPI_FLAVOUR='openmpi'
 
           python3 -m unittest discover -v -s xios_examples
