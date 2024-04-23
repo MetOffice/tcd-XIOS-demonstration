@@ -1,0 +1,5 @@
+&CUSTOM_CONTEXTS
+n_contexts=2
+context_names='stop_5' 'stop_10' '' ''
+closing_timesteps=5 10 0 0
+/

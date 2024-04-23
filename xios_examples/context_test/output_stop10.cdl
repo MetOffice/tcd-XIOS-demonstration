@@ -1,0 +1,98 @@
+netcdf output_stop10 {
+dimensions:
+	axis_nbounds = 2 ;
+	lon = 2 ;
+	lat = 2 ;
+	axis_A = 1 ;
+	time_counter = UNLIMITED ; // (10 currently)
+variables:
+	float axis_A(axis_A) ;
+		axis_A:name = "axis_A" ;
+	double time_instant(time_counter) ;
+		time_instant:standard_name = "time" ;
+		time_instant:long_name = "Time axis" ;
+		time_instant:calendar = "360_day" ;
+		time_instant:units = "seconds since 2012-02-29 15:00:00" ;
+		time_instant:time_origin = "2012-02-29 15:00:00" ;
+		time_instant:bounds = "time_instant_bounds" ;
+	double time_instant_bounds(time_counter, axis_nbounds) ;
+	double time_counter(time_counter) ;
+		time_counter:axis = "T" ;
+		time_counter:standard_name = "time" ;
+		time_counter:long_name = "Time axis" ;
+		time_counter:calendar = "360_day" ;
+		time_counter:units = "seconds since 2012-02-29 15:00:00" ;
+		time_counter:time_origin = "2012-02-29 15:00:00" ;
+		time_counter:bounds = "time_counter_bounds" ;
+	double time_counter_bounds(time_counter, axis_nbounds) ;
+	float field_A(time_counter, axis_A, lat, lon) ;
+		field_A:online_operation = "instant" ;
+		field_A:interval_operation = "1 h" ;
+		field_A:interval_write = "1 h" ;
+		field_A:cell_methods = "time: point" ;
+		field_A:coordinates = "time_instant" ;
+
+// global attributes:
+		:_NCProperties = "version=1|netcdflibversion=4.4.1.1|hdf5libversion=1.10.0" ;
+		:name = "output_stop10" ;
+		:description = "Created by xios" ;
+		:title = "Created by xios" ;
+		:Conventions = "CF-1.6" ;
+		:timeStamp = "2024-Apr-23 16:06:49 GMT" ;
+		:uuid = "7ed89cad-d456-41f0-8e3b-b4fb817d68fd" ;
+data:
+
+ axis_A = 1 ;
+
+ time_instant = 176400, 180000, 183600, 187200, 190800, 194400, 198000, 
+    201600, 205200, 208800 ;
+
+ time_instant_bounds =
+  176400, 176400,
+  180000, 180000,
+  183600, 183600,
+  187200, 187200,
+  190800, 190800,
+  194400, 194400,
+  198000, 198000,
+  201600, 201600,
+  205200, 205200,
+  208800, 208800 ;
+
+ time_counter = 176400, 180000, 183600, 187200, 190800, 194400, 198000, 
+    201600, 205200, 208800 ;
+
+ time_counter_bounds =
+  176400, 176400,
+  180000, 180000,
+  183600, 183600,
+  187200, 187200,
+  190800, 190800,
+  194400, 194400,
+  198000, 198000,
+  201600, 201600,
+  205200, 205200,
+  208800, 208800 ;
+
+ field_A =
+  1, 1,
+  1, 1,
+  2, 2,
+  2, 2,
+  3, 3,
+  3, 3,
+  4, 4,
+  4, 4,
+  5, 5,
+  5, 5,
+  6, 6,
+  6, 6,
+  7, 7,
+  7, 7,
+  8, 8,
+  8, 8,
+  9, 9,
+  9, 9,
+  10, 10,
+  10, 10 ;
+}
