@@ -30,8 +30,8 @@ FCFLAGS += -I$(XIOS_INCDIR) $(NETCDF_INCDIR)
 
 # loader flags
 LDFLAGS = \
-        -L$(XIOS_LIBDIR)/lib \
-        -$(NETCDF_LIBDIR) \
+        -L$(XIOS_LIBDIR) \
+        $(NETCDF_LIBDIR) \
         -lxios \
         -lnetcdf \
         -lnetcdff \
@@ -49,9 +49,6 @@ context_def_mod.o: context_def_mod.F90 custom_type_mod.o
 
 context_def_test.o: context_def_test.F90 custom_type_mod.o context_def_mod.o
 	$(FC) $(FCFLAGS) -c $<
-
-context_def_test: context_def_test.o $(OBJ)
-	$(FC) -o context_def_test context_def_test.o $(OBJ) $(LDFLAGS)
 
 # fortran linking
 context_def_test: context_def_test.o $(OBJ)

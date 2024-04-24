@@ -14,41 +14,33 @@ this_dir = os.path.dirname(this_path)
 class TestContext(xshared._TestCase):
     test_dir = this_dir
     transient_inputs = []
-    transient_outputs = ['output_stop5.nc', 'output_stop10.nc']
+    transient_outputs = ['output_stop10.nc']
     rtol = 5e-03
 
-    def setUp(self):
-        for inx in ['iodef.xml']:
-            with open('{}/{}'.format(self.test_dir, inx)) as cxml:
-                print(inx, flush=True)
-                print(cxml.read(), flush=True)
+    def test_contexts(self):
+        # run the compiled XIOS program
+        with open('{}/iodef.xml'.format(self.test_dir)) as cxml:
+            print(cxml.read(), flush=True)
+        subprocess.run(['mpiexec', '-n', '1', './context_def_test.exe', ':',
+                        '-n', '1', 'xios_server.exe'],
+                        cwd=self.test_dir, check=True)
+        cdl_file = 'output_stop10.cdl'
+        reference_file = 'reference_{}'.format(self.transient_outputs[0])
+        outputfile = self.transient_outputs[0]
+        runfile = '{}/{}'.format(self.test_dir, outputfile)
+        assert(os.path.exists(runfile))
 
+        #recreate our reference file from the cdl file
+        subprocess.run(['ncgen', '-k', 'nc4', '-o', reference_file,
+                        cdl_file], cwd=self.test_dir, check=True)
 
-# A list of input `.cdl` files where XIOS is known to produce different
-# output from the expected output data
-# for future investigation / ToDo
-# this is a dict, where the name of the key is the name of the test
-# to register as a known_failure (tname)
-# and the value is a string explaining the failure
-# this handles FAIL conditions but NOT ERROR conditions
-known_failures = {}
-
-# iterate through `.cdl` files in this test case folder
-for f in glob.glob('{}/*.cdl'.format(this_dir)):
-    # unique name for the test
-    tname = 'test_{}'.format(os.path.splitext(os.path.basename(f))[0])
-    # add the test as an attribute (function) to the test class
-        # add the test as an attribute (function) to the test class
-    # if os.environ.get('MVER', '') == 'XIOS3/trunk':
-    #     # these tests are hitting exceptions with XIOS3
-    #     # but not XIOS2, so skip for XIOS3 runner
-    #     setattr(TestContext, tname,
-    #             unittest.skip(TestContext.make_a_resample_test(f)))
-    # elif tname in known_failures:
-    if tname in known_failures:
-        # set decorator @unittest.expectedFailure
-        setattr(TestContext, tname,
-                unittest.expectedFailure(TestContext.make_a_resample_test(f)))
-    else:
-        setattr(TestContext, tname,
-                TestContext.make_a_resample_test(f))
+        reference_file = '{}/{}'.format(self.test_dir, reference_file)
+        test_results = netCDF4.Dataset(runfile, 'r')['field_A'][:]
+        expected = netCDF4.Dataset(reference_file, 'r')['field_A'][:]
+        diff = test_results - expected
+        msg = ('the expected context data array differs from the results\n '
+               'of the test\n')
+        if not np.allclose(test_results, expected, rtol=self.rtol):
+            print(msg)
+        self.assertTrue(np.allclose(test_results, expected, rtol=self.rtol),
+                        msg=msg)
