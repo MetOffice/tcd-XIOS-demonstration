@@ -18,6 +18,10 @@ class TestContext(xshared._TestCase):
     rtol = 5e-03
 
     def test_context_stop(self):
+        '''
+        Test the two output files produced by stopping the context after
+        5 and 10 timesteps
+        '''
         # run the compiled XIOS program
         with open('{}/iodef.xml'.format(self.test_dir)) as cxml:
             print(cxml.read(), flush=True)
@@ -37,7 +41,7 @@ class TestContext(xshared._TestCase):
             test_results = netCDF4.Dataset(runfile, 'r')['field_A'][:]
             expected = netCDF4.Dataset(reference_file, 'r')['field_A'][:]
             diff = test_results - expected
-            msg = ('the produced context data array in file {} '
+            msg = ('The produced context data array in file {} '
                    'differs from that in the reference cdl file {}\n'.
                    format(outputfile, cdl_file))
             if not np.allclose(test_results, expected, rtol=self.rtol):
