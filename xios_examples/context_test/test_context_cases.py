@@ -26,7 +26,7 @@ class TestContext(xshared._TestCase):
         with open('{}/iodef.xml'.format(self.test_dir)) as cxml:
             print(cxml.read(), flush=True)
         subprocess.run(['mpiexec', '-n', '1', './context_def_test.exe', ':',
-                        '-n', '1', 'xios_server.exe'],
+                        '-n', '1', './xios_server.exe'],
                         cwd=self.test_dir, check=True)
         cdl_files = ['output_stop5.cdl', 'output_stop10.cdl']
         output_files = [f.replace('cdl', 'nc') for f in cdl_files]

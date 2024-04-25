@@ -52,7 +52,8 @@ context_def_test.o: context_def_test.F90 custom_type_mod.o context_def_mod.o
 
 # fortran linking
 context_def_test: context_def_test.o $(OBJ)
-	$(FC) -o context_def_test.exe context_def_test.o $(OBJ) $(LDFLAGS)
+	$(FC) -o context_def_test.exe context_def_test.o $(OBJ) $(LDFLAGS) \
+		&& ln -fs $(XIOS_BINDIR)/xios_server.exe .
 
 run:
 	mpiexec -n 1 ./context_def_test.exe : -n 1 ./xios_server.exe
