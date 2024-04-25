@@ -1,0 +1,29 @@
+ <context>
+
+   <calendar type="d360" start_date="2012-03-01 15:00:00" time_origin="2012-02-28 15:00:00 + 1d" />
+   <field_definition level="1" enabled=".TRUE.">
+     <field id="field_A" operation="instant" grid_ref="grid_A"/>
+   </field_definition>
+
+   <axis_definition>
+     <axis id="axis_A"/>
+   </axis_definition>
+
+   <domain_definition>
+     <domain id="domain_A" />
+   </domain_definition>
+   
+   <grid_definition>
+     <grid id="grid_A">
+       <domain domain_ref="domain_A" />
+       <axis axis_ref="axis_A" />
+     </grid>
+   </grid_definition>
+
+   <file_definition type="one_file" output_freq="1h" enabled=".TRUE.">
+     <file id="output_stop5" name="output_stop5" enabled=".TRUE.">
+       <field field_ref="field_A" name="field_A" />
+     </file>
+   </file_definition>
+
+ </context>
