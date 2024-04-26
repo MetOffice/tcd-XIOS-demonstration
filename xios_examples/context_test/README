@@ -1,0 +1,13 @@
+context_test
+------------
+
+This example demonstrates the ability to use XIOS contexts to stop output part way through the model run.
+
+There are two identical contexts defined in the main_stop_*.xml files, stopping after 5 and 10 timesteps respectively. The only difference is the name of the output files differ.
+
+The program is controlled from the namelist file context.nml where we can have up to 4 different stop points in this case (although in the example there are currently two). They need a name, and a timestep on which we want to load the context.
+These are then read into a list of "context_struct" types, (defined in custom_type_mod.F90) in context_def_mod.F90
+
+The actual test code is in context_def_test.F90, where we call the load_contexts subroutine from context_def_mod. We then initialize the contexts in a loop, to ensure that they are self consistent, and place their handles into the context_struct type, along with setting a flag is_avaliable to .true., to show that these can be used.
+
+When we timestep, again we loop over the contexts, check that it is available to us, send fields as we normally would. I haven't, but it may be worth using the xios functionality to check the field is available on this context and this timestep to make sure we aren't trying to send too much data around. If the context has reached its end point, we close it, and set the is_available flag to .false. to make sure we dont attempt to use it again.
