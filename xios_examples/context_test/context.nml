@@ -1,4 +1,11 @@
 &CUSTOM_CONTEXTS
+!
+! CUSTOM_CONTEXTS namelist:
+!   integer: n_contexts: the number of contexts to be read in
+!   character(len=20): context_names(4): the name of each custom context
+!   integer: closing_timesteps: the timestep on which the corresponding timestep
+!                               in the context_names array is closed.
+!
 n_contexts=2
 context_names='stop_10' 'stop_5' '' ''
 closing_timesteps=10 5 0 0
