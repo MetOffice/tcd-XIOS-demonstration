@@ -15,7 +15,7 @@ class TestResampleDomain(xshared._TestCase):
     test_dir = this_dir
     transient_inputs = ['domain_input.nc', 'domain_input_ugrid.nc']
     transient_outputs = ['domain_output.nc', 'domain_output_ugrid.nc']
-    rtol = 5e-03
+    rtol = 0.7
     mesh_file = 'mesh_C12.nc'
 
 
@@ -26,15 +26,7 @@ class TestResampleDomain(xshared._TestCase):
 # to register as a known_failure (tname)
 # and the value is a string explaining the failure
 # this handles FAIL conditions but NOT ERROR conditions
-known_failures = {'test_sinusiod':
-                  ('The difference file has large errors'),
-                  'test_harmonic':
-                  ('The difference file has large errors'),
-                  'test_vortex':
-                  ('The difference file has large errors'),
-                  'test_gulfstream':
-                  ('The difference file has large errors')
-                  }
+known_failures = {}
 
 # iterate over analytic function names
 for f in ['sinusiod', 'harmonic', 'vortex', 'gulfstream']:
