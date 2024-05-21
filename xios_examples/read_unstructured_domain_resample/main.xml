@@ -32,10 +32,10 @@
 
   <file_definition type="one_file">
     <file id="domain_input_ugrid" output_freq="1ts" mode="read" enabled=".true." convention="UGRID" >
-      <field id="odatain" name="original_data" domain_ref="original_domain" operation="instant" />
+      <field id="odatain" name="original_data" domain_ref="original_domain" operation="instant" read_access=".true." />
     </file>
     <file id="domain_input" output_freq="1ts" mode="read" enabled=".true." convention="CF" >
-      <field id="edatain" name="resample_data" domain_ref="resampled_domain" operation="instant" />
+      <field id="edatain" name="resample_data" domain_ref="resampled_domain" operation="instant" read_access=".true." />
     </file>
     <file id="domain_output_ugrid" output_freq="1ts" convention="UGRID" >
       <field_group operation="once">

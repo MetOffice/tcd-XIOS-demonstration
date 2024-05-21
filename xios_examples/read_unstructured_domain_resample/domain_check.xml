@@ -16,10 +16,10 @@
 
   <file_definition type="one_file">
     <file id="din" name="domain_input_ugrid" output_freq="1ts" mode="read" enabled=".true." convention="UGRID" >
-      <field id="odatax" name="original_data" domain_ref="original_domain" operation="instant" />
+      <field id="odatax" name="original_data" domain_ref="original_domain" operation="instant" read_access=".true." />
     </file>
     <file id="dinr" name="domain_input" output_freq="1ts" mode="read" enabled=".true." convention="CF" >
-      <field id="edatax" name="resample_data" domain_ref="resampled_domain" operation="instant" />
+      <field id="edatax" name="resample_data" domain_ref="resampled_domain" operation="instant" read_access=".true." />
     </file>
   </file_definition>
   
