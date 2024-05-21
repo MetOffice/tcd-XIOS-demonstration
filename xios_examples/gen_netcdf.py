@@ -163,71 +163,71 @@ def create_ncfile_unstructured(ncmeshout, meshin_file, meshin_varname, func, add
         meshout_var.edge_face_connectivity = f"{meshout_varname}_edge_face_links"
     meshout_var.face_face_connectivity = f"{meshout_varname}_face_links"
 
-    face_x = ncmeshout.createVariable(f"{meshout_varname}_face_x", np.float32, (face_dim,))
+    face_x = ncmeshout.createVariable(f"{meshout_varname}_face_x", np.float32, (face_dim.name,))
     face_x.standard_name = "longitude"
     face_x.long_name = "Characteristic longitude of mesh faces."
     face_x.units = "degrees_east"
     face_x[:] = face_lon
 
-    face_y = ncmeshout.createVariable(f"{meshout_varname}_face_y", np.float32, (face_dim,))
+    face_y = ncmeshout.createVariable(f"{meshout_varname}_face_y", np.float32, (face_dim.name,))
     face_y.standard_name = "latitude"
     face_y.long_name = "Characteristic latitude of mesh faces."
     face_y.units = "degrees_north"
     face_y[:] = face_lat
 
-    node_x = ncmeshout.createVariable(f"{meshout_varname}_node_x", np.float32, (node_dim,))
+    node_x = ncmeshout.createVariable(f"{meshout_varname}_node_x", np.float32, (node_dim.name,))
     node_x.standard_name = "longitude"
     node_x.long_name = "Longitude of mesh nodes."
     node_x.units = "degrees_east"
     node_x[:] = node_lon
 
-    node_y = ncmeshout.createVariable(f"{meshout_varname}_node_y", np.float32, (node_dim,))
+    node_y = ncmeshout.createVariable(f"{meshout_varname}_node_y", np.float32, (node_dim.name,))
     node_y.standard_name = "latitude"
     node_y.long_name = "Latitude of mesh nodes."
     node_y.units = "degrees_north"
     node_y[:] = node_lat
 
-    edge_x = ncmeshout.createVariable(f"{meshout_varname}_edge_x", np.float32, (edge_dim,))
+    edge_x = ncmeshout.createVariable(f"{meshout_varname}_edge_x", np.float32, (edge_dim.name,))
     edge_x.standard_name = "longitude"
     edge_x.long_name = "Characteristic longitude of mesh edges."
     edge_x.units = "degrees_east"
     if 'edge_coordinates' in meshin_var.ncattrs():
         edge_x[:] = edge_lon
 
-    edge_y = ncmeshout.createVariable(f"{meshout_varname}_edge_y", np.float32, (edge_dim,))
+    edge_y = ncmeshout.createVariable(f"{meshout_varname}_edge_y", np.float32, (edge_dim.name,))
     edge_y.standard_name = "latitude"
     edge_y.long_name = "Characteristic latitude of mesh edges."
     edge_y.units = "degrees_north"
     if 'edge_coordinates' in meshin_var.ncattrs():
         edge_y[:] = edge_lat
 
-    face_node = ncmeshout.createVariable(f"{meshout_varname}_face_nodes", np.int32, (face_dim,vertex_dim))
+    face_node = ncmeshout.createVariable(f"{meshout_varname}_face_nodes", np.int32, (face_dim.name,vertex_dim.name))
     face_node.cf_role = "face_node_connectivity"
     face_node.long_name = "Maps every face to its corner nodes."
     face_node.start_index = np.int32(start_index)
     face_node[:] = face_node_connectivity[:] - face_node_connectivity.start_index + start_index
 
-    edge_node = ncmeshout.createVariable(f"{meshout_varname}_edge_nodes", np.int32, (edge_dim,two_dim))
+    edge_node = ncmeshout.createVariable(f"{meshout_varname}_edge_nodes", np.int32, (edge_dim.name,two_dim.name))
     edge_node.cf_role = "edge_node_connectivity"
     edge_node.long_name = "Maps every edge/link to two nodes that it connects."
     edge_node.start_index = np.int32(start_index)
     edge_node[:] = edge_node_connectivity[:] - edge_node_connectivity.start_index + start_index
 
-    face_edge = ncmeshout.createVariable(f"{meshout_varname}_face_edges", np.int32, (face_dim,vertex_dim), fill_value=999999)
+    face_edge = ncmeshout.createVariable(f"{meshout_varname}_face_edges", np.int32, (face_dim.name,vertex_dim.name), fill_value=999999)
     face_edge.cf_role = "face_edge_connectivity"
     face_edge.long_name = "Maps every face to its edges."
     face_edge.start_index = np.int32(start_index)
     face_edge[:] = face_edge_connectivity[:] - face_edge_connectivity.start_index + start_index
 
     if 'edge_face_connectivity' in meshin_var.ncattrs():
-        edge_face = ncmeshout.createVariable(f"{meshout_varname}_edge_face_links", np.int32, (edge_dim,two_dim), fill_value=-999)
+        edge_face = ncmeshout.createVariable(f"{meshout_varname}_edge_face_links", np.int32, (edge_dim.name,two_dim.name), fill_value=-999)
         edge_face.cf_role = "edge_face_connectivity"
         edge_face.long_name = "neighbor faces for edges"
         edge_face.start_index = np.int32(start_index)
         edge_face.comment = "missing neighbor faces are indicated using _FillValue"
         edge_face[:] = edge_face_connectivity[:] - edge_face_connectivity.start_index + start_index
 
-    face_face = ncmeshout.createVariable(f"{meshout_varname}_face_links", np.int32, (face_dim,vertex_dim), fill_value=999999)
+    face_face = ncmeshout.createVariable(f"{meshout_varname}_face_links", np.int32, (face_dim.name,vertex_dim.name), fill_value=999999)
     face_face.cf_role = "face_face_connectivity"
     face_face.long_name = "Indicates which other faces neighbor each face"
     face_face.start_index = np.int32(start_index)
@@ -244,7 +244,7 @@ def create_ncfile_unstructured(ncmeshout, meshin_file, meshin_varname, func, add
         face_y_bnds = ncmeshout.createVariable(face_y.bounds, face_y.dtype, face_node.dimensions)
         face_y_bnds[:] = node_y[face_node[:].flatten()].reshape(face_y_bnds.shape)
 
-    data = ncmeshout.createVariable(dataname, np.float64, (face_dim,))
+    data = ncmeshout.createVariable(dataname, np.float64, (face_dim.name,))
     data.long_name = "input data values"
     data.mesh = meshout_varname
     data.location = "face"
