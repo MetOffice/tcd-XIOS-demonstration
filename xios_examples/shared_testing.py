@@ -24,7 +24,7 @@ class _TestCase(unittest.TestCase):
     transient_outputs = []
     rtol = 5e-03
     executable = './resample.exe'
-    mesh_file = None
+    mesh_file_cdl = None
 
     @classmethod
     def make_netcdf(cls, inf, inputfile, nc_method='cdl_files'):
@@ -33,9 +33,17 @@ class _TestCase(unittest.TestCase):
             subprocess.run(['ncgen', '-k', 'nc4', '-o', inputfile,
                             inf], cwd=cls.test_dir, check=True)
         elif nc_method == 'data_func':
+            mesh_file_nc = None
+            if cls.mesh_file_cdl is not None:
+                mesh_file_nc = Path(cls.mesh_file_cdl).with_suffix('.nc')
+                # create a mesh netCDF file from the mesh `.cdl` file
+                subprocess.run(['ncgen', '-k', 'nc4', '-o', mesh_file_nc,
+                                cls.mesh_file_cdl], cwd=cls.test_dir, check=True)
             # create a  netCDF file from an analytic function
             cwd = Path(cls.test_dir)
-            gn.run(cwd/inputfile, func_str=inf, mesh_file=cwd/cls.mesh_file)
+            if mesh_file_nc is not None:
+                mesh_file_nc = cwd/mesh_file_nc
+            gn.run(cwd/inputfile, func_str=inf, mesh_file=mesh_file_nc)
 
     @classmethod
     def run_mpi_xios(cls, nclients=1, nservers=1):

@@ -16,7 +16,7 @@ class TestResampleDomain(xshared._TestCase):
     transient_inputs = ['domain_input.nc', 'domain_input_ugrid.nc']
     transient_outputs = ['domain_output.nc', 'domain_output_ugrid.nc']
     rtol = 0.7
-    mesh_file = 'mesh_C12.nc'
+    mesh_file_cdl = 'mesh_C12.cdl'
 
 
 # A list of input function names where XIOS is known to produce different
