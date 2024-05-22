@@ -16,14 +16,13 @@ class TestParallelWrite(xshared._TestCase):
     transient_inputs = []
     transient_outputs = ["domain_output_1.nc"]
     rtol = 5e-04
+    executable = './write_parallel.exe'
 
     def test_parallel_write(self):
         # run the compiled Fortran XIOS programme
         with open('{}/xios.xml'.format(self.test_dir)) as cxml:
             print(cxml.read(), flush=True)
-        subprocess.run(['mpiexec', '-n', '1', './write_parallel.exe', ':',
-                        '-n', '1', './xios_server.exe'],
-                        cwd=self.test_dir, check=True)
+        self.run_mpi_xios()
         outputfile_1 = self.transient_outputs[0]
 
         # Check the expected output file exists
