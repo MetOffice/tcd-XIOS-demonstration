@@ -25,6 +25,7 @@ below:
  - Iva Kavčič (Met Office, UK)
  - Mark Hedley (Met Office, UK)
  - Harry Shepherd (Met Office, UK)
+ - Jeff Cole (NCAS, University of Reading, UK)
 <!-- end-shortlog -->
 
 (All contributors are identifiable with email addresses in the version control
