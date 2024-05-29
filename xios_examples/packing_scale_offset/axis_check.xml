@@ -2,23 +2,17 @@
 
   <calendar type="Gregorian"/>
 
-  <axis_definition>
-    <axis id="x" unit="1" long_name="original x coordinate" />
-    <axis id="y" unit="1" long_name="original y coordinate" />
-
-  </axis_definition>
-
   <grid_definition>
     <grid id="oax_grid">
-      <axis axis_ref="x" />
-      <axis axis_ref="y" />
+      <axis id="x" />
+      <axis id="y" />
     </grid>
 
   </grid_definition>
 
   <file_definition type="one_file">
     <file id="din" name="domain_input" output_freq="1ts" mode="read" enabled=".true.">
-      <field id="odatax" name="original_data" grid_ref="oax_grid" operation="instant" />
+      <field id="odatax" name="original_data" grid_ref="oax_grid" operation="instant" read_access=".true." />
     </file>
   </file_definition>
   
