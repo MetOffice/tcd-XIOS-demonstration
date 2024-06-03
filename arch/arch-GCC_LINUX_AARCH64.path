@@ -1,0 +1,25 @@
+NETCDF_INCDIR=""
+IFS=':' read -r -a array <<< "$NETCDF_INC_DIRS"
+for element in "${array[@]}"; do NETCDF_INCDIR+="-I$element "; done
+NETCDF_LIBDIR=""
+IFS=':' read -r -a array <<< "$NETCDF_LIB_DIRS"
+for element in "${array[@]}"; do NETCDF_LIBDIR+="-L$element "; done
+NETCDF_LIB="-lnetcdff -lnetcdf"
+export NETCDF_INCDIR
+export NETCDF_LIBDIR
+
+MPI_INCDIR=""
+MPI_LIBDIR=""
+MPI_LIB="-lcurl"
+
+HDF5_INCDIR="-I $HDF5_INC_DIR"
+HDF5_LIBDIR="-L $HDF5_LIB_DIR"
+HDF5_LIB="-lhdf5_hl -lhdf5 -lhdf5 -lz"
+
+BOOST_INCDIR="-I $BOOST_INC_DIR"
+BOOST_LIBDIR="-L $BOOST_LIB_DIR"
+BOOST_LIB=""
+
+OASIS_INCDIR="-I$PWD/../../oasis3-mct/BLD/build/lib/psmile.MPI1"
+OASIS_LIBDIR="-L$PWD/../../oasis3-mct/BLD/lib"
+OASIS_LIB="-lpsmile.MPI1 -lscrip -lmct -lmpeu"

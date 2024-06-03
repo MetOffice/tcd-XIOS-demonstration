@@ -1,0 +1,5 @@
+services:
+  app:
+    container_name: xios_demo_examples
+    build: .
+    command: ./test_cases.sh
