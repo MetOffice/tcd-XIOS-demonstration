@@ -31,3 +31,19 @@ Individual tests, or subsets of tests, may be run by explicitly targeting tests 
 ```
 python -m unittest xios_examples.read_axis_resample.test_resample_cases
 ```
+
+## Building Docker container and run test case
+
+The instructions below assumes you have [Docker](https://docs.docker.com/engine/install/) installed on your system. Note the instructions in this document assume you are using the docker commandline tool. 
+
+To build a docker container, run the following command in the root directory of this repository:
+
+```
+docker compose up -d
+```
+
+Once you have built the container, you can run the generic test case:
+
+```
+docker run tcd-xios-demonstration-app:latest ./test_cases.sh
+```
