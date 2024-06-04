@@ -8,7 +8,7 @@ WORKDIR /code
 COPY . .
 
 # Install dependencies
-RUN apt  update
+RUN apt update
 RUN apt -yq install subversion
 RUN apt install -y build-essential
 RUN perl -MCPAN -e 'install "URI"'

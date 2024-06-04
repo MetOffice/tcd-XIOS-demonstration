@@ -45,5 +45,5 @@ docker compose up -d
 Once you have built the container, you can run the generic test case:
 
 ```
-docker run tcd-xios-demonstration-app:latest ./test_cases.sh
+docker run tcd-xios-demonstration-app:latest ./xios_examples/run_test_cases.sh
 ```
