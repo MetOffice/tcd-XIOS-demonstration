@@ -1,4 +1,0 @@
-services:
-  app:
-    container_name: xios_demo_examples
-    build: .
