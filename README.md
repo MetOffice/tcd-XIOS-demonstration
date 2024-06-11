@@ -36,14 +36,14 @@ python -m unittest xios_examples.read_axis_resample.test_resample_cases
 
 The instructions below assumes you have [Docker](https://docs.docker.com/engine/install/) installed on your system. Note the instructions in this document assume you are using the docker commandline tool. 
 
-To build a docker container, run the following command in the root directory of this repository:
+To build a docker container, run for example the following command in the root directory of this repository:
 
 ```
-docker compose up -d
+docker build -t tcd_demo_xios_build --build-arg build_arch=GCC_LINUX_AARCH64 --build-arg xios_source=http://forge.ipsl.jussieu.fr/ioserver/svn/XIOS/trunk@2252 .
 ```
 
-Once you have built the container, you can run the generic test case:
+Once the container has successfully built, you can run the example test cases:
 
 ```
-docker run tcd-xios-demonstration-app:latest ./xios_examples/run_test_cases.sh
+docker run tcd_demo_xios_build ./xios_examples/run_test_cases.sh
 ```
