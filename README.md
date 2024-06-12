@@ -39,11 +39,13 @@ The instructions below assumes you have [Docker](https://docs.docker.com/engine/
 To build a docker container, run for example the following command in the root directory of this repository:
 
 ```
-docker build -t tcd_demo_xios_build --build-arg build_arch=GCC_LINUX_AARCH64 --build-arg xios_source=http://forge.ipsl.jussieu.fr/ioserver/svn/XIOS/trunk@2252 .
+docker build -t tcd_demo_xios_build --build-arg build_arch=GCC_LINUX_AARCH64 --build-arg xios_source=http://forge.ipsl.jussieu.fr/ioserver/svn/XIOS3/trunk --build-arg patch_file=./patches/xios3/revert_svn2517_transport.patch .
 ```
 
-Once the container has successfully built, you can run the example test cases:
+Note in the above the `--build-arg patch_file=` flag is optional. In the example above, the name of the container image created will be `tcd_demo_xios_build`. You can replace it with any name you wish. Finally the `--build-arg build_arch=` flag value will be dependent on the host architecture you are planning to build and run the container on. See the currently available options in the `arch` directory.  
+
+Once the container has successfully built, you can run the example test cases (in the root of this repository):
 
 ```
-docker run tcd_demo_xios_build ./xios_examples/run_test_cases.sh
+docker run --mount type=bind,source=./xios_examples,target=/code/xios_examples tcd_demo_xios_build ./xios_examples/run_test_cases.sh
 ```

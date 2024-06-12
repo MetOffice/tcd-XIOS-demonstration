@@ -20,7 +20,6 @@ WORKDIR "${workdir}"
 COPY arch arch
 COPY dependencies dependencies
 COPY patches patches
-COPY xios_examples xios_examples
 
 # Install dependencies
 RUN apt update
@@ -34,4 +33,4 @@ RUN svn co "${xios}" XIOS && \
     cp arch/* XIOS/arch/ && \
     cd XIOS && \
     if [ ! -z "${patch}" ]; then patch -p0 < "${workdir}"/"${patch}" ; fi && \
-    ./make_xios --job 2 --arch "${arch}" --debug
+    ./make_xios --job 4 --arch "${arch}" --debug
