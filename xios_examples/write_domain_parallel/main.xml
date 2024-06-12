@@ -1,0 +1,33 @@
+<context>
+
+  <calendar type="Gregorian"/>
+
+  <field_definition enabled=".TRUE." freq_op="1ts" operation="instant" >
+   <field id="global_field_1" name="global_field_1" long_name="global_field_1" unit="1" grid_ref="grid_2d" />
+  </field_definition>
+
+
+
+! For convention use CF for unstructured NetCDF and UGRID for UGRID NetCDF
+  <file_definition type="one_file" output_freq="1ts" par_access="collective" enabled=".TRUE.">
+    <file id="domain_output_1" name="domain_output_1" convention="UGRID">
+      <field field_ref="global_field_1"/>
+   </file>
+ </file_definition>
+ 
+ <axis_definition>
+   <axis id="vert_axis" name="levels"/>
+ </axis_definition>
+
+  <domain_definition>
+   <domain id="domain_2d" name="domain_2d" nvertex="4"/>  
+ </domain_definition>
+ 
+ <grid_definition>
+   <grid id="grid_2d">
+     <domain domain_ref="domain_2d"/>
+     <axis axis_ref="vert_axis"/>
+   </grid>
+ </grid_definition>
+  
+</context>

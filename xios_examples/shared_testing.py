@@ -5,6 +5,9 @@ import numpy as np
 import os
 import subprocess
 import unittest
+from pathlib import Path
+
+import xios_examples.gen_netcdf as gn
 
 this_path = os.path.realpath(__file__)
 this_dir = os.path.dirname(this_path)
@@ -21,6 +24,26 @@ class _TestCase(unittest.TestCase):
     transient_outputs = []
     rtol = 5e-03
     executable = './resample.exe'
+    mesh_file_cdl = None
+
+    @classmethod
+    def make_netcdf(cls, inf, inputfile, nc_method='cdl_files'):
+        if nc_method == 'cdl_files':
+            # create a netCDF file from the `.cdl` input
+            subprocess.run(['ncgen', '-k', 'nc4', '-o', inputfile,
+                            inf], cwd=cls.test_dir, check=True)
+        elif nc_method == 'data_func':
+            mesh_file_nc = None
+            if cls.mesh_file_cdl is not None:
+                mesh_file_nc = Path(cls.mesh_file_cdl).with_suffix('.nc')
+                # create a mesh netCDF file from the mesh `.cdl` file
+                subprocess.run(['ncgen', '-k', 'nc4', '-o', mesh_file_nc,
+                                cls.mesh_file_cdl], cwd=cls.test_dir, check=True)
+            # create a  netCDF file from an analytic function
+            cwd = Path(cls.test_dir)
+            if mesh_file_nc is not None:
+                mesh_file_nc = cwd/mesh_file_nc
+            gn.run(cwd/inputfile, func_str=inf, mesh_file=mesh_file_nc)
 
     @classmethod
     def run_mpi_xios(cls, nclients=1, nservers=1):
@@ -113,21 +136,21 @@ class _TestCase(unittest.TestCase):
 
 
     @classmethod
-    def make_a_resample_test(cls, inf, nclients=1, nservers=1):
+    def make_a_resample_test(cls, inf, nc_method='cdl_files',
+                             nclients=1, nservers=1):
         """
         this function makes a test case and returns it as a test function,
         suitable to be dynamically added to a TestCase for running.
 
         """
         # always copy for value, don't pass by reference.
-        infile = copy.copy(inf)
+        infcp = copy.copy(inf)
         # expected by the fortran XIOS resample program's main.xml
         inputfile = cls.transient_inputs[0]
         outputfile = cls.transient_outputs[0]
         def test_resample(self):
-            # create a netCDF file from the `.cdl` input
-            subprocess.run(['ncgen', '-k', 'nc4', '-o', inputfile,
-                            infile], cwd=cls.test_dir, check=True)
+            # create a netCDF file using nc_method
+            cls.make_netcdf(infcp, inputfile, nc_method=nc_method)
             cls.run_mpi_xios(nclients=nclients, nservers=nservers)
 
             # load the result netCDF file

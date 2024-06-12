@@ -1,0 +1,5 @@
+read_unstructured_domain_resample
+---------------------------------
+
+These examples read in arbitrary data on an unstructured grid from an netCDF file and resample to a different horizontal domain as defined within the input netCDF file using bilinear interpolation.
+The original and resampled data as well as a diff between them are written to one output NetCDF file. The unit tests include two known failure test cases where the expected result is not produced.

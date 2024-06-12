@@ -1,0 +1,25 @@
+# this environment management script needs to be sourced in order to provide
+# equivalent functionality on jasmin to the Github CI environment.
+# `. jasmin_env`
+
+module load jaspy/3.11 # need at least version 3.11 for parallel netcdf support
+
+# provide explit path set to the arch script for netCDF linking
+export NETCDF_LIBDIR=-L$(nc-config --libdir)
+export NETCDF_INCDIR=-I$(nc-config --includedir)
+
+# set XIOS build to XIOS2 trunk revision 2628, if not already set
+: ${XIOS_DIR=/home/users/jcole/software/xios_trunk_r2628}
+
+# provide explicit paths to all XIOS components
+export XIOS_INCDIR=$XIOS_DIR/inc
+export XIOS_LIBDIR=$XIOS_DIR/lib
+export XIOS_BINDIR=$XIOS_DIR/bin
+
+# set env variable for run switching (mpiexec / srun) and iodef patching (transport)
+export PLATFORM=Jasmin
+#
+# default to XIOS2 version identifier unless set
+#: ${MVER=XIOS2/trunk}
+: ${MVER=}
+export MVER
