@@ -20,6 +20,7 @@ WORKDIR "${workdir}"
 COPY arch arch
 COPY dependencies dependencies
 COPY patches patches
+COPY xios_examples xios_examples
 
 # Install dependencies
 RUN apt update
