@@ -1,6 +1,11 @@
 # Pull base image
 FROM ubuntu:22.04
 
+# Create a non-root user
+RUN groupadd -g 999 appuser && \
+    useradd -r -u 999 -g appuser appuser
+USER appuser
+
 # Set work directory
 WORKDIR /code
 

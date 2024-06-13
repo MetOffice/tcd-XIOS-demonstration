@@ -12,7 +12,7 @@ ln -s ../bin/generic_testcase.exe &&
 ln -s ../bin/xios_server.exe &&
 cp param.def param_backup.def &&
 sed -i 's/nb_proc_atm=4/nb_proc_atm=1/g' param.def &&
-mpiexec --allow-run-as-root -n 1 ./generic_testcase.exe : -n 1 ./xios_server.exe
+mpiexec ./generic_testcase.exe : -n 1 ./xios_server.exe
 echo
 echo Cleaning up generic XIOS test case run
 echo --------------------------------------
@@ -35,8 +35,6 @@ export XIOS_INCDIR=$PWD/XIOS/inc
 export XIOS_LIBDIR=$PWD/XIOS/lib
 export MVER=XIOS/trunk@2252
 export MPI_FLAVOUR='openmpi'
-export OMPI_ALLOW_RUN_AS_ROOT=1
-export OMPI_ALLOW_RUN_AS_ROOT_CONFIRM=1
 python3 -m unittest discover -v -s xios_examples
 echo
 echo Cleaning up XIOS demo example runs
