@@ -1,0 +1,577 @@
+
+Running generic XIOS test case
+------------------------------
+
+
+Cleaning up generic XIOS test case run
+--------------------------------------
+
+
+Running XIOS demo examples
+--------------------------
+
+rm -f *.exe *.o *.mod *.MOD *.out *.err *.nc
+mpif90  -g -I/home/xiosuser/XIOS/inc -I/usr/lib/aarch64-linux-gnu/netcdf/mpi/include -I/usr/include/  -c custom_type_mod.F90
+mpif90  -g -I/home/xiosuser/XIOS/inc -I/usr/lib/aarch64-linux-gnu/netcdf/mpi/include -I/usr/include/  -c context_def_mod.F90
+mpif90  -g -I/home/xiosuser/XIOS/inc -I/usr/lib/aarch64-linux-gnu/netcdf/mpi/include -I/usr/include/  -c context_def_test.F90
+mpif90  -o context_def_test.exe context_def_test.o custom_type_mod.o context_def_mod.o -L/home/xiosuser/XIOS/lib -L/usr/lib/aarch64-linux-gnu/netcdf/mpi/lib -L/usr/lib/aarch64-linux-gnu  -lxios -lnetcdf -lnetcdff -lstdc++ \
+	&& ln -fs /home/xiosuser/XIOS/bin/xios_server.exe .
+<context>
+  <variable_definition>
+    <variable_group id="buffer">
+      <variable id="optimal_buffer_size" type="string">
+	performance
+      </variable>
+      <variable id="buffer_size_factor" type="double">
+	1.0
+      </variable>
+    </variable_group>
+    
+    <variable_group id="parameters" >
+       <variable id="using_server" type="bool">true</variable>
+       <variable id="info_level" type="int">
+	100
+      </variable>
+      <variable id="print_file" type="bool">
+	true
+      </variable>
+    </variable_group>
+  </variable_definition>
+</context>
+
+-> info : intercommCreate::client 0 intraCommSize : 1 intraCommRank :0  clientLeader 1
+-> info : intercommCreate::server (classical mode) 1 intraCommSize : 1 intraCommRank :0  clientLeader 0
+/home/xiosuser/xios_examples/context_test/xios_client_0.err
+
+/home/xiosuser/xios_examples/context_test/xios_server_1.err
+
+rm -f *.exe *.o *.mod *.MOD *.out *.err *.nc
+rm -f *.exe *.o *.mod *.MOD *.out *.err *.nc
+mpif90        -g -I/home/xiosuser/XIOS/inc -I/usr/lib/aarch64-linux-gnu/netcdf/mpi/include -I/usr/include/  -c pack.F90
+mpif90        -o pack.exe pack.o -L/home/xiosuser/XIOS/lib -L/usr/lib/aarch64-linux-gnu/netcdf/mpi/lib -L/usr/lib/aarch64-linux-gnu  -lxios -lnetcdf -lnetcdff -lstdc++  \
+	&& ln -fs /home/xiosuser/XIOS/bin/xios_server.exe .
+-> info : intercommCreate::client 0 intraCommSize : 1 intraCommRank :0  clientLeader 1
+-> info : intercommCreate::server (classical mode) 1 intraCommSize : 1 intraCommRank :0  clientLeader 0
+mpiexec --use-hwthread-cpus -n 1 ./pack.exe : -n 1 ./xios_server.exe
+/home/xiosuser/xios_examples/packing_scale_offset/xios_client_0.err
+
+/home/xiosuser/xios_examples/packing_scale_offset/xios_server_1.err
+
+rm -f *.exe *.o *.mod *.MOD *.out *.err *.nc
+rm -f *.exe *.o *.mod *.MOD *.out *.err *.nc
+mpif90        -g -I/home/xiosuser/XIOS/inc -I/usr/lib/aarch64-linux-gnu/netcdf/mpi/include -I/usr/include/  -c resample.F90
+mpif90        -o resample.exe resample.o -L/home/xiosuser/XIOS/lib -L/usr/lib/aarch64-linux-gnu/netcdf/mpi/lib -L/usr/lib/aarch64-linux-gnu  -lxios -lnetcdf -lnetcdff -lstdc++  \
+	&& ln -fs /home/xiosuser/XIOS/bin/xios_server.exe .
+-> info : intercommCreate::client 0 intraCommSize : 1 intraCommRank :0  clientLeader 1
+-> info : intercommCreate::server (classical mode) 1 intraCommSize : 1 intraCommRank :0  clientLeader 0
+mpiexec --use-hwthread-cpus -n 1 ./resample.exe : -n 1 ./xios_server.exe
+/home/xiosuser/xios_examples/read_axis_resample/xios_client_0.err
+
+/home/xiosuser/xios_examples/read_axis_resample/xios_server_1.err
+
+-> info : intercommCreate::server (classical mode) 1 intraCommSize : 1 intraCommRank :0  clientLeader 0
+-> info : intercommCreate::client 0 intraCommSize : 1 intraCommRank :0  clientLeader 1
+mpiexec --use-hwthread-cpus -n 1 ./resample.exe : -n 1 ./xios_server.exe
+the expected resample data array
+ [ 2.25 12.25 30.25 56.25 90.25]
+ differs from the resampled data array
+ [ 2.25 12.25 30.25 56.25 90.5 ] 
+ with diff 
+ [0.   0.   0.   0.   0.25]
+
+/home/xiosuser/xios_examples/read_axis_resample/xios_client_0.err
+
+/home/xiosuser/xios_examples/read_axis_resample/xios_server_1.err
+
+-> info : intercommCreate::client 0 intraCommSize : 1 intraCommRank :0  clientLeader 1
+-> info : intercommCreate::server (classical mode) 1 intraCommSize : 1 intraCommRank :0  clientLeader 0
+mpiexec --use-hwthread-cpus -n 1 ./resample.exe : -n 1 ./xios_server.exe
+/home/xiosuser/xios_examples/read_axis_resample/xios_client_0.err
+
+/home/xiosuser/xios_examples/read_axis_resample/xios_server_1.err
+
+rm -f *.exe *.o *.mod *.MOD *.out *.err *.nc
+rm -f *.exe *.o *.mod *.MOD *.out *.err *.nc
+mpif90        -g -I/home/xiosuser/XIOS/inc -I/usr/lib/aarch64-linux-gnu/netcdf/mpi/include -I/usr/include/  -c resample.F90
+mpif90        -o resample.exe resample.o -L/home/xiosuser/XIOS/lib -L/usr/lib/aarch64-linux-gnu/netcdf/mpi/lib -L/usr/lib/aarch64-linux-gnu  -lxios -lnetcdf -lnetcdff -lstdc++  \
+	&& ln -fs /home/xiosuser/XIOS/bin/xios_server.exe .
+-> info : intercommCreate::server (classical mode) 3 intraCommSize : 1 intraCommRank :0  clientLeader 0
+-> info : intercommCreate::client 0 intraCommSize : 3 intraCommRank :0  clientLeader 3
+-> info : intercommCreate::client 1 intraCommSize : 3 intraCommRank :1  clientLeader 3
+-> info : intercommCreate::client 2 intraCommSize : 3 intraCommRank :2  clientLeader 3
+ original_domain: rank,ni_glo,nj_glo,ni,nj,ibegin,jbegin            2           5           5           5           3           0           2
+ resampled_domain: rank,ni_glo,nj_glo,ni,nj,ibegin,jbegin            2           4           4           4           2           0           2
+ original_domain: rank,ni_glo,nj_glo,ni,nj,ibegin,jbegin            1           5           5           3           2           2           0
+ resampled_domain: rank,ni_glo,nj_glo,ni,nj,ibegin,jbegin            1           4           4           2           2           2           0
+ original_domain: rank,ni_glo,nj_glo,ni,nj,ibegin,jbegin            0           5           5           2           2           0           0
+ resampled_domain: rank,ni_glo,nj_glo,ni,nj,ibegin,jbegin            0           4           4           2           2           0           0
+Computing intersections ...
+Remapping...
+mpiexec --use-hwthread-cpus -n 3 ./resample.exe : -n 1 ./xios_server.exe
+the expected resample data array
+ [[ 2. 10. 26. 50.]
+ [10. 18. 34. 58.]
+ [26. 34. 50. 74.]
+ [50. 58. 74. 98.]]
+ differs from the resampled data array
+ [[ 3.99969516 11.99969516 27.99969516 51.99969516]
+ [11.9972542  19.9972542  35.9972542  59.9972542 ]
+ [27.99236036 35.99236036 51.99236036 75.99236036]
+ [51.98817575 59.98817575 75.98817575 99.98817575]] 
+ with diff 
+ [[1.99969516 1.99969516 1.99969516 1.99969516]
+ [1.9972542  1.9972542  1.9972542  1.9972542 ]
+ [1.99236036 1.99236036 1.99236036 1.99236036]
+ [1.98817575 1.98817575 1.98817575 1.98817575]]
+
+/home/xiosuser/xios_examples/read_domain_decomp_resample/xios_client_0.err
+
+/home/xiosuser/xios_examples/read_domain_decomp_resample/xios_server_3.err
+
+/home/xiosuser/xios_examples/read_domain_decomp_resample/xios_client_2.err
+
+/home/xiosuser/xios_examples/read_domain_decomp_resample/xios_client_1.err
+
+-> info : intercommCreate::client 1 intraCommSize : 3 intraCommRank :1  clientLeader 3
+-> info : intercommCreate::client 2 intraCommSize : 3 intraCommRank :2  clientLeader 3
+-> info : intercommCreate::server (classical mode) 3 intraCommSize : 1 intraCommRank :0  clientLeader 0
+-> info : intercommCreate::client 0 intraCommSize : 3 intraCommRank :0  clientLeader 3
+ original_domain: rank,ni_glo,nj_glo,ni,nj,ibegin,jbegin            1           5           5           3           2           2           0
+ resampled_domain: rank,ni_glo,nj_glo,ni,nj,ibegin,jbegin            1           2           2           1           1           1           0
+ original_domain: rank,ni_glo,nj_glo,ni,nj,ibegin,jbegin            2           5           5           5           3           0           2
+ resampled_domain: rank,ni_glo,nj_glo,ni,nj,ibegin,jbegin            2           2           2           2           1           0           1
+ original_domain: rank,ni_glo,nj_glo,ni,nj,ibegin,jbegin            0           5           5           2           2           0           0
+ resampled_domain: rank,ni_glo,nj_glo,ni,nj,ibegin,jbegin            0           2           2           1           1           0           0
+Computing intersections ...
+Remapping...
+mpiexec --use-hwthread-cpus -n 3 ./resample.exe : -n 1 ./xios_server.exe
+/home/xiosuser/xios_examples/read_domain_decomp_resample/xios_client_0.err
+
+/home/xiosuser/xios_examples/read_domain_decomp_resample/xios_server_3.err
+
+/home/xiosuser/xios_examples/read_domain_decomp_resample/xios_client_2.err
+
+/home/xiosuser/xios_examples/read_domain_decomp_resample/xios_client_1.err
+
+-> info : intercommCreate::client 1 intraCommSize : 3 intraCommRank :1  clientLeader 3
+-> info : intercommCreate::client 2 intraCommSize : 3 intraCommRank :2  clientLeader 3
+-> info : intercommCreate::server (classical mode) 3 intraCommSize : 1 intraCommRank :0  clientLeader 0
+-> info : intercommCreate::client 0 intraCommSize : 3 intraCommRank :0  clientLeader 3
+ original_domain: rank,ni_glo,nj_glo,ni,nj,ibegin,jbegin            1           5           5           3           2           2           0
+ resampled_domain: rank,ni_glo,nj_glo,ni,nj,ibegin,jbegin            1           2           2           1           1           1           0
+ original_domain: rank,ni_glo,nj_glo,ni,nj,ibegin,jbegin            2           5           5           5           3           0           2
+ resampled_domain: rank,ni_glo,nj_glo,ni,nj,ibegin,jbegin            2           2           2           2           1           0           1
+ original_domain: rank,ni_glo,nj_glo,ni,nj,ibegin,jbegin            0           5           5           2           2           0           0
+ resampled_domain: rank,ni_glo,nj_glo,ni,nj,ibegin,jbegin            0           2           2           1           1           0           0
+Computing intersections ...
+Remapping...
+mpiexec --use-hwthread-cpus -n 3 ./resample.exe : -n 1 ./xios_server.exe
+the expected resample data array
+ [[18. 34.]
+ [34. 50.]]
+ differs from the resampled data array
+ [[19.9972542  35.9972542 ]
+ [35.99236036 51.99236036]] 
+ with diff 
+ [[1.9972542  1.9972542 ]
+ [1.99236036 1.99236036]]
+
+/home/xiosuser/xios_examples/read_domain_decomp_resample/xios_client_0.err
+
+/home/xiosuser/xios_examples/read_domain_decomp_resample/xios_server_3.err
+
+/home/xiosuser/xios_examples/read_domain_decomp_resample/xios_client_2.err
+
+/home/xiosuser/xios_examples/read_domain_decomp_resample/xios_client_1.err
+
+rm -f *.exe *.o *.mod *.MOD *.out *.err *.nc
+rm -f *.exe *.o *.mod *.MOD *.out *.err *.nc
+mpif90        -g -I/home/xiosuser/XIOS/inc -I/usr/lib/aarch64-linux-gnu/netcdf/mpi/include -I/usr/include/  -c resample.F90
+mpif90        -o resample.exe resample.o -L/home/xiosuser/XIOS/lib -L/usr/lib/aarch64-linux-gnu/netcdf/mpi/lib -L/usr/lib/aarch64-linux-gnu  -lxios -lnetcdf -lnetcdff -lstdc++  \
+	&& ln -fs /home/xiosuser/XIOS/bin/xios_server.exe .
+-> info : intercommCreate::client 0 intraCommSize : 1 intraCommRank :0  clientLeader 1
+-> info : intercommCreate::server (classical mode) 1 intraCommSize : 1 intraCommRank :0  clientLeader 0
+Computing intersections ...
+Remapping...
+mpiexec --use-hwthread-cpus -n 1 ./resample.exe : -n 1 ./xios_server.exe
+the expected resample data array
+ [[ 2. 10. 26. 50.]
+ [10. 18. 34. 58.]
+ [26. 34. 50. 74.]
+ [50. 58. 74. 98.]]
+ differs from the resampled data array
+ [[ 3.99969516 11.99969516 27.99969516 51.99969516]
+ [11.9972542  19.9972542  35.9972542  59.9972542 ]
+ [27.99236036 35.99236036 51.99236036 75.99236036]
+ [51.98817575 59.98817575 75.98817575 99.98817575]] 
+ with diff 
+ [[1.99969516 1.99969516 1.99969516 1.99969516]
+ [1.9972542  1.9972542  1.9972542  1.9972542 ]
+ [1.99236036 1.99236036 1.99236036 1.99236036]
+ [1.98817575 1.98817575 1.98817575 1.98817575]]
+
+/home/xiosuser/xios_examples/read_domain_resample/xios_client_0.err
+
+/home/xiosuser/xios_examples/read_domain_resample/xios_server_1.err
+
+-> info : intercommCreate::client 0 intraCommSize : 1 intraCommRank :0  clientLeader 1
+-> info : intercommCreate::server (classical mode) 1 intraCommSize : 1 intraCommRank :0  clientLeader 0
+Computing intersections ...
+Remapping...
+mpiexec --use-hwthread-cpus -n 1 ./resample.exe : -n 1 ./xios_server.exe
+/home/xiosuser/xios_examples/read_domain_resample/xios_client_0.err
+
+/home/xiosuser/xios_examples/read_domain_resample/xios_server_1.err
+
+-> info : intercommCreate::server (classical mode) 1 intraCommSize : 1 intraCommRank :0  clientLeader 0
+-> info : intercommCreate::client 0 intraCommSize : 1 intraCommRank :0  clientLeader 1
+Computing intersections ...
+Remapping...
+mpiexec --use-hwthread-cpus -n 1 ./resample.exe : -n 1 ./xios_server.exe
+the expected resample data array
+ [[18. 34.]
+ [34. 50.]]
+ differs from the resampled data array
+ [[19.9972542  35.9972542 ]
+ [35.99236036 51.99236036]] 
+ with diff 
+ [[1.9972542  1.9972542 ]
+ [1.99236036 1.99236036]]
+
+/home/xiosuser/xios_examples/read_domain_resample/xios_client_0.err
+
+/home/xiosuser/xios_examples/read_domain_resample/xios_server_1.err
+
+rm -f *.exe *.o *.mod *.MOD *.out *.err *.nc
+rm -f *.exe *.o *.mod *.MOD *.out *.err *.nc
+mpif90        -g -I/home/xiosuser/XIOS/inc -I/usr/lib/aarch64-linux-gnu/netcdf/mpi/include -I/usr/include/  -c resample.F90
+mpif90        -o resample.exe resample.o -L/home/xiosuser/XIOS/lib -L/usr/lib/aarch64-linux-gnu/netcdf/mpi/lib -L/usr/lib/aarch64-linux-gnu  -lxios -lnetcdf -lnetcdff -lstdc++  \
+	&& ln -fs /home/xiosuser/XIOS/bin/xios_server.exe .
+-> info : intercommCreate::client 2 intraCommSize : 3 intraCommRank :2  clientLeader 3
+-> info : intercommCreate::server (classical mode) 3 intraCommSize : 1 intraCommRank :0  clientLeader 0
+-> info : intercommCreate::client 0 intraCommSize : 3 intraCommRank :0  clientLeader 3
+-> info : intercommCreate::client 1 intraCommSize : 3 intraCommRank :1  clientLeader 3
+ original_domain: rank,ni_glo,nj_glo,ni,nj,ibegin,jbegin,nvertex            2         864           1         288           1         576           0           4
+ resampled_domain: rank,ni_glo,nj_glo,ni,nj,ibegin,jbegin            2          80          81          80          41           0          40
+ original_domain: rank,ni_glo,nj_glo,ni,nj,ibegin,jbegin,nvertex            1         864           1         288           1         288           0           4
+ resampled_domain: rank,ni_glo,nj_glo,ni,nj,ibegin,jbegin            1          80          81          40          40          40           0
+ original_domain: rank,ni_glo,nj_glo,ni,nj,ibegin,jbegin,nvertex            0         864           1         288           1           0           0           4
+ resampled_domain: rank,ni_glo,nj_glo,ni,nj,ibegin,jbegin            0          80          81          40          40           0           0
+Computing intersections ...
+Remapping...
+ original_domain: rank,lenx,leny            1         288           1
+ resampled_domain: rank,lenx,leny            1          40          40
+ original_domain: rank,lenx,leny            0         288           1
+ resampled_domain: rank,lenx,leny            0          40          40
+ original_domain: rank,lenx,leny            2         288           1
+ resampled_domain: rank,lenx,leny            2          80          41
+mpiexec --use-hwthread-cpus -n 3 ./resample.exe : -n 1 ./xios_server.exe
+/home/xiosuser/xios_examples/read_unstructured_domain_resample/xios_client_0.err
+
+/home/xiosuser/xios_examples/read_unstructured_domain_resample/xios_server_3.err
+
+/home/xiosuser/xios_examples/read_unstructured_domain_resample/xios_client_2.err
+
+/home/xiosuser/xios_examples/read_unstructured_domain_resample/xios_client_1.err
+
+-> info : intercommCreate::client 0 intraCommSize : 3 intraCommRank :0  clientLeader 3
+-> info : intercommCreate::client 1 intraCommSize : 3 intraCommRank :1  clientLeader 3
+-> info : intercommCreate::client 2 intraCommSize : 3 intraCommRank :2  clientLeader 3
+-> info : intercommCreate::server (classical mode) 3 intraCommSize : 1 intraCommRank :0  clientLeader 0
+ original_domain: rank,ni_glo,nj_glo,ni,nj,ibegin,jbegin,nvertex            2         864           1         288           1         576           0           4
+ resampled_domain: rank,ni_glo,nj_glo,ni,nj,ibegin,jbegin            2          80          81          80          41           0          40
+ original_domain: rank,ni_glo,nj_glo,ni,nj,ibegin,jbegin,nvertex            1         864           1         288           1         288           0           4
+ resampled_domain: rank,ni_glo,nj_glo,ni,nj,ibegin,jbegin            1          80          81          40          40          40           0
+ original_domain: rank,ni_glo,nj_glo,ni,nj,ibegin,jbegin,nvertex            0         864           1         288           1           0           0           4
+ resampled_domain: rank,ni_glo,nj_glo,ni,nj,ibegin,jbegin            0          80          81          40          40           0           0
+Computing intersections ...
+Remapping...
+ original_domain: rank,lenx,leny            1         288           1
+ resampled_domain: rank,lenx,leny            1          40          40
+ original_domain: rank,lenx,leny            0         288           1
+ resampled_domain: rank,lenx,leny            0          40          40
+ original_domain: rank,lenx,leny            2         288           1
+ resampled_domain: rank,lenx,leny            2          80          41
+mpiexec --use-hwthread-cpus -n 3 ./resample.exe : -n 1 ./xios_server.exe
+/home/xiosuser/xios_examples/read_unstructured_domain_resample/xios_client_0.err
+
+/home/xiosuser/xios_examples/read_unstructured_domain_resample/xios_server_3.err
+
+/home/xiosuser/xios_examples/read_unstructured_domain_resample/xios_client_2.err
+
+/home/xiosuser/xios_examples/read_unstructured_domain_resample/xios_client_1.err
+
+-> info : intercommCreate::client 0 intraCommSize : 3 intraCommRank :0  clientLeader 3
+-> info : intercommCreate::client 1 intraCommSize : 3 intraCommRank :1  clientLeader 3
+-> info : intercommCreate::client 2 intraCommSize : 3 intraCommRank :2  clientLeader 3
+-> info : intercommCreate::server (classical mode) 3 intraCommSize : 1 intraCommRank :0  clientLeader 0
+ original_domain: rank,ni_glo,nj_glo,ni,nj,ibegin,jbegin,nvertex            1         864           1         288           1         288           0           4
+ resampled_domain: rank,ni_glo,nj_glo,ni,nj,ibegin,jbegin            1          80          81          40          40          40           0
+ original_domain: rank,ni_glo,nj_glo,ni,nj,ibegin,jbegin,nvertex            2         864           1         288           1         576           0           4
+ resampled_domain: rank,ni_glo,nj_glo,ni,nj,ibegin,jbegin            2          80          81          80          41           0          40
+ original_domain: rank,ni_glo,nj_glo,ni,nj,ibegin,jbegin,nvertex            0         864           1         288           1           0           0           4
+ resampled_domain: rank,ni_glo,nj_glo,ni,nj,ibegin,jbegin            0          80          81          40          40           0           0
+Computing intersections ...
+Remapping...
+ original_domain: rank,lenx,leny            1         288           1
+ resampled_domain: rank,lenx,leny            1          40          40
+ original_domain: rank,lenx,leny            0         288           1
+ resampled_domain: rank,lenx,leny            0          40          40
+ original_domain: rank,lenx,leny            2         288           1
+ resampled_domain: rank,lenx,leny            2          80          41
+mpiexec --use-hwthread-cpus -n 3 ./resample.exe : -n 1 ./xios_server.exe
+/home/xiosuser/xios_examples/read_unstructured_domain_resample/xios_client_0.err
+
+/home/xiosuser/xios_examples/read_unstructured_domain_resample/xios_server_3.err
+
+/home/xiosuser/xios_examples/read_unstructured_domain_resample/xios_client_2.err
+
+/home/xiosuser/xios_examples/read_unstructured_domain_resample/xios_client_1.err
+
+-> info : intercommCreate::client 0 intraCommSize : 3 intraCommRank :0  clientLeader 3
+-> info : intercommCreate::client 1 intraCommSize : 3 intraCommRank :1  clientLeader 3
+-> info : intercommCreate::client 2 intraCommSize : 3 intraCommRank :2  clientLeader 3
+-> info : intercommCreate::server (classical mode) 3 intraCommSize : 1 intraCommRank :0  clientLeader 0
+ original_domain: rank,ni_glo,nj_glo,ni,nj,ibegin,jbegin,nvertex            2         864           1         288           1         576           0           4
+ resampled_domain: rank,ni_glo,nj_glo,ni,nj,ibegin,jbegin            2          80          81          80          41           0          40
+ original_domain: rank,ni_glo,nj_glo,ni,nj,ibegin,jbegin,nvertex            1         864           1         288           1         288           0           4
+ resampled_domain: rank,ni_glo,nj_glo,ni,nj,ibegin,jbegin            1          80          81          40          40          40           0
+ original_domain: rank,ni_glo,nj_glo,ni,nj,ibegin,jbegin,nvertex            0         864           1         288           1           0           0           4
+ resampled_domain: rank,ni_glo,nj_glo,ni,nj,ibegin,jbegin            0          80          81          40          40           0           0
+Computing intersections ...
+Remapping...
+ original_domain: rank,lenx,leny            1         288           1
+ resampled_domain: rank,lenx,leny            1          40          40
+ original_domain: rank,lenx,leny            0         288           1
+ resampled_domain: rank,lenx,leny            0          40          40
+ original_domain: rank,lenx,leny            2         288           1
+ resampled_domain: rank,lenx,leny            2          80          41
+mpiexec --use-hwthread-cpus -n 3 ./resample.exe : -n 1 ./xios_server.exe
+/home/xiosuser/xios_examples/read_unstructured_domain_resample/xios_client_0.err
+
+/home/xiosuser/xios_examples/read_unstructured_domain_resample/xios_server_3.err
+
+/home/xiosuser/xios_examples/read_unstructured_domain_resample/xios_client_2.err
+
+/home/xiosuser/xios_examples/read_unstructured_domain_resample/xios_client_1.err
+
+rm -f *.exe *.o *.mod *.MOD *.out *.err *.nc
+rm -f *.exe *.o *.mod *.MOD *.out *.err *.nc
+mpif90        -g -I/home/xiosuser/XIOS/inc -I/usr/lib/aarch64-linux-gnu/netcdf/mpi/include -I/usr/include/  -c resample.F90
+mpif90        -o resample.exe resample.o -L/home/xiosuser/XIOS/lib -L/usr/lib/aarch64-linux-gnu/netcdf/mpi/lib -L/usr/lib/aarch64-linux-gnu  -lxios -lnetcdf -lnetcdff -lstdc++  \
+	&& ln -fs /home/xiosuser/XIOS/bin/xios_server.exe .
+<context>
+  <variable_definition>
+    <variable_group id="buffer">
+      <variable id="optimal_buffer_size" type="string">
+	performance
+      </variable>
+      <variable id="buffer_size_factor" type="double">
+	1.0
+      </variable>
+    </variable_group>
+    
+    <variable_group id="parameters" >
+       <variable id="using_server" type="bool">true</variable>
+       <variable id="info_level" type="int">
+	100
+      </variable>
+      <variable id="print_file" type="bool">
+	true
+      </variable>
+    </variable_group>
+  </variable_definition>
+</context>
+
+-> info : intercommCreate::server (classical mode) 1 intraCommSize : 1 intraCommRank :0  clientLeader 0
+-> info : intercommCreate::client 0 intraCommSize : 1 intraCommRank :0  clientLeader 1
+mpiexec --use-hwthread-cpus -n 1 ./resample.exe : -n 1 ./xios_server.exe
+/home/xiosuser/xios_examples/vertical_stratify_pressure/xios_client_0.err
+
+/home/xiosuser/xios_examples/vertical_stratify_pressure/xios_server_1.err
+
+rm -f *.exe *.o *.mod *.MOD *.out *.err *.nc
+rm -f *.exe *.o *.mod *.MOD *.out *.err *.nc
+mpif90        -g -I/home/xiosuser/XIOS/inc -I/usr/lib/aarch64-linux-gnu/netcdf/mpi/include -I/usr/include/  -c resample.F90
+mpif90        -o resample.exe resample.o -L/home/xiosuser/XIOS/lib -L/usr/lib/aarch64-linux-gnu/netcdf/mpi/lib -L/usr/lib/aarch64-linux-gnu  -lxios -lnetcdf -lnetcdff -lstdc++  \
+	&& ln -fs /home/xiosuser/XIOS/bin/xios_server.exe .
+iodef.xml
+<?xml version="1.0"?>
+<simulation id="simulation">
+
+<context id="main" src="main.xml"/>
+<context id="axis_check" src="axis_check.xml"/>
+
+<context id="xios" src="xios.xml"/>
+
+</simulation>
+
+xios.xml
+<context>
+  <variable_definition>
+    <variable_group id="buffer">
+      <variable id="optimal_buffer_size" type="string">
+	performance
+      </variable>
+      <variable id="buffer_size_factor" type="double">
+	1.0
+      </variable>
+    </variable_group>
+    
+    <variable_group id="parameters" >
+       <variable id="using_server" type="bool">true</variable>
+       <variable id="info_level" type="int">
+	100
+      </variable>
+      <variable id="print_file" type="bool">
+	true
+      </variable>
+    </variable_group>
+  </variable_definition>
+</context>
+
+axis_check.xml
+<context>
+
+  <calendar type="Gregorian"/>
+
+
+  <grid_definition>
+    <grid id="mlev_grid">
+      <axis id="xm" />
+      <axis id="ym" />
+      <axis id="mlev" />
+    </grid>
+
+    <grid id="plev_grid">
+      <axis id="xp" />
+      <axis id="yp" />
+      <axis id="plev" />
+    </grid>
+
+  </grid_definition>
+
+  <file_definition type="one_file">
+    <file id="din" name="stratify_input_in_domain_1" output_freq="1ts" mode="read" enabled=".true.">
+      <field id="pressure_in" name="pressure" grid_ref="mlev_grid" operation="instant" read_access=".true." />
+      <field id="temperature_in" name="temperature" grid_ref="mlev_grid" operation="instant" read_access=".true." />
+      <field id="temponp_in" name="temponP" grid_ref="plev_grid" operation="instant" read_access=".true." />
+
+    </file>
+  </file_definition>
+  
+</context>
+
+main.xml
+<context>
+
+  <calendar type="Gregorian"/>
+
+    <axis_definition>
+      <axis id="model_levels" unit="1" name="levels"/>
+      <axis id="pressure_levels1" positive="down" long_name="Air Pressure" standard_name="air_pressure" unit="Pa">
+        <interpolate_axis type="polynomial" order="1" coordinate="pressure" />
+      </axis>
+      <axis id="pressure_levels_nointerp" positive="down" long_name="Air Pressure" standard_name="air_pressure" unit="Pa">
+      </axis>
+
+    </axis_definition>
+
+    <domain_definition>
+      <domain id="latlon_domain" type="rectilinear" nvertex="2"/>
+
+    </domain_definition>
+ 
+    <grid_definition>
+      <grid id="model">
+        <domain domain_ref="latlon_domain" />
+        <axis axis_ref="model_levels" />
+      </grid>
+      <grid id="model_plev">
+        <domain domain_ref="latlon_domain" />
+        <axis axis_ref="pressure_levels1" />
+      </grid>
+      <grid id="model_plev_nointerp">
+        <domain domain_ref="latlon_domain" />
+        <axis axis_ref="pressure_levels_nointerp" />
+      </grid>
+    </grid_definition>
+
+    <field_definition freq_op="1ts" enabled=".TRUE." operation="instant" >
+      <field id="pressure" name="pressure" long_name="Air Pressure" standard_name="air_pressure" unit="Pa" grid_ref="model" />
+      <field id="temperature" name="temperature" long_name="Air Temperature" standard_name="air_temperature" unit="K" grid_ref="model" />
+      <field id="temperature_on_P" name="resampled_data" long_name="Air Temperature" standard_name="air_temperature" unit="K" field_ref="temperature" grid_ref="model_plev" />
+      <field id="expected" name="resample_data" long_name="Expected Air Temperature" standard_name="air_temperature" unit="K" grid_ref="model_plev_nointerp" />
+      <field id="diff" name="resampled_minus_resample" long_name="Air Temperature difference" unit="K" grid_ref="model_plev_nointerp">temperature_on_P - expected</field>
+
+    </field_definition>
+
+
+  <file_definition type="one_file">
+    <file id="pressure_stratify" output_freq="1ts">
+      <field_group operation="once">
+        <field field_ref="pressure" />
+        <field field_ref="temperature"/>
+        <field field_ref="temperature_on_P"/>
+        <field field_ref="expected"/>
+        <field field_ref="diff"/>
+
+      </field_group>
+    </file>
+  </file_definition>
+  
+</context>
+
+-> info : intercommCreate::client 0 intraCommSize : 1 intraCommRank :0  clientLeader 1
+-> info : intercommCreate::server (classical mode) 1 intraCommSize : 1 intraCommRank :0  clientLeader 0
+mpiexec --use-hwthread-cpus -n 1 ./resample.exe : -n 1 ./xios_server.exe
+/home/xiosuser/xios_examples/vertical_stratify_scenarios/xios_client_0.err
+
+/home/xiosuser/xios_examples/vertical_stratify_scenarios/xios_server_1.err
+
+rm -f *.exe *.o *.mod *.MOD *.out *.err *.nc
+rm -f *.exe *.o *.mod *.MOD *.out *.err *.nc
+mpif90        -g -I/home/xiosuser/XIOS/inc -I/usr/lib/aarch64-linux-gnu/netcdf/mpi/include -I/usr/include/  -c write_parallel.F90
+mpif90        -o write_parallel.exe write_parallel.o -L/home/xiosuser/XIOS/lib -L/usr/lib/aarch64-linux-gnu/netcdf/mpi/lib -L/usr/lib/aarch64-linux-gnu  -lxios -lnetcdf -lnetcdff -lstdc++  \
+	&& ln -fs /home/xiosuser/XIOS/bin/xios_server.exe .
+<context>
+  <variable_definition>
+    <variable_group id="buffer">
+      <variable id="optimal_buffer_size" type="string">
+	performance
+      </variable>
+      <variable id="buffer_size_factor" type="double">
+	1.0
+      </variable>
+    </variable_group>
+    
+    <variable_group id="parameters" >
+       <variable id="using_server" type="bool">true</variable>
+       <variable id="info_level" type="int">
+	100
+      </variable>
+      <variable id="print_file" type="bool">
+	true
+      </variable>
+    </variable_group>
+  </variable_definition>
+</context>
+
+-> info : intercommCreate::client 0 intraCommSize : 2 intraCommRank :0  clientLeader 2
+-> info : intercommCreate::client 1 intraCommSize : 2 intraCommRank :1  clientLeader 2
+-> info : intercommCreate::server (classical mode) 2 intraCommSize : 2 intraCommRank :0  clientLeader 0
+-> info : intercommCreate::server (classical mode) 3 intraCommSize : 2 intraCommRank :1  clientLeader 0
+mpiexec --use-hwthread-cpus -n 2 ./write_parallel.exe : -n 2 ./xios_server.exe
+/home/xiosuser/xios_examples/write_domain_parallel/xios_client_0.err
+
+/home/xiosuser/xios_examples/write_domain_parallel/xios_server_3.err
+
+/home/xiosuser/xios_examples/write_domain_parallel/xios_client_1.err
+
+/home/xiosuser/xios_examples/write_domain_parallel/xios_server_2.err
+
+rm -f *.exe *.o *.mod *.MOD *.out *.err *.nc
+
+Cleaning up XIOS demo example runs
+----------------------------------
+

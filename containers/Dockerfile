@@ -38,6 +38,6 @@ USER "${user}"
 # Build XIOS
 RUN svn co "${xios}" XIOS && \
     cp arch/* XIOS/arch/ && \
-    if [ ! -z "${patch}" ]; then patch -p0 < "${homedir}"/"${patch}" ; fi && \
     cd XIOS && \
+    if [ ! -z "${patch}" ]; then patch -p0 < "${homedir}"/"${patch}" ; fi && \
     ./make_xios --job 4 --arch "${arch}" --debug
