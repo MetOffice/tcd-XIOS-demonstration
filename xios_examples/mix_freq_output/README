@@ -1,0 +1,5 @@
+vertical_stratify_pressure
+--------------------------
+
+This example demonstrates XIOS mixed frequency output. It takes a canned dataset of temperature and pressure on 39 model levels at one lat-lon point and outputs
+the temperature and pressure fields at different frequencies. The original model level pressure and temperature data as well as the interpolated temperature data are written out to one netCDF file.
