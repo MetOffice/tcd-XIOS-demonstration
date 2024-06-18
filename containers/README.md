@@ -17,5 +17,5 @@ Note in the above the `--build-arg patch_file=` flag is optional. In the example
 Once the container has successfully built, you can run the example test cases (in the root of this repository):
 
 ```
-docker run ./xios_examples/run_test_cases.sh
+docker run --mount type=bind,source=./xios_examples,target=/home/xiosuser/xios_examples tcd_demo_xios_build ./xios_examples/run_test_cases.sh
 ```

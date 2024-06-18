@@ -23,7 +23,6 @@ WORKDIR "${homedir}"
 COPY --chown="${user}":999 arch arch
 COPY --chown="${user}":999 dependencies dependencies
 COPY --chown="${user}":999 patches patches
-COPY --chown="${user}":999 xios_examples xios_examples
 
 # Install dependencies (as root)
 RUN apt update
