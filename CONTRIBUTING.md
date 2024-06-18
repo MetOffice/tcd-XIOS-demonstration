@@ -26,6 +26,7 @@ below:
  - Mark Hedley (Met Office, UK)
  - Harry Shepherd (Met Office, UK)
  - Jeff Cole (NCAS, University of Reading, UK)
+ - Ricky Olivier (University of Exeter, UK)
 <!-- end-shortlog -->
 
 (All contributors are identifiable with email addresses in the version control
