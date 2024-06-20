@@ -119,7 +119,7 @@ contains
       call xios_get_current_date(current)
       ! Send the pressure data to the output file.
       call xios_send_field('pressure', inpdata)
-      ! Send the pressure data to the output file.
+      ! Send the temperature data to the output file.
       call xios_send_field('temperature', intdata)
     enddo
 

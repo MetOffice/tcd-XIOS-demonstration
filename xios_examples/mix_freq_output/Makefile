@@ -55,4 +55,5 @@ run:
 
 # cleanup
 clean:
-	rm -f *.exe *.o *.mod *.MOD *.out *.err *.nc
+#	rm -f *.exe *.o *.mod *.MOD *.out *.err *.nc
+	rm -f *.exe *.o *.mod

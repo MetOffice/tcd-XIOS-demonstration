@@ -22,5 +22,10 @@ class MixedFrequency(xshared._TestCase):
         """
         Check/test the frequency of outputted fields are correct.
         """
+        with open('{}/xios.xml'.format(self.test_dir)) as cxml:
+            print(cxml.read(), flush=True)
+        subprocess.run(['mpiexec', '-n', '1', './multiple_timestep.exe', ':',
+                        '-n', '1', './xios_server.exe'],
+                        cwd=self.test_dir, check=True)
         self.assertTrue(False)
 
