@@ -20,6 +20,9 @@
 
     <field_definition freq_op="1ts" enabled=".TRUE." operation="instant" >
       <field id="pressure" name="pressure" long_name="Air Pressure" standard_name="air_pressure" unit="Pa" grid_ref="model" />
+    </field_definition>
+
+    <field_definition freq_op="4ts" enabled=".TRUE." operation="instant" >
       <field id="temperature" name="temperature" long_name="Air Temperature" standard_name="air_temperature" unit="K" grid_ref="model" />
     </field_definition>
 

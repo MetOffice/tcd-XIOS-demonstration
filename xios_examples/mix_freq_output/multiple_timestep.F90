@@ -118,9 +118,9 @@ contains
       call xios_update_calendar(ts)
       call xios_get_current_date(current)
       ! Send the pressure data to the output file.
-      call xios_send_field('pressure', inpdata)
+      call xios_send_field('pressure', inpdata + ts*1000000)
       ! Send the temperature data to the output file.
-      call xios_send_field('temperature', intdata)
+      call xios_send_field('temperature', intdata + ts*1000000)
     enddo
 
     deallocate (inpdata)
