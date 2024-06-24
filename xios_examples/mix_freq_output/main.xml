@@ -26,7 +26,7 @@
 
   <file_definition type="one_file" enabled=".TRUE.">
     <file id="mixed_frequency" name="mixed_frequency" output_freq="1ts" enabled=".TRUE.">
-      <field_group operation="once">
+      <field_group operation="instant">
         <field field_ref="pressure" />
         <field field_ref="temperature"/>
       </field_group>

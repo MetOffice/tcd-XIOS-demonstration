@@ -27,5 +27,6 @@ class MixedFrequency(xshared._TestCase):
         subprocess.run(['mpiexec', '-n', '1', './multiple_timestep.exe', ':',
                         '-n', '1', './xios_server.exe'],
                         cwd=self.test_dir, check=True)
+        subprocess.run(['cp', 'mixed_frequency.nc', 'mixed_frequency.nc_saved'], cwd=self.test_dir, check=True)
         self.assertTrue(False)
 
