@@ -4,10 +4,8 @@ FROM ubuntu:22.04
 # Set up some environment variables to be used in XIOS build step
 ARG build_arch
 ARG xios_source
-ARG patch_file
 ENV arch $build_arch
 ENV xios $xios_source
-ENV patch $patch_file
 
 ENV user xiosuser 
 ENV homedir /home/$user/
@@ -22,7 +20,9 @@ WORKDIR "${homedir}"
 # Copy project relevant files
 COPY --chown="${user}":999 arch arch
 COPY --chown="${user}":999 dependencies dependencies
-COPY --chown="${user}":999 patches patches
+
+# Copy XIOS source code
+COPY --chown="${user}":999 "${xios}" XIOS
 
 # Install dependencies (as root)
 RUN apt update
@@ -35,8 +35,6 @@ RUN for dep in $(cat dependencies); do apt --yes install $dep; done
 USER "${user}"
 
 # Build XIOS
-RUN svn co "${xios}" XIOS && \
-    cp arch/* XIOS/arch/ && \
+RUN cp arch/* XIOS/arch/ && \
     cd XIOS && \
-    if [ ! -z "${patch}" ]; then patch -p0 < "${homedir}"/"${patch}" ; fi && \
     ./make_xios --job 4 --arch "${arch}" --debug
