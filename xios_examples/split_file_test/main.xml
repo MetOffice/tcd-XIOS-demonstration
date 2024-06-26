@@ -1,0 +1,39 @@
+<context>
+
+  <calendar type="Gregorian"/>
+
+    <axis_definition>
+      <axis id="model_levels" unit="1" name="levels" n_glo="39" value="(0,38)[1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 171 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39]"/>
+    </axis_definition>
+
+    <domain_definition>
+      <domain id="latlon1_domain" ni_glo="1" nj_glo="1" type="rectilinear" nvertex="2">
+      </domain>
+    </domain_definition>
+ 
+    <grid_definition>
+      <grid id="model">
+        <domain domain_ref="latlon1_domain" />
+        <axis axis_ref="model_levels" />
+      </grid>
+    </grid_definition>
+
+    <field_definition freq_op="1ts" enabled=".TRUE." operation="instant" >
+      <field id="pressure" name="pressure" long_name="Air Pressure" standard_name="air_pressure" unit="Pa" grid_ref="model" />
+    </field_definition>
+
+    <field_definition freq_op="1ts" enabled=".TRUE." operation="instant" >
+      <field id="temperature" name="temperature" long_name="Air Temperature" standard_name="air_temperature" unit="K" grid_ref="model" />
+    </field_definition>
+
+
+  <file_definition type="one_file" enabled=".TRUE.">
+    <file id="split_file" name="split_file" output_freq="1ts" split_freq="5ts" enabled=".TRUE.">
+      <field_group operation="instant">
+        <field field_ref="pressure" />
+        <field field_ref="temperature"/>
+      </field_group>
+    </file>
+  </file_definition>
+  
+</context>
