@@ -81,7 +81,9 @@ contains
     integer :: lenrz
     integer :: nlevs = 39
 
-    integer, parameter :: sim_period = 20
+    integer, parameter :: sim_period = 20      ! Total number of time steps
+    integer, parameter :: p_freq_output = 3    ! Time step interval between pressure field output
+    integer, parameter :: t_freq_output = 2    ! Time step interval between temp field output
 
     double precision, dimension (:), allocatable :: inpdata
     double precision, dimension (:), allocatable :: intdata
@@ -118,9 +120,13 @@ contains
       call xios_update_calendar(ts)
       call xios_get_current_date(current)
       ! Send the pressure data to the output file.
-      call xios_send_field('pressure', inpdata + ts*1000000)
+      if (mod(ts, p_freq_output) == 0) then
+        call xios_send_field('pressure', inpdata + ts*1000000)
+      end if
       ! Send the temperature data to the output file.
-      call xios_send_field('temperature', intdata + ts*1000000)
+      if (mod(ts, t_freq_output) == 0) then
+        call xios_send_field('temperature', intdata + ts*1000000)
+      end if
     enddo
 
     deallocate (inpdata)

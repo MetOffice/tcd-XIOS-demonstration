@@ -18,18 +18,18 @@
       </grid>
     </grid_definition>
 
-    <field_definition freq_op="1ts" enabled=".TRUE." operation="instant" >
+    <field_definition freq_op="3ts" enabled=".TRUE." operation="instant" >
       <field id="pressure" name="pressure" long_name="Air Pressure" standard_name="air_pressure" unit="Pa" grid_ref="model" />
     </field_definition>
 
-    <field_definition freq_op="4ts" enabled=".TRUE." operation="instant" >
+    <field_definition freq_op="2ts" enabled=".TRUE." operation="instant" >
       <field id="temperature" name="temperature" long_name="Air Temperature" standard_name="air_temperature" unit="K" grid_ref="model" />
     </field_definition>
 
 
   <file_definition type="one_file" enabled=".TRUE.">
-    <file id="mixed_frequency" name="mixed_frequency" output_freq="1ts" enabled=".TRUE.">
-      <field_group operation="instant">
+    <file output_freq="2ts" id="mixed_frequency" name="mixed_frequency" enabled=".TRUE.">
+      <field_group>
         <field field_ref="pressure" />
         <field field_ref="temperature"/>
       </field_group>
