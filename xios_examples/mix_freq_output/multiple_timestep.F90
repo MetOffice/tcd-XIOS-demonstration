@@ -37,8 +37,8 @@ contains
 
     ! Arbitrary datetime setup, required for XIOS but unused
     ! in this example
-    origin = xios_date(2022, 2, 2, 12, 0, 0)
-    start = xios_date(2022, 12, 13, 12, 0, 0)
+    origin = xios_date(2022, 12, 13, 01, 0, 0)
+    start = xios_date(2022, 12, 13, 01, 0, 0)
     tstep = xios_hour
 
     ! Initialise MPI and XIOS

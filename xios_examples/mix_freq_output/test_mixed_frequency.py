@@ -39,8 +39,8 @@ class MixedFrequency(xshared._TestCase):
             check=True,
         )
         #result = subprocess.run(
-        #    ["cp", "mixed_frequency.nc", "mixed_frequency.nc_saved"],
         #    cwd=self.test_dir,
+        #    ["cp", "mixed_frequency.nc", "mixed_frequency.nc_saved"],
         #    check=True,
         #)
         self.assertTrue(result.returncode == 0)
