@@ -3,8 +3,8 @@
   <calendar type="Gregorian"/>
 
   <domain_definition>
-
     <domain id="original_domain" type="rectilinear" />
+    <generate_rectilinear_domain/>
 
   </domain_definition>
 
@@ -24,7 +24,7 @@
 
   <file_definition type="one_file">
     <file id="domain_input" output_freq="1ts" mode="read" enabled=".true.">
-      <field id="odatain" name="original_data" grid_ref="original_grid" operation="instant" />
+      <field id="odatain" name="original_data" grid_ref="original_grid" operation="instant" read_access=".true." />
     </file>
     <file id="domain_output" output_freq="1ts">
       <field_group operation="once">

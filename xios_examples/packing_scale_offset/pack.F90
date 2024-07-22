@@ -28,6 +28,8 @@ contains
     integer :: mpi_error
     integer :: lenx
     integer :: leny
+    double precision, dimension (:), allocatable :: latvals, lonvals
+    double precision, dimension (:,:), allocatable :: latb, lonb
 
     ! Arbitrary datetime setup, required for XIOS but unused
     origin = xios_date(2022, 2, 2, 12, 0, 0)
@@ -54,14 +56,23 @@ contains
     call xios_get_axis_attr('x', n_glo=lenx)
     call xios_get_axis_attr('y', n_glo=leny)
 
-    ! initialize the main context for interacting with the data.
+    allocate ( lonvals(lenx) )
+    allocate ( latvals(leny) )
+    allocate ( lonb(2, lenx) )
+    allocate ( latb(2, leny) )
+
+    call xios_get_axis_attr('x', value=lonvals)
+    call xios_get_axis_attr('y', value=latvals)
+
+    ! ! initialize the main context for interacting with the data.
     call xios_context_initialize('main', comm)
 
     call xios_set_time_origin(origin)
     call xios_set_start_date(start)
     call xios_set_timestep(tstep)
 
-    call xios_set_domain_attr("original_domain", ni=lenx, nj=leny, ibegin=0, jbegin=0)
+    call xios_set_domain_attr("original_domain", ni_glo=lenx, nj_glo=leny, ni=lenx, nj=leny, ibegin=0, jbegin=0)
+    call xios_set_domain_attr("original_domain", lonvalue_1d=lonvals, latvalue_1d=latvals)
 
     call xios_close_context_definition()
 
@@ -76,7 +87,7 @@ contains
     call xios_context_finalize()
     call xios_set_current_context('main')
     call xios_context_finalize()
-    call MPI_Comm_free(comm, mpi_error)
+    ! call MPI_Comm_free(comm, mpi_error)
     call xios_finalize()
     call MPI_Finalize(mpi_error)
 
@@ -93,6 +104,7 @@ contains
     ! Allocatable arrays, size is taken from input file
     double precision, dimension (:,:), allocatable :: inodata
 
+    print *, "simulate"
     call xios_get_domain_attr('original_domain', ni_glo=lenx)
     call xios_get_domain_attr('original_domain', nj_glo=leny)
 

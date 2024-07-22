@@ -1,0 +1,31 @@
+netcdf domain_input {
+dimensions:
+        x = 5 ;
+        y = 5 ;
+variables:
+        float x(x) ;
+                x:long_name = "original x coordinate" ;
+                x:units = "1";
+        float y(y) ;
+                y:long_name = "original y coordinate" ;
+                y:units = "1";
+        double original_data(y,x) ;
+                original_data:long_name = "input data values" ;
+                original_data:units = "1";
+
+// global attributes:
+                :title = "Input data for XIOS Domain resampling; data is a sum of the x & y coordinates each multiplied by 1/3; x/3 + y/3 ." ;
+
+data:
+
+ x = 0, 2, 4, 6, 8 ;
+
+ y = 0, 2, 4, 6, 8 ;
+
+ original_data =  0,  0.6666666666666666,  1.3333333333333333,  2,  2.6666666666666665,
+                  0.6666666666666666,  1.3333333333333333,  2,  2.6666666666666665, 3.3333333333333335,
+                  1.3333333333333333,  2,  2.6666666666666665, 3.3333333333333335, 4,
+                  2,  2.6666666666666665, 3.3333333333333335, 4, 4.666666666666667,
+                  2.6666666666666665, 3.3333333333333335, 4, 4.666666666666667, _ ;
+
+}
