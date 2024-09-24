@@ -10,6 +10,13 @@
     </variable_group>
     
     <variable_group id="parameters" >
+    <variable id="transport_protocol" type="string" >p2p</variable>
+    <variable id="transport_protocol" type="string" >p2p</variable>
+    <variable id="transport_protocol" type="string" >p2p</variable>
+    <variable id="transport_protocol" type="string" >p2p</variable>
+    <variable id="transport_protocol" type="string" >p2p</variable>
+    <variable id="transport_protocol" type="string" >p2p</variable>
+    <variable id="transport_protocol" type="string" >p2p</variable>
        <variable id="using_server" type="bool">true</variable>
        <variable id="info_level" type="int">
 	100

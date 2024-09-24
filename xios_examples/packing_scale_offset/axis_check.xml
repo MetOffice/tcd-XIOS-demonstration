@@ -18,7 +18,7 @@
 
   <file_definition type="one_file">
     <file id="din" name="domain_input" output_freq="1ts" mode="read" enabled=".true.">
-      <field id="odatax" name="original_data" grid_ref="oax_grid" operation="instant" />
+      <field id="odatax" name="original_data" grid_ref="oax_grid" operation="instant" read_access=".true." />
     </file>
   </file_definition>
   

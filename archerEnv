@@ -12,7 +12,7 @@ export NETCDF_LIBDIR=-L$NETCDF_DIR/lib
 export NETCDF_INCDIR=-I$NETCDF_DIR/include/
 
 # set XIOS build to XIOS3 marqh build, if not already set
-: ${XIOS_DIR=/work/n02/n02/marqh/metofficegit/tcd-XIOS3-extras}
+: ${XIOS_DIR=/work/n02/n02/marqh/metofficegit/tcd-XIOS3-extras-debug}
 
 # provide explicit paths to all XIOS components
 export XIOS_INCDIR=$XIOS_DIR/inc
@@ -26,4 +26,4 @@ export PLATFORM=Archer2
 : ${MVER=XIOS3/trunk}
 export MVER
 # start interative session
-salloc --nodes=2 --ntasks-per-node=8 --cpus-per-task=1 --time=00:15:00 --partition=standard --qos=short --account=n02-cms
+salloc --nodes=2 --ntasks-per-node=8 --cpus-per-task=1 --time=00:15:00 --partition=standard --qos=short --account=n02-ngarch

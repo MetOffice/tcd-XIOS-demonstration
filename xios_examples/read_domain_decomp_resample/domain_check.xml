@@ -2,22 +2,23 @@
 
   <calendar type="Gregorian"/>
 
-  <domain_definition>
-
-    <domain id="original_domain" type="rectilinear" >
-      <generate_rectilinear_domain/>
-    </domain>
-
-    <domain id="resampled_domain" type="rectilinear" >
-      <generate_rectilinear_domain/>
-    </domain>
-
-  </domain_definition>
+  <grid_definition>
+    <grid id="original_grid_read">
+      <domain id="original_domain_read" type="rectilinear" >
+       <generate_rectilinear_domain/>
+      </domain>
+    </grid>
+    <grid id="resampled_grid_read">
+      <domain id="resampled_domain_read" type="rectilinear" >
+       <generate_rectilinear_domain/>
+      </domain>
+    </grid>
+  </grid_definition>
 
   <file_definition type="one_file">
     <file id="din" name="domain_input" output_freq="1ts" mode="read" enabled=".true.">
-      <field id="odatax" name="original_data" domain_ref="original_domain" operation="instant" />
-      <field id="edatax" name="resample_data" domain_ref="resampled_domain" operation="instant" />
+      <field id="odatax" name="original_data" grid_ref="original_grid_read" operation="instant" read_access=".true." />
+      <field id="edatax" name="resample_data" grid_ref="resampled_grid_read" operation="instant" read_access=".true." />
     </file>
   </file_definition>
   

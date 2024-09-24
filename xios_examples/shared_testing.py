@@ -137,7 +137,7 @@ class _TestCase(unittest.TestCase):
 
     @classmethod
     def make_a_resample_test(cls, inf, nc_method='cdl_files',
-                             nclients=1, nservers=1):
+                             nclients=1, nservers=1, ncdump=False):
         """
         this function makes a test case and returns it as a test function,
         suitable to be dynamically added to a TestCase for running.
@@ -156,6 +156,9 @@ class _TestCase(unittest.TestCase):
             # load the result netCDF file
             runfile = '{}/{}'.format(cls.test_dir, outputfile)
             assert(os.path.exists(runfile))
+            if ncdump:
+                subprocess.run(['ncdump', '-s', outputfile],
+                               cwd=cls.test_dir, check=True)
             rootgrp = netCDF4.Dataset(runfile, 'r')
             # read data from the resampled, expected & diff variables
             diff = rootgrp['resampled_minus_resample'][:]

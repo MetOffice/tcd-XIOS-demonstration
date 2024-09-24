@@ -1,10 +1,10 @@
 netcdf domain_input {
 dimensions:
-        x = 5 ;
-        y = 5 ;
-        x_resample = 2 ;
-        y_resample = 2 ;
-	nbounds = 2 ;
+        x = 9 ;
+        y = 9 ;
+        x_resample = 6 ;
+        y_resample = 6 ;
+
 variables:
         float x(x) ;
                 x:long_name = "original x coordinate" ;
@@ -22,10 +22,6 @@ variables:
                 y_resample:long_name = "resampled y coordinate" ;
                 y_resample:units = "1";
 		y_resample:bounds = "y_resample_bounds";
-	float x_bounds(x, nbounds) ;
-	float y_bounds(y, nbounds) ;
-	float x_resample_bounds(x_resample, nbounds) ;
-	float y_resample_bounds(y_resample, nbounds) ;
         double original_data(y,x) ;
                 original_data:long_name = "input data values" ;
                 original_data:units = "1";
@@ -38,29 +34,32 @@ variables:
 
 data:
 
- x = 0, 2, 4, 6, 8 ;
+ x = 0, 2, 4, 6, 8, 10, 12, 14, 16 ;
 
- y = 0, 2, 4, 6, 8 ;
+ y = 0, 2, 4, 6, 8, 10, 12, 14, 16;
 
- x_resample = 3, 5 ;
+ x_resample = 3, 5, 7, 9, 11, 13 ;
 
- y_resample = 3, 5 ;
+ y_resample = 3, 5, 7, 9, 11, 13 ;
 
- x_bounds = -1, 1, 1, 3, 3, 5, 5, 7, 7, 9 ;
 
- y_bounds = -1, 1, 1, 3, 3, 5, 5, 7, 7, 9 ;
+ original_data =  0,  2,  4,  6,  8, 10, 12, 14, 16,
+                  2,  4,  6,  8, 10, 12, 14, 16, 18,
+                  4,  6,  8, 10, 12, 14, 16, 18, 20,
+                  6,  8, 10, 12, 14, 16, 18, 20, 22,
+                  8, 10, 12, 14, 16, 18, 20, 22, 24,
+                 10, 12, 14, 16, 18, 20, 22, 24, 26,
+		 12, 14, 16, 18, 20, 22, 24, 26, 28,
+		 14, 16, 18, 20, 22, 24, 26, 28, 30,
+		 16, 18, 20, 22, 24, 26, 28, 30, 32
+		 ;
 
- x_resample_bounds = 2, 4, 4, 6 ;
-
- y_resample_bounds = 2, 4, 4, 6 ;
-
- original_data =  0,  2,  4,  6,  8,
-                  2,  4,  6,  8, 10,
-                  4,  6,  8, 10, 12,
-                  6,  8, 10, 12, 14,
-                  8, 10, 12, 14, 16 ;
-
- resample_data = 6, 8,
-                 8, 10 ;
+ resample_data =  6,  8, 10, 12, 14, 16, 
+                  8, 10, 12, 14, 16, 18,
+		 10, 12, 14, 16, 18, 20,
+		 12, 14, 16, 18, 20, 22,
+		 14, 16, 18, 20, 22, 24,
+		 16, 18, 20, 22, 24, 26
+		 ;
 
 }
