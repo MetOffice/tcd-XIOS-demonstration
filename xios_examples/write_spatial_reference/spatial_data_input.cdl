@@ -1,0 +1,37 @@
+netcdf domain_input {
+dimensions:
+        lon = 5 ;
+        lat = 5 ;
+        alt = 1 ;
+variables:
+        float lon(lon) ;
+                lon:standard_name = "longitude" ;
+                lon:units = "degrees";
+        float lat(lat) ;
+                lat:standard_name = "latitude" ;
+                lat:units = "degrees";
+        float alt(alt) ;
+                alt:standard_name = "altitude" ;
+                alt:units = "metres";                
+        double original_data(alt, lat, lon) ;
+                original_data:long_name = "data values" ;
+                original_data:units = "1";
+
+// global attributes:
+                :title = "Input data for XIOS output." ;
+
+data:
+
+ lat = 50, 52, 54, 56, 58 ;
+
+ lon = -4, -2, 0, 2, 4 ;
+
+ alt = 50 ;
+
+ original_data =  0,  2,  4,  6,  8,
+                  2,  4,  6,  8, 10,
+                  4,  6,  8, 10, 12,
+                  6,  8, 10, 12, 14,
+                  8, 10, 12, 14, 16 ;
+
+}

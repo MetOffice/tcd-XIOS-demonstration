@@ -7,7 +7,12 @@ import subprocess
 import unittest
 from pathlib import Path
 
-import xios_examples.gen_netcdf as gn
+# Python version compatability work around
+# This gives limited test functionality for old version of Python
+try:
+    import xios_examples.gen_netcdf as gn
+except SyntaxError:
+    gn = None
 
 this_path = os.path.realpath(__file__)
 this_dir = os.path.dirname(this_path)

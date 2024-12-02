@@ -1,0 +1,98 @@
+netcdf spatial_data_output {
+dimensions:
+	axis_nbounds = 2 ;
+	lon = 5 ;
+	lat = 5 ;
+	alt = 1 ;
+	time_counter = UNLIMITED ; // (1 currently)
+variables:
+	float lat(lat) ;
+		lat:axis = "Y" ;
+		lat:standard_name = "latitude" ;
+		lat:long_name = "Latitude" ;
+		lat:units = "degrees_north" ;
+	float lon(lon) ;
+		lon:axis = "X" ;
+		lon:standard_name = "longitude" ;
+		lon:long_name = "Longitude" ;
+		lon:units = "degrees_east" ;
+	float alt(alt) ;
+		alt:name = "alt" ;
+		alt:standard_name = "altitude" ;
+		alt:units = "metres" ;
+	double time_instant(time_counter) ;
+		time_instant:standard_name = "time" ;
+		time_instant:long_name = "Time axis" ;
+		time_instant:calendar = "gregorian" ;
+		time_instant:units = "seconds since 2022-02-02 12:00:00" ;
+		time_instant:time_origin = "2022-02-02 12:00:00" ;
+		time_instant:bounds = "time_instant_bounds" ;
+	double time_instant_bounds(time_counter, axis_nbounds) ;
+	double time_counter(time_counter) ;
+		time_counter:axis = "T" ;
+		time_counter:standard_name = "time" ;
+		time_counter:long_name = "Time axis" ;
+		time_counter:calendar = "gregorian" ;
+		time_counter:units = "seconds since 2022-02-02 12:00:00" ;
+		time_counter:time_origin = "2022-02-02 12:00:00" ;
+		time_counter:bounds = "time_counter_bounds" ;
+	double time_counter_bounds(time_counter, axis_nbounds) ;
+	double original_data(time_counter, alt, lat, lon) ;
+		original_data:long_name = "Arbitrary data values" ;
+		original_data:units = "1" ;
+		original_data:online_operation = "instant" ;
+		original_data:interval_operation = "1 h" ;
+		original_data:interval_write = "1 h" ;
+		original_data:cell_methods = "time: point" ;
+		original_data:coordinates = "time_instant" ;
+		original_data:grid_mapping = "wgs84_2d:lat lon egm2008:alt" ;
+	short wgs84_2d ;
+		wgs84_2d:long_name = "WGS84 CRS" ;
+		wgs84_2d:online_operation = "once" ;
+		wgs84_2d:_FillValue = -32767s ;
+		wgs84_2d:missing_value = -32767s ;
+		wgs84_2d:coordinates = "" ;
+		wgs84_2d:crs_wkt = "GEOGCRS[\"WGS 84\",ENSEMBLE[\"World Geodetic System 1984 ensemble\", MEMBER[\"World Geodetic System 1984 (Transit)\", ID[\"EPSG\",1166]], MEMBER[\"World Geodetic System 1984 (G730)\", ID[\"EPSG\",1152]], MEMBER[\"World Geodetic System 1984 (G873)\", ID[\"EPSG\",1153]], MEMBER[\"World Geodetic System 1984 (G1150)\", ID[\"EPSG\",1154]], MEMBER[\"World Geodetic System 1984 (G1674)\", ID[\"EPSG\",1155]], MEMBER[\"World Geodetic System 1984 (G1762)\", ID[\"EPSG\",1156]], MEMBER[\"World Geodetic System 1984 (G2139)\", ID[\"EPSG\",1309]], MEMBER[\"World Geodetic System 1984 (G2296)\", ID[\"EPSG\",1383]], ELLIPSOID[\"WGS 84\",6378137,298.257223563,LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]],ID[\"EPSG\",7030]], ENSEMBLEACCURACY[2],ID[\"EPSG\",6326]],CS[ellipsoidal,2,ID[\"EPSG\",6422]],AXIS[\"Geodetic latitude (Lat)\",north],AXIS[\"Geodetic longitude (Lon)\",east],ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9102]],ID[\"EPSG\",4326]]" ;
+	short egm2008 ;
+		egm2008:online_operation = "once" ;
+		egm2008:_FillValue = -32767s ;
+		egm2008:missing_value = -32767s ;
+		egm2008:coordinates = "" ;
+		egm2008:crs_wkt = "VERTCRS[\"EGM2008 height\",VDATUM[\"EGM2008 geoid\",ID[\"EPSG\",1027]],CS[vertical,1,ID[\"EPSG\",6499]],AXIS[\"Gravity-related height (H)\",up],LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]],GEOIDMODEL[\"WGS 84 to EGM2008 height (1)\",ID[\"EPSG\",3858]],GEOIDMODEL[\"WGS 84 to EGM2008 height (2)\",ID[\"EPSG\",3859]],ID[\"EPSG\",3855]]" ;
+
+// global attributes:
+		:Conventions = "CF-1.6" ;
+		:timeStamp = "2024-Nov-07 16:13:45 GMT" ;
+		:uuid = "5fc977f2-af3c-4a77-80df-fe8f0ae155cb" ;
+		:name = "Spatial Metadata demonstration" ;
+		:description = "Spatial metadata for coordinates is controlled." ;
+		:title = "Spatial Metadata demonstration" ;
+data:
+
+ lat = 50, 52, 54, 56, 58 ;
+
+ lon = -4, -2, 0, 2, 4 ;
+
+ alt = 50 ;
+
+ time_instant = 27133200 ;
+
+ time_instant_bounds =
+  27133200, 27133200 ;
+
+ time_counter = 27133200 ;
+
+ time_counter_bounds =
+  27133200, 27133200 ;
+
+ original_data =
+  0, 2, 4, 6, 8,
+  2, 4, 6, 8, 10,
+  4, 6, 8, 10, 12,
+  6, 8, 10, 12, 14,
+  8, 10, 12, 14, 16 ;
+
+ wgs84_2d = _ ;
+
+ egm2008 = _ ;
+}
