@@ -9,7 +9,7 @@ on:
 jobs:
   build_test:
     name: build test
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     strategy:
       matrix:
         version: [XIOS/trunk@2252, XIOS2/trunk, XIOS3/trunk]
@@ -27,7 +27,6 @@ jobs:
           cp arch/* XIOS/arch/
           cd XIOS
           if [ ${{ matrix.version }} == 'XIOS3/trunk' ]; then
-            patch -p0 < ../patches/xios3/revert_svn2517_transport.patch
             sed -i 's/<variable_group id="parameters" >/<variable_group id="parameters" > <variable id="transport_protocol" type="string" >p2p<\/variable>/g' generic_testcase/iodef.xml
             cat generic_testcase/iodef.xml
           fi
