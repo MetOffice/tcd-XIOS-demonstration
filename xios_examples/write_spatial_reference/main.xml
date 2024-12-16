@@ -1,0 +1,60 @@
+<context>
+
+  <calendar type="Gregorian"/>
+
+  <axis_definition>
+    <axis id="lon" unit="degrees" standard_name="longitude" />
+    <axis id="lat" unit="degrees" standard_name="latitude" />
+    <axis id="alt" unit="metres" standard_name="altitude" />
+
+  </axis_definition>
+
+
+  <domain_definition>
+
+    <domain id="original_domain" type="rectilinear" />
+    <generate_rectilinear_domain/>
+  </domain_definition>
+
+  <grid_definition>
+
+    <grid id="original_grid">
+      <domain domain_ref="original_domain" />
+      <axis axis_ref="alt" />
+    </grid>
+    <grid id="metadata_grid" >
+      <scalar/>
+    </grid>
+
+  </grid_definition>
+
+  <field_definition prec="8">
+    <field id="odata" name="original_data" grid_ref="original_grid" long_name="Arbitrary data values" unit="1"  />
+  </field_definition>
+
+
+  <file_definition type="one_file">
+    <file id="spatial_data_input" output_freq="1ts" mode="read" enabled=".true.">
+      <field id="odatain" name="original_data" grid_ref="original_grid" operation="instant" read_access=".true." />
+    </file>
+    <file id="spatial_data_output" output_freq="1ts">
+      <field_group operation="instant">
+        <field field_ref="odata" >
+          <variable name="grid_mapping" type="string">wgs84_2d:lat lon egm2008:alt</variable>
+        </field>
+      </field_group>
+      <field_group operation="once">
+        <field id="hcrs" name="wgs84_2d" grid_ref="metadata_grid" prec="2" long_name="WGS84 CRS" default_value="-32767">
+          <variable name="crs_wkt" type="string">GEOGCRS["WGS 84",ENSEMBLE["World Geodetic System 1984 ensemble", MEMBER["World Geodetic System 1984 (Transit)", ID["EPSG",1166]], MEMBER["World Geodetic System 1984 (G730)", ID["EPSG",1152]], MEMBER["World Geodetic System 1984 (G873)", ID["EPSG",1153]], MEMBER["World Geodetic System 1984 (G1150)", ID["EPSG",1154]], MEMBER["World Geodetic System 1984 (G1674)", ID["EPSG",1155]], MEMBER["World Geodetic System 1984 (G1762)", ID["EPSG",1156]], MEMBER["World Geodetic System 1984 (G2139)", ID["EPSG",1309]], MEMBER["World Geodetic System 1984 (G2296)", ID["EPSG",1383]], ELLIPSOID["WGS 84",6378137,298.257223563,LENGTHUNIT["metre",1,ID["EPSG",9001]],ID["EPSG",7030]], ENSEMBLEACCURACY[2],ID["EPSG",6326]],CS[ellipsoidal,2,ID["EPSG",6422]],AXIS["Geodetic latitude (Lat)",north],AXIS["Geodetic longitude (Lon)",east],ANGLEUNIT["degree",0.0174532925199433,ID["EPSG",9102]],ID["EPSG",4326]]</variable>
+      </field>
+        <field id="vcrs" name="egm2008" grid_ref="metadata_grid" prec="2" default_value="-32767">
+          <variable name="crs_wkt" type="string">VERTCRS["EGM2008 height",VDATUM["EGM2008 geoid",ID["EPSG",1027]],CS[vertical,1,ID["EPSG",6499]],AXIS["Gravity-related height (H)",up],LENGTHUNIT["metre",1,ID["EPSG",9001]],GEOIDMODEL["WGS 84 to EGM2008 height (1)",ID["EPSG",3858]],GEOIDMODEL["WGS 84 to EGM2008 height (2)",ID["EPSG",3859]],ID["EPSG",3855]]</variable>
+      </field>
+      </field_group>
+      <variable name="name" type="string">Spatial Metadata demonstration</variable>
+      <variable name="description" type="string">Spatial metadata for coordinates is controlled.</variable>
+      <variable name="title" type="string">Spatial Metadata demonstration</variable>
+    </file>
+  </file_definition>
+  
+</context>
