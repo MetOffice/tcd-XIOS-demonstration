@@ -1,0 +1,49 @@
+Index: extern/remap/src/earcut.hpp
+===================================================================
+--- extern/remap/src/earcut.hpp	(revision 2252)
++++ extern/remap/src/earcut.hpp	(working copy)
+@@ -7,7 +7,7 @@
+ #include <vector>
+ #include <limits>
+ //#include <tuple>
+-//#include <cstdint> 
++#include <cstdint> 
+ //#include <cstddef>
+ 
+ namespace mapbox {
+Index: extern/remap/src/elt.hpp
+===================================================================
+--- extern/remap/src/elt.hpp	(revision 2252)
++++ extern/remap/src/elt.hpp	(working copy)
+@@ -2,6 +2,7 @@
+ #define __ELT_H__
+ #include <list>
+ #include "triple.hpp"
++#include <array>
+ 
+ #define NMAX 10 /**< maximum number of vertices for polygons */
+ 
+Index: src/io/nc4_data_output.cpp
+===================================================================
+--- src/io/nc4_data_output.cpp	(revision 2252)
++++ src/io/nc4_data_output.cpp	(working copy)
+@@ -11,6 +11,7 @@
+ #include "exception.hpp"
+ #include "timer.hpp"
+ #include "uuid.hpp"
++#include <cfloat>
+ namespace xios
+ {
+       /// ////////////////////// Dfinitions ////////////////////// ///
+Index: src/xios_spl.hpp
+===================================================================
+--- src/xios_spl.hpp	(revision 2252)
++++ src/xios_spl.hpp	(working copy)
+@@ -16,6 +16,7 @@
+ 
+ // Conteneurs.
+ #include <vector>
++#include <array>
+ #include <set>
+ #include <stack>
+ #include <list>

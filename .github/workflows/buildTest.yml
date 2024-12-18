@@ -9,7 +9,7 @@ on:
 jobs:
   build_test:
     name: build test
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     strategy:
       matrix:
         version: [XIOS/trunk@2252, XIOS2/trunk, XIOS3/trunk]
@@ -29,6 +29,8 @@ jobs:
           if [ ${{ matrix.version }} == 'XIOS3/trunk' ]; then
             sed -i 's/<variable_group id="parameters" >/<variable_group id="parameters" > <variable id="transport_protocol" type="string" >p2p<\/variable>/g' generic_testcase/iodef.xml
             cat generic_testcase/iodef.xml
+          elif [ ${{ matrix.version }} == 'XIOS/trunk@2252' ]; then
+            patch -p0 < ../patches/xios2/compilePatches.r2252.patch
           fi
           ./make_xios --job 2 --arch GCC_LINUX_APT --debug
           cd ..
