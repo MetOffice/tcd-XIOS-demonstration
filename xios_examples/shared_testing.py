@@ -33,17 +33,34 @@ class _TestCase(unittest.TestCase):
             subprocess.run(['ncgen', '-k', 'nc4', '-o', inputfile,
                             inf], cwd=cls.test_dir, check=True)
         elif nc_method == 'data_func':
-            mesh_file_nc = None
-            if cls.mesh_file_cdl is not None:
-                mesh_file_nc = Path(cls.mesh_file_cdl).with_suffix('.nc')
+            cwd = Path(cls.test_dir)
+            inputfile = cwd/inputfile
+            if cls.mesh_file_cdl is None:
+                ugrid_inputfile = None
+                mesh_file_nc = None
+                nlat = [101,81]
+                nlon = [100,80]
+                dim_suffix = ['','_resample']
+                data_name = ['original_data','resample_data']
+                ugrid_data_name = None
+            else:
+                mesh_file_nc = cwd/Path(cls.mesh_file_cdl).with_suffix('.nc')
                 # create a mesh netCDF file from the mesh `.cdl` file
                 subprocess.run(['ncgen', '-k', 'nc4', '-o', mesh_file_nc,
                                 cls.mesh_file_cdl], cwd=cls.test_dir, check=True)
+                name, ext = os.path.splitext(inputfile)
+                ugrid_inputfile = f"{name}_ugrid{ext}"
+                nlat = [81]
+                nlon = [80]
+                dim_suffix = ['_resample']
+                data_name = ['resample_data']
+                ugrid_data_name = 'original_data'
+
             # create a  netCDF file from an analytic function
-            cwd = Path(cls.test_dir)
-            if mesh_file_nc is not None:
-                mesh_file_nc = cwd/mesh_file_nc
-            gn.run(cwd/inputfile, func_str=inf, mesh_file=mesh_file_nc)
+            gn.run(file_out=inputfile, ugrid_file_out=ugrid_inputfile,
+                   nlat=nlat, nlon=nlon, dim_suffix=dim_suffix,
+                   data_name=data_name, ugrid_data_name=ugrid_data_name,
+                   func_str=inf, mesh_file=mesh_file_nc)
 
     @classmethod
     def run_mpi_xios(cls, nclients=1, nservers=1):
