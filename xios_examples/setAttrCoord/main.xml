@@ -1,0 +1,54 @@
+<context>
+
+  <calendar type="Gregorian"/>
+
+  <scalar_definition>
+    <scalar id="frt" standard_name="forecast_reference_time" />
+  </scalar_definition>
+  
+  <axis_definition>
+    <axis id="x" />
+    <axis id="y" />
+    <axis id="alt" unit="metres" standard_name="altitude" />
+
+  </axis_definition>
+
+
+  <grid_definition>
+
+    <grid id="original_grid">
+      <axis axis_ref="x" />
+      <axis axis_ref="y" />
+      <axis axis_ref="alt" />
+
+    </grid>
+
+  </grid_definition>
+
+  <field_definition prec="8">
+    <field id="odata" name="original_data" grid_ref="original_grid" long_name="Arbitrary data values" unit="1"  />
+  </field_definition>
+
+
+  <file_definition type="one_file">
+    <file id="data_input" output_freq="1ts" mode="read" enabled=".true.">
+      <field id="odatain" name="original_data" grid_ref="original_grid" operation="instant" read_access=".true." />
+    </file>
+    <file id="data_output" output_freq="1ts">
+      <field_group operation="instant">
+        <field field_ref="odata" >
+
+        </field>
+      </field_group>
+
+      <scalar scalar_ref="frt" />
+
+      <variable name="name" type="string">Attribute demonstration</variable>
+
+      <variable name="title" type="string">Attribute demonstration</variable>
+  
+
+    </file>
+  </file_definition>
+  
+</context>
