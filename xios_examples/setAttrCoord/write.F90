@@ -97,6 +97,7 @@ contains
                               unit="m", long_name="y coordinate of projection")
     end if
     
+
     call xios_close_context_definition()
 
   end subroutine initialise
@@ -117,11 +118,11 @@ contains
   subroutine simulate()
 
     type(xios_date) :: current
-    double precision :: frtv
     integer :: ts
     integer :: lenx
     integer :: leny
     integer :: lenz
+    double precision :: frtv
 
     ! Allocatable arrays, size is taken from input file
     double precision, dimension (:,:,:), allocatable :: inodata
@@ -137,11 +138,16 @@ contains
     ! Load data from the input file
     call xios_recv_field('odatain', inodata)
 
-    frtv=9
-    do ts=1, 1
+    do ts=1, 2
       call xios_update_calendar(ts)
       call xios_get_current_date(current)
-      call xios_set_scalar_attr("frt", value=frtv)
+      ! hardcoded 9
+      frtv=9
+      ! send frt on ts0 only
+      if (ts == 1) then
+        call xios_send_field("frt", frtv)
+      end if
+      
       ! Send (copy) the original data to the output file.
       call xios_send_field('odata', inodata)
     enddo

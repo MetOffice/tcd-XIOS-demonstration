@@ -11,4 +11,4 @@ export FCFLAGS="-g $FFLAGS"
 export LDFLAGS="$LDFLAGS -lxios -lnetcdf -lnetcdff -lstdc++"
 export FC=mpif90
 export XIOS_BINDIR=`which xios_server.exe | xargs dirname`
-export MVER=XIOS/trunk
+export MVER=XIOS2/trunk

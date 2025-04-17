@@ -3,9 +3,9 @@
   <calendar type="Gregorian"/>
 
   <scalar_definition>
-    <scalar id="frt" standard_name="forecast_reference_time" />
+    <scalar id="time_origin"/>
   </scalar_definition>
-  
+
   <axis_definition>
     <axis id="x" />
     <axis id="y" />
@@ -20,7 +20,7 @@
       <axis axis_ref="x" />
       <axis axis_ref="y" />
       <axis axis_ref="alt" />
-
+      <scalar scalar_ref="time_origin" />
     </grid>
 
   </grid_definition>
@@ -40,8 +40,8 @@
 
         </field>
       </field_group>
-
-      <scalar scalar_ref="frt" />
+      
+      <field id="frt" name="forecast_reference_time" standard_name="forecast_reference_time" scalar_ref="time_origin" operation="once" default_value="_reset_" detect_missing_value="_reset_" />
 
       <variable name="name" type="string">Attribute demonstration</variable>
 
