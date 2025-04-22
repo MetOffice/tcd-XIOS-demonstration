@@ -8,7 +8,8 @@
 program write
   use xios
   use mpi
-
+  USE, INTRINSIC :: ISO_C_BINDING
+  
   implicit none
 
   integer :: comm = -1
@@ -30,8 +31,8 @@ contains
     integer :: leny
     integer :: lenz
     double precision, dimension (:), allocatable :: y_vals, x_vals, altvals
+    character(len=64) :: t_origin
 
-    ! Arbitrary datetime setup, required for XIOS but unused
     origin = xios_date(2022, 2, 2, 12, 0, 0)
     start = xios_date(2022, 12, 13, 12, 0, 0)
     tstep = xios_hour
@@ -96,7 +97,8 @@ contains
       call xios_set_axis_attr("y", standard_name="projection_y_coordinate", &
                               unit="m", long_name="y coordinate of projection")
     end if
-    
+    call xios_date_convert_to_string(origin, t_origin)
+    call xios_set_field_attr("frt", unit="seconds since "//t_origin)
 
     call xios_close_context_definition()
 
@@ -117,6 +119,7 @@ contains
 
   subroutine simulate()
 
+    type(xios_date) :: start
     type(xios_date) :: current
     integer :: ts
     integer :: lenx
@@ -145,6 +148,8 @@ contains
       frtv=9
       ! send frt on ts0 only
       if (ts == 1) then
+        call xios_get_start_date(start)
+        frtv = dble(xios_date_convert_to_seconds(start))
         call xios_send_field("frt", frtv)
       end if
       

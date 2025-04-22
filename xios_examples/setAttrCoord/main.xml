@@ -20,7 +20,6 @@
       <axis axis_ref="x" />
       <axis axis_ref="y" />
       <axis axis_ref="alt" />
-      <scalar scalar_ref="time_origin" />
     </grid>
 
   </grid_definition>

@@ -4,7 +4,7 @@ dimensions:
 	x = 5 ;
 	y = 5 ;
 	alt = 1 ;
-	time_counter = UNLIMITED ; // (1 currently)
+	time_counter = UNLIMITED ; // (2 currently)
 variables:
 	float x(x) ;
 		x:name = "x" ;
@@ -37,11 +37,11 @@ variables:
 		time_counter:time_origin = "2022-02-02 12:00:00" ;
 		time_counter:bounds = "time_counter_bounds" ;
 	double time_counter_bounds(time_counter, axis_nbounds) ;
-	double forecast_reference_time ;
-	        forecast_reference_time:standard_name = "forecast_reference_time" ;
-		forecast_reference_time:calendar = "gregorian" ;
+	float forecast_reference_time ;
+		forecast_reference_time:standard_name = "forecast_reference_time" ;
 		forecast_reference_time:units = "seconds since 2022-02-02 12:00:00" ;
-		forecast_reference_time:time_origin = "2022-02-02 12:00:00" ;	
+		forecast_reference_time:online_operation = "once" ;
+		forecast_reference_time:calendar = "gregorian" ;
 	double original_data(time_counter, alt, y, x) ;
 		original_data:long_name = "Arbitrary data values" ;
 		original_data:units = "1" ;
@@ -66,19 +66,26 @@ data:
 
  alt = 50 ;
 
- time_instant = 27133200 ;
+ time_instant = 27133200, 27136800 ;
 
  time_instant_bounds =
-  27133200, 27133200 ;
+  27133200, 27133200,
+  27136800, 27136800 ;
 
- time_counter = 27133200 ;
+ time_counter = 27133200, 27136800 ;
 
  time_counter_bounds =
-  27133200, 27133200 ;
+  27133200, 27133200,
+  27136800, 27136800 ;
 
- forecast_reference_time = 27133200 ; 
+ forecast_reference_time = 2.71296e+07 ;
 
  original_data =
+  0, 2, 4, 6, 8,
+  2, 4, 6, 8, 10,
+  4, 6, 8, 10, 12,
+  6, 8, 10, 12, 14,
+  8, 10, 12, 14, 16,
   0, 2, 4, 6, 8,
   2, 4, 6, 8, 10,
   4, 6, 8, 10, 12,
