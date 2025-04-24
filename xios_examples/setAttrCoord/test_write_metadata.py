@@ -44,7 +44,7 @@ class TestWriteMetadata(xshared._TestCase):
 
             with open(f'{this_dir}/expected_domain_output.cdl') as fin:
                 exptd = fin.read()
-            emsg = '\n\n'
+            emsg = ''
             for eline, aline in zip(exptd.split('\n'),
                                     ncd.stdout.decode("utf-8").split('\n')):
                 if eline != aline:
@@ -53,7 +53,7 @@ class TestWriteMetadata(xshared._TestCase):
                     if not (':timeStamp' in eline or ':uuid' in eline):
                         emsg += eline + '\n' + aline + '\n\tmismatch\n\n'
 
-            self.assertFalse(emsg, msg=emsg)
+            self.assertFalse(emsg, msg='\n\n' + emsg)
         return test_write_metadata
 
 

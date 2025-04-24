@@ -4,8 +4,8 @@
 
   <grid_definition>
     <grid id="oax_grid">
-      <axis id="lon" />
-      <axis id="lat" />
+      <axis id="x" />
+      <axis id="y" />
       <axis id="alt" />
     </grid>
 

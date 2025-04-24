@@ -55,8 +55,8 @@ contains
     call xios_close_context_definition()
 
     ! fetch sizes of axes from the input file for allocate
-    call xios_get_axis_attr('lon', n_glo=lenx)
-    call xios_get_axis_attr('lat', n_glo=leny)
+    call xios_get_axis_attr('x', n_glo=lenx)
+    call xios_get_axis_attr('y', n_glo=leny)
     call xios_get_axis_attr('alt', n_glo=lenz)
 
     allocate ( x_vals(lenx) )
@@ -64,8 +64,8 @@ contains
     allocate ( altvals(lenz) )
 
     ! fetch coordinate value arrays from the input file
-    call xios_get_axis_attr('lon', value=x_vals)
-    call xios_get_axis_attr('lat', value=y_vals)
+    call xios_get_axis_attr('x', value=x_vals)
+    call xios_get_axis_attr('y', value=y_vals)
     call xios_get_axis_attr('alt', value=altvals)
 
     ! finalise axis_check context, no longer in use

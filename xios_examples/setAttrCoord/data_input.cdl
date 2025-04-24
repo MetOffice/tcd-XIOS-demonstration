@@ -1,19 +1,19 @@
 netcdf domain_input {
 dimensions:
-        lon = 5 ;
-        lat = 5 ;
+        x = 5 ;
+        y = 5 ;
         alt = 1 ;
 variables:
-        float lon(lon) ;
-                lon:standard_name = "longitude" ;
-                lon:units = "degrees";
-        float lat(lat) ;
-                lat:standard_name = "latitude" ;
-                lat:units = "degrees";
+        float x(x) ;
+                x:standard_name = "projection_x_coordinate" ;
+                x:units = "m";
+        float y(y) ;
+                y:standard_name = "projection_y_coordinate" ;
+                y:units = "m";
         float alt(alt) ;
                 alt:standard_name = "altitude" ;
                 alt:units = "metres";                
-        double original_data(alt, lat, lon) ;
+        double original_data(alt, y, x) ;
                 original_data:long_name = "data values" ;
                 original_data:units = "1";
 
@@ -22,9 +22,9 @@ variables:
 
 data:
 
- lat = 50, 52, 54, 56, 58 ;
+ x = 303000, 305000, 307000, 309000, 311000 ;
 
- lon = -4, -2, 0, 2, 4 ;
+ y = 107000, 109000, 111000, 113000, 115000 ;
 
  alt = 50 ;
 
