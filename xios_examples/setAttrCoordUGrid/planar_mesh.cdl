@@ -1,0 +1,166 @@
+netcdf planar_mesh {
+dimensions:
+	One = 1 ;
+	Two = 2 ;
+	Four = 4 ;
+	nmesh_node = 21 ;
+	nmesh_edge = 32 ;
+	nmesh_face = 12 ;
+variables:
+	int mesh ;
+		mesh:cf_role = "mesh_topology" ;
+		mesh:geometry = "planar" ;
+		mesh:topology = "non_periodic" ;
+		mesh:coord_sys = "xyz" ;
+		mesh:periodic_x = "F" ;
+		mesh:periodic_y = "F" ;
+		mesh:constructor_inputs = "geometry=planar;topology=non_periodic;coord_sys=xyz;edge_cells_x=6;edge_cells_y=2;periodic_x=F;periodic_y=F;domain_size=[6.00,2.00];domain_centre=[9000.00,7000.00]" ;
+		mesh:max_stencil_depth = 0 ;
+		mesh:n_mesh_maps = 0 ;
+		mesh:long_name = "Topology data of 2D unstructured mesh" ;
+		mesh:topology_dimension = 2 ;
+		mesh:node_coordinates = "mesh_node_x mesh_node_y" ;
+		mesh:face_coordinates = "mesh_face_x mesh_face_y" ;
+		mesh:face_node_connectivity = "mesh_face_nodes" ;
+		mesh:edge_node_connectivity = "mesh_edge_nodes" ;
+		mesh:face_edge_connectivity = "mesh_face_edges" ;
+		mesh:face_face_connectivity = "mesh_face_links" ;
+		mesh:domain_extents = "mesh_domain_extents" ;
+		mesh:npanels = 1 ;
+	int mesh_face_nodes(nmesh_face, Four) ;
+		mesh_face_nodes:cf_role = "face_node_connectivity" ;
+		mesh_face_nodes:long_name = "Maps every quadrilateral face to its four corner nodes." ;
+		mesh_face_nodes:start_index = 1 ;
+	int mesh_face_edges(nmesh_face, Four) ;
+		mesh_face_edges:cf_role = "face_edge_connectivity" ;
+		mesh_face_edges:long_name = "Maps every quadrilateral face to its four edges." ;
+		mesh_face_edges:start_index = 1 ;
+	int mesh_face_links(nmesh_face, Four) ;
+		mesh_face_links:cf_role = "face_face_connectivity" ;
+		mesh_face_links:long_name = "Indicates which other faces neighbour each face." ;
+		mesh_face_links:start_index = 1 ;
+		mesh_face_links:_FillValue = -9999 ;
+	int mesh_edge_nodes(nmesh_edge, Two) ;
+		mesh_edge_nodes:cf_role = "edge_node_connectivity" ;
+		mesh_edge_nodes:long_name = "Maps every edge to the two nodes that it connects." ;
+		mesh_edge_nodes:start_index = 1 ;
+	double mesh_node_x(nmesh_node) ;
+		mesh_node_x:standard_name = "projection_x_coordinate" ;
+		mesh_node_x:long_name = "x coordinate of 2D mesh nodes." ;
+		mesh_node_x:units = "m" ;
+	double mesh_node_y(nmesh_node) ;
+		mesh_node_y:standard_name = "projection_y_coordinate" ;
+		mesh_node_y:long_name = "y coordinate of 2D mesh nodes." ;
+		mesh_node_y:units = "m" ;
+	double mesh_face_x(nmesh_face) ;
+		mesh_face_x:standard_name = "projection_x_coordinate" ;
+		mesh_face_x:long_name = "x coordinate of 2D face centres" ;
+		mesh_face_x:units = "m" ;
+	double mesh_face_y(nmesh_face) ;
+		mesh_face_y:standard_name = "projection_y_coordinate" ;
+		mesh_face_y:long_name = "y coordinate of 2D face centres" ;
+		mesh_face_y:units = "m" ;
+	double mesh_domain_extents(Four, Two) ;
+	double node_empty_data_container(nmesh_node) ;
+	       node_empty_data_container:coordinates = "mesh_node_y mesh_node_x" ;
+	double face_empty_data_container(nmesh_face) ;
+	       face_empty_data_container:coordinates = "face_node_y face_node_x" ;
+	double edge_empty_data_container(nmesh_edge) ;
+
+// global attributes:
+                :Conventions = "UGRID-1.0" ;
+
+data:
+
+ mesh = _ ;
+
+ mesh_face_nodes =
+  1, 2, 3, 4,
+  2, 5, 6, 3,
+  5, 7, 8, 6,
+  7, 9, 10, 8,
+  9, 11, 12, 10,
+  11, 13, 14, 12,
+  15, 16, 2, 1,
+  16, 17, 5, 2,
+  17, 18, 7, 5,
+  18, 19, 9, 7,
+  19, 20, 11, 9,
+  20, 21, 13, 11 ;
+
+ mesh_face_edges =
+  1, 2, 3, 4,
+  3, 5, 6, 7,
+  6, 8, 9, 10,
+  9, 11, 12, 13,
+  12, 14, 15, 16,
+  15, 17, 18, 19,
+  20, 21, 22, 2,
+  22, 23, 24, 5,
+  24, 25, 26, 8,
+  26, 27, 28, 11,
+  28, 29, 30, 14,
+  30, 31, 32, 17 ;
+
+ mesh_face_links =
+  _, 7, 2, _,
+  1, 8, 3, _,
+  2, 9, 4, _,
+  3, 10, 5, _,
+  4, 11, 6, _,
+  5, 12, _, _,
+  _, _, 8, 1,
+  7, _, 9, 2,
+  8, _, 10, 3,
+  9, _, 11, 4,
+  10, _, 12, 5,
+  11, _, _, 6 ;
+
+ mesh_edge_nodes =
+  4, 1,
+  1, 2,
+  3, 2,
+  4, 3,
+  2, 5,
+  6, 5,
+  3, 6,
+  5, 7,
+  8, 7,
+  6, 8,
+  7, 9,
+  10, 9,
+  8, 10,
+  9, 11,
+  12, 11,
+  10, 12,
+  11, 13,
+  14, 13,
+  12, 14,
+  1, 15,
+  15, 16,
+  2, 16,
+  16, 17,
+  5, 17,
+  17, 18,
+  7, 18,
+  18, 19,
+  9, 19,
+  19, 20,
+  11, 20,
+  20, 21,
+  13, 21 ;
+
+ mesh_node_x = 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20;
+
+ mesh_node_y = 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20;
+
+ mesh_face_x = 0.5, 1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5, 8.5, 9.5, 10.5, 11.5;
+
+ mesh_face_y = 0.5, 1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5, 8.5, 9.5, 10.5, 11.5;
+
+ mesh_domain_extents =
+  8997, 6999,
+  9003, 6999,
+  9003, 7001,
+  8997, 7001 ;
+}

@@ -1,0 +1,30 @@
+<context>
+
+  <calendar type="Gregorian"/>
+
+  <domain_definition>
+
+    <domain id="node_domain" type="unstructured">
+      <generate_rectilinear_domain/>
+    </domain>
+
+    <domain id="face_domain" type="unstructured">
+      <generate_rectilinear_domain/>
+    </domain>
+
+    <domain id="edge_domain" type="unstructured">
+      <generate_rectilinear_domain/>
+    </domain>
+
+
+  </domain_definition>
+
+  <file_definition type="one_file">
+    <file id="din" name="planar_mesh" output_freq="1ts" mode="read" enabled=".true.">
+      <field id="ndata" name="node_empty_data_container" domain_ref="node_domain" operation="once" read_access=".true." />
+      <field id="fdata" name="face_empty_data_container" domain_ref="face_domain" operation="instant" read_access=".true." />
+      <field id="edata" name="edge_empty_data_container" domain_ref="edge_domain" operation="instant" read_access=".true." />
+    </file>
+  </file_definition>
+  
+</context>
