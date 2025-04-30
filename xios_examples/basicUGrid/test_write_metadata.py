@@ -13,7 +13,7 @@ this_dir = os.path.dirname(this_path)
 
 class TestWriteMetadata(xshared._TestCase):
     test_dir = this_dir
-    transient_inputs = ['planar_mesh.nc']
+    transient_inputs = ['cubedsphere_mesh.nc']
     transient_outputs = ['data_output.nc']
     executable = './write.exe'
     mesh_file_cdl = 'planar_mesh.cdl'
@@ -56,7 +56,7 @@ class TestWriteMetadata(xshared._TestCase):
         return test_write_metadata
 
 
-f = f'{this_dir}/planar_mesh.cdl'
+f = f'{this_dir}/cubedsphere_mesh.cdl'
 # unique name for the test
 tname = 'test_{}'.format(os.path.splitext(os.path.basename(f))[0])
 # add the test as an attribute (function) to the test class

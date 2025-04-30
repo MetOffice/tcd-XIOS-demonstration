@@ -1,0 +1,133 @@
+netcdf cubedsphere_mesh {
+dimensions:
+	One = 1 ;
+	Two = 2 ;
+	Four = 4 ;
+	nmesh_node = 8 ;
+	nmesh_edge = 12 ;
+	nmesh_face = 6 ;
+variables:
+	int mesh ;
+		mesh:cf_role = "mesh_topology" ;
+		mesh:geometry = "spherical" ;
+		mesh:topology = "periodic" ;
+		mesh:coord_sys = "ll" ;
+		mesh:periodic_x = "T" ;
+		mesh:periodic_y = "T" ;
+		mesh:constructor_inputs = "edge_cells=1;smooth_passes=0" ;
+		mesh:max_stencil_depth = 0 ;
+		mesh:n_mesh_maps = 0 ;
+		mesh:long_name = "Topology data of 2D unstructured mesh" ;
+		mesh:topology_dimension = 2 ;
+		mesh:node_coordinates = "mesh_node_x mesh_node_y" ;
+		mesh:face_coordinates = "mesh_face_x mesh_face_y" ;
+		mesh:face_node_connectivity = "mesh_face_nodes" ;
+		mesh:edge_node_connectivity = "mesh_edge_nodes" ;
+		mesh:face_edge_connectivity = "mesh_face_edges" ;
+		mesh:face_face_connectivity = "mesh_face_links" ;
+		mesh:north_pole = 0., 90. ;
+		mesh:null_island = 0., 0. ;
+		mesh:equatorial_latitude = 0. ;
+		mesh:domain_extents = "mesh_domain_extents" ;
+		mesh:npanels = 6 ;
+	int mesh_face_nodes(nmesh_face, Four) ;
+		mesh_face_nodes:cf_role = "face_node_connectivity" ;
+		mesh_face_nodes:long_name = "Maps every quadrilateral face to its four corner nodes." ;
+		mesh_face_nodes:start_index = 1 ;
+	int mesh_face_edges(nmesh_face, Four) ;
+		mesh_face_edges:cf_role = "face_edge_connectivity" ;
+		mesh_face_edges:long_name = "Maps every quadrilateral face to its four edges." ;
+		mesh_face_edges:start_index = 1 ;
+	int mesh_face_links(nmesh_face, Four) ;
+		mesh_face_links:cf_role = "face_face_connectivity" ;
+		mesh_face_links:long_name = "Indicates which other faces neighbour each face." ;
+		mesh_face_links:start_index = 1 ;
+		mesh_face_links:_FillValue = -9999 ;
+	int mesh_edge_nodes(nmesh_edge, Two) ;
+		mesh_edge_nodes:cf_role = "edge_node_connectivity" ;
+		mesh_edge_nodes:long_name = "Maps every edge to the two nodes that it connects." ;
+		mesh_edge_nodes:start_index = 1 ;
+	double mesh_node_x(nmesh_node) ;
+		mesh_node_x:standard_name = "longitude" ;
+		mesh_node_x:long_name = "longitude of 2D mesh nodes." ;
+		mesh_node_x:units = "degrees_east" ;
+	double mesh_node_y(nmesh_node) ;
+		mesh_node_y:standard_name = "latitude" ;
+		mesh_node_y:long_name = "latitude of 2D mesh nodes." ;
+		mesh_node_y:units = "degrees_north" ;
+	double mesh_face_x(nmesh_face) ;
+		mesh_face_x:standard_name = "longitude" ;
+		mesh_face_x:long_name = "longitude of 2D face centres" ;
+		mesh_face_x:units = "degrees_east" ;
+	double mesh_face_y(nmesh_face) ;
+		mesh_face_y:standard_name = "latitude" ;
+		mesh_face_y:long_name = "latitude of 2D face centres" ;
+		mesh_face_y:units = "degrees_north" ;
+	double mesh_domain_extents(Four, Two) ;
+	double node_empty_data_container(nmesh_node) ;
+	       node_empty_data_container:coordinates = "mesh_node_y mesh_node_x" ;
+	double face_empty_data_container(nmesh_face) ;
+	       face_empty_data_container:coordinates = "mesh_face_y mesh_face_x" ;
+	double edge_empty_data_container(nmesh_edge) ;
+
+// global attributes:
+                :Conventions = "CF-1.6 UGRID-1.0" ;
+data:
+
+ mesh = _ ;
+
+ mesh_face_nodes =
+  6, 5, 2, 1,
+  5, 7, 3, 2,
+  8, 4, 3, 7,
+  6, 1, 4, 8,
+  1, 2, 3, 4,
+  6, 8, 7, 5 ;
+
+ mesh_face_edges =
+  2, 3, 5, 1,
+  5, 6, 8, 4,
+  9, 11, 7, 8,
+  12, 2, 10, 11,
+  10, 1, 4, 7,
+  3, 12, 9, 6 ;
+
+ mesh_face_links =
+  4, 6, 2, 5,
+  1, 6, 3, 5,
+  6, 4, 5, 2,
+  6, 1, 5, 3,
+  4, 1, 2, 3,
+  1, 4, 3, 2 ;
+
+ mesh_edge_nodes =
+  1, 2,
+  6, 1,
+  5, 6,
+  2, 3,
+  5, 2,
+  7, 5,
+  3, 4,
+  7, 3,
+  8, 7,
+  4, 1,
+  8, 4,
+  6, 8 ;
+
+ mesh_node_x = -45, 45, 135, -135, 45, -45, 135, -135 ;
+
+ mesh_node_y = 35.2643896827547, 35.2643896827547, 35.2643896827547, 
+    35.2643896827547, -35.2643896827547, -35.2643896827547, 
+    -35.2643896827547, -35.2643896827547 ;
+
+ mesh_face_x = 2.75444115227293e-15, 90, -180, -90, 0, 0 ;
+
+ mesh_face_y = -5.50888230454586e-15, -5.50888230454586e-15, 
+    -5.50888230454586e-15, -5.50888230454586e-15, 90, -90 ;
+
+ mesh_domain_extents =
+  -180, -90,
+  180, -90,
+  180, 90,
+  -180, 90 ;
+}

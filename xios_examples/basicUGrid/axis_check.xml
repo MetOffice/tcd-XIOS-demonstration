@@ -20,7 +20,7 @@
   </domain_definition>
 
   <file_definition type="one_file">
-    <file id="din" name="planar_mesh" output_freq="1ts" mode="read" enabled=".true." convention="UGRID">
+    <file id="din" name="cubedsphere_mesh" output_freq="1ts" mode="read" enabled=".true." convention="UGRID">
       <field id="cndata" name="node_empty_data_container" domain_ref="node_domain" operation="once" read_access=".true." />
       <field id="cfdata" name="face_empty_data_container" domain_ref="face_domain" operation="instant" read_access=".true." />
       <field id="cedata" name="edge_empty_data_container" domain_ref="edge_domain" operation="instant" read_access=".true." />

@@ -1,3 +1,3 @@
-Demonstration of user customised metadata from XIOS
+Demonstration of basic UGrid domain specification.
 
-This includes spatial and temproal metadata definitions and global attributes.
+Read mesh from file then create output mesh to add data to.
