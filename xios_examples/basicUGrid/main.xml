@@ -21,9 +21,9 @@
 
 
   <field_definition prec="8">
-    <field id="node_data" name="arbitrary_node_data" domain_ref="node_domain" long_name="Arbitrary data values" unit="1"  />
-    <field id="face_data" name="arbitrary_face_data" domain_ref="face_domain" long_name="Arbitrary data values" unit="1"  />
-    <field id="edge_data" name="arbitrary_edge_data" domain_ref="edge_domain" long_name="Arbitrary data values" unit="1"  />
+    <field id="ndata" name="arbitrary_node_data" domain_ref="node_domain" long_name="Arbitrary data values" unit="1"  />
+    <field id="fdata" name="arbitrary_face_data" domain_ref="face_domain" long_name="Arbitrary data values" unit="1"  />
+    <field id="edata" name="arbitrary_edge_data" domain_ref="edge_domain" long_name="Arbitrary data values" unit="1"  />
   </field_definition>
 
 
