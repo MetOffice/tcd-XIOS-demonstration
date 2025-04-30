@@ -1,0 +1,46 @@
+<context>
+
+  <calendar type="Gregorian"/>
+
+  <domain_definition>
+
+    <domain id="node_domain" type="unstructured" nvertex="4">
+      <generate_rectilinear_domain/>
+    </domain>
+
+    <domain id="face_domain" type="unstructured" nvertex="4">
+      <generate_rectilinear_domain/>
+    </domain>
+
+    <domain id="edge_domain" type="unstructured" nvertex="4">
+      <generate_rectilinear_domain/>
+    </domain>
+
+
+  </domain_definition>
+
+
+  <field_definition prec="8">
+    <field id="node_data" name="arbitrary_node_data" domain_ref="node_domain" long_name="Arbitrary data values" unit="1"  />
+    <field id="face_data" name="arbitrary_face_data" domain_ref="face_domain" long_name="Arbitrary data values" unit="1"  />
+    <field id="edge_data" name="arbitrary_edge_data" domain_ref="edge_domain" long_name="Arbitrary data values" unit="1"  />
+  </field_definition>
+
+
+  <file_definition type="one_file">
+    <file id="data_output" output_freq="1ts" convention="UGRID">
+      <field_group operation="instant">
+        <field field_ref="ndata" >
+        </field>
+        <field field_ref="fdata" >
+        </field>
+        <field field_ref="edata" >
+        </field>
+
+      </field_group>
+
+
+    </file>
+  </file_definition>
+  
+</context>

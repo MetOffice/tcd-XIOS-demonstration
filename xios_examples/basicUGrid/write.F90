@@ -61,6 +61,7 @@ contains
     flush(output_unit)
 
     ! fetch sizes of axes from the input file for allocate
+    ! Run Fails Here: `Data not initialized`
     call xios_get_domain_attr('node_domain', ni_glo=len_node)
     call xios_get_domain_attr('face_domain', ni_glo=len_face)
     call xios_get_domain_attr('edge_domain', ni_glo=len_edge)
@@ -77,10 +78,10 @@ contains
 
     call xios_set_current_context('axis_check')
     ! fetch coordinate value arrays from the input file
-    ! call xios_get_domain_attr('node_domain', lonvalue_1d=node_x_vals, latvalue_1d=node_y_vals)
-    ! call xios_get_domain_attr('face_domain', lonvalue_1d=face_x_vals, latvalue_1d=face_y_vals)
-    ! print *, 'node xvals= ', node_x_vals, '\nnode yvals= ', node_y_vals
-    ! flush(output_unit)
+    call xios_get_domain_attr('node_domain', lonvalue_1d=node_x_vals, latvalue_1d=node_y_vals)
+    call xios_get_domain_attr('face_domain', lonvalue_1d=face_x_vals, latvalue_1d=face_y_vals)
+    print *, 'node xvals= ', node_x_vals, '\nnode yvals= ', node_y_vals
+    flush(output_unit)
 
     ! finalise axis_check context, no longer in use
     call xios_context_finalize()
@@ -96,21 +97,10 @@ contains
 
     ! define the horizontal domain and vertical axis using the input file
     
-    call xios_set_domain_attr("node_domain", ni_glo=len_node, nj_glo=len_node)!, latvalue_1d=node_y_vals, lonvalue_1d=node_x_vals)
-    ! call xios_set_domain_attr("face_domain", ni_glo=len_face, nj_glo=len_face)!, latvalue_1d=face_y_vals, lonvalue_1d=face_x_vals)
-    ! call xios_set_domain_attr("edge_domain", ni_glo=len_edge, nj_glo=len_edge)
+    call xios_set_domain_attr("node_domain", ni_glo=len_node, nj_glo=len_node, latvalue_1d=node_y_vals, lonvalue_1d=node_x_vals)
+    call xios_set_domain_attr("face_domain", ni_glo=len_face, nj_glo=len_face, latvalue_1d=face_y_vals, lonvalue_1d=face_x_vals)
+    call xios_set_domain_attr("edge_domain", ni_glo=len_edge, nj_glo=len_edge)
 
-    call xios_set_file_attr("data_output", convention_str="CF-1.6, UGRID")
-    call xios_set_file_attr("data_output", description="a file format v0.2.0")
-    ! if (.true.) then
-    !   call xios_set_axis_attr("x", standard_name="projection_x_coordinate", &
-    !                           unit="m", long_name="x coordinate of projection")
-    !   call xios_set_axis_attr("y", standard_name="projection_y_coordinate", &
-    !                           unit="m", long_name="y coordinate of projection")
-    ! end if
-    call xios_date_convert_to_string(origin, t_origin)
-    ! call xios_set_field_attr("frt", unit="seconds since "//t_origin)
-    !call xios_set_scalar_attr("frt", unit="seconds since "//t_origin)
 
     call xios_close_context_definition()
     print *, "main context defined successfully"
@@ -127,11 +117,14 @@ contains
 
     ! Finalise all XIOS contexts and MPI
     print *, "finalising"
+    flush(output_unit)
     call xios_set_current_context('main')
     call xios_context_finalize()
     print *, "finalised main"
+    flush(output_unit)
     call xios_finalize()
     print *, "finalised xios"
+    flush(output_unit)
     call MPI_Finalize(mpi_error)
 
   end subroutine finalise
@@ -148,53 +141,47 @@ contains
     double precision :: frtv
 
     ! Allocatable arrays, size is taken from input file
-    double precision, dimension (:), allocatable :: node_data!, face_data, edge_data
+    double precision, dimension (:), allocatable :: node_data, face_data, edge_data
 
     ! obtain sizing of the grid for the array allocation
 
     call xios_get_domain_attr('node_domain', ni_glo=len_node)
-    ! call xios_get_domain_attr('face_domain', ni_glo=len_face)
-    ! call xios_get_domain_attr('edge_domain', ni_glo=len_edge)
+    call xios_get_domain_attr('face_domain', ni_glo=len_face)
+    call xios_get_domain_attr('edge_domain', ni_glo=len_edge)
 
     allocate ( node_data(len_node) )
-    ! allocate ( edge_data(len_edge) )
-    ! allocate ( face_data(len_face) )
+    allocate ( edge_data(len_edge) )
+    allocate ( face_data(len_face) )
     print *, 'len_node= ', len_node
-    ! print *, 'len_edge= ', len_edge
-    ! print *, 'len_face= ', len_face
+    print *, 'len_edge= ', len_edge
+    print *, 'len_face= ', len_face
+    flush(output_unit)
 
     do ts=1, 2
       call xios_update_calendar(ts)
       call xios_get_current_date(current)
-      ! send frt on ts0 only
-      if (ts == 1) then
-        call xios_get_start_date(start)
-        frtv = dble(xios_date_convert_to_seconds(start))
-        !call xios_send_field("frt", frtv)
-        ! call xios_set_scalar_attr("frt", value=frtv)
-      end if
-
       do i=1, len_node
         node_data(i) = ts
       end do
       call xios_send_field('ndata', node_data)
       
-      ! do i=1, len_face
-      !   face_data(i) = 10 * ts
-      ! call xios_send_field('fdata', face_data)
-      ! end do
+      do i=1, len_face
+        face_data(i) = 10 * ts
+      call xios_send_field('fdata', face_data)
+      end do
       
-      ! do i=1, len_edge
-      !   edge_data(i) = 100 * ts
-      ! end do
-      ! call xios_send_field('edata', edge_data)
+      do i=1, len_edge
+        edge_data(i) = 100 * ts
+      end do
+      call xios_send_field('edata', edge_data)
       
     enddo
 
     deallocate (node_data)
-    ! deallocate (edge_data)
-    ! deallocate (face_data)
+    deallocate (edge_data)
+    deallocate (face_data)
     print *, "fields sent, exiting simulation"
+    flush(output_unit)
 
   end subroutine simulate
 
