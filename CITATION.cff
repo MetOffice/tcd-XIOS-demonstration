@@ -3,22 +3,16 @@ message: "If you use this software, please cite it as below."
 authors:
 - family-names: "Adams"
   given-names: "Samantha"
-authors:
 - family-names: "Cole"
   given-names: "Jeff"
-authors:
 - family-names: "Hedley"
   given-names: "Mark"
-authors:
 - family-names: "Kavčič"
   given-names: "Iva"
-authors:
 - family-names: "Mannall"
   given-names: "Nathan"
-authors:
 - family-names: "Olivier"
   given-names: "Ricky"
-authors:
 - family-names: "Shepherd"
   given-names: "Harry"
 title: "Demonstration code repository for XIOS (XML I/O server) usage."
