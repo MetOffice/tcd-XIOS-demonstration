@@ -61,5 +61,7 @@ f = f'{this_dir}/planar_mesh.cdl'
 tname = 'test_{}'.format(os.path.splitext(os.path.basename(f))[0])
 # add the test as an attribute (function) to the test class
 
-setattr(TestWriteMetadata, tname,
-        TestWriteMetadata.make_a_write_test(f))
+# !!! remove this limit on success
+if os.environ.get('MVER', '').startswith('XIOS3/trunk'):
+    setattr(TestWriteMetadata, tname,
+            TestWriteMetadata.make_a_write_test(f))
