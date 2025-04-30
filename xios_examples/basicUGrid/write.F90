@@ -100,11 +100,16 @@ contains
     
     print *, "now define domain configuration from input mesh"
     flush(output_unit)
-    call xios_set_domain_attr("ndata::", ni_glo=len_node, ni=ni_node, ibegin=ibegin_node, &
+    call xios_set_domain_attr("node_domain", ni_glo=len_node, ni=ni_node, ibegin=ibegin_node, &
+                              nj_glo=len_node, nj=ni_node, jbegin=ibegin_node, &
                               latvalue_1d=node_y_vals, lonvalue_1d=node_x_vals)
-    call xios_set_domain_attr("fdata::", ni_glo=len_face, ni=ni_face, ibegin=ibegin_face, &
+    call xios_set_domain_attr("face_domain", ni_glo=len_face, ni=ni_face, ibegin=ibegin_face, &
+                              nj_glo=len_face, nj=ni_face, jbegin=ibegin_face, &
                               latvalue_1d=face_y_vals, lonvalue_1d=face_x_vals)
-    call xios_set_domain_attr("edata::", ni_glo=len_edge, ni=ni_edge, ibegin=ibegin_edge)
+    call xios_set_domain_attr("edge_domain", ni_glo=len_edge, ni=ni_edge, ibegin=ibegin_edge, &
+                              nj_glo=len_edge, nj=ni_edge, jbegin=ibegin_edge)
+    print *, "ready to close main context definition"
+    flush(output_unit)
 
 
     call xios_close_context_definition()
