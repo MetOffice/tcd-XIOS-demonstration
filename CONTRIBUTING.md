@@ -17,20 +17,10 @@ the behaviour that is being demonstrated by the contribution.
 
 ## Code Contributors
 
-The following people have contributed to this code under the terms of
-the Contributor Licence Agreement and Certificate of Origin detailed
-below:
+The current list of code contributors is maintained in the CITATION.cff.
+All contributors are identifiable with email addresses in the version control
+logs or otherwise.
 
-<!-- start-shortlog -->
- - Iva Kavčič (Met Office, UK)
- - Mark Hedley (Met Office, UK)
- - Harry Shepherd (Met Office, UK)
- - Jeff Cole (NCAS, University of Reading, UK)
- - Ricky Olivier (University of Exeter, UK)
-<!-- end-shortlog -->
-
-(All contributors are identifiable with email addresses in the version control
-logs or otherwise.)
 
 ## Contributor Licence Agreement and Certificate of Origin
 
