@@ -88,7 +88,7 @@ contains
     flush(output_unit)
 
     ! initialize the main context for interacting with the data.
-    print *, "initialising axis_check"
+    print *, "initialising main context"
     flush(output_unit)
     call xios_context_initialize('main', comm)
 
