@@ -4,15 +4,15 @@
 
   <domain_definition>
 
-    <domain id="node_domain" type="unstructured" nvertex="1">
+    <domain id="node_domain" name="cubedsphere" type="unstructured" nvertex="1">
       <generate_rectilinear_domain/>
     </domain>
 
-    <domain id="face_domain" type="unstructured" nvertex="4">
+    <domain id="face_domain" name="cubedsphere" type="unstructured" nvertex="4">
       <generate_rectilinear_domain/>
     </domain>
 
-    <domain id="edge_domain" type="unstructured" nvertex="2">
+    <domain id="edge_domain" name="cubedsphere" type="unstructured" nvertex="2">
       <generate_rectilinear_domain/>
     </domain>
 
