@@ -31,8 +31,15 @@ contains
     integer :: len_node, ni_node, ibegin_node
     integer :: len_face, ni_face, ibegin_face
     integer :: len_edge, ni_edge, ibegin_edge
+    integer :: fcount, ecount, fvcount, evcount
+    integer :: fvertex_len, evertex_len
     double precision, dimension (:), allocatable :: node_y_vals, node_x_vals, &
-                                                    face_y_vals, face_x_vals 
+                                                    face_y_vals, face_x_vals, &
+                                                    edge_y_vals, edge_x_vals
+    double precision, dimension (:,:), allocatable :: face_y_bounds, face_x_bounds, &
+                                                      edge_y_bounds, edge_x_bounds, &
+                                                      mesh_face_nodes_dbl, mesh_edge_nodes_dbl
+    integer, dimension (:,:), allocatable :: mesh_face_nodes, mesh_edge_nodes
     character(len=64) :: t_origin
 
     origin = xios_date(2022, 2, 2, 12, 0, 0)
@@ -61,26 +68,82 @@ contains
     flush(output_unit)
 
     ! fetch sizes of axes from the input file for allocate
-    ! Run Fails Here: `Data not initialized`
     call xios_get_domain_attr('cndata::', ni_glo=len_node, ni=ni_node, ibegin=ibegin_node)
     call xios_get_domain_attr('cfdata::', ni_glo=len_face, ni=ni_face, ibegin=ibegin_face)
     call xios_get_domain_attr('cedata::', ni_glo=len_edge, ni=ni_edge, ibegin=ibegin_edge)
+    call xios_get_axis_attr('mesh_face_nodes::[0]', n_glo=fvertex_len)
+    print *, "mfn: ", fvertex_len
+    call xios_get_axis_attr('mesh_edge_nodes::[0]', n_glo=evertex_len)
+    print *, "mfn: ", evertex_len
 
     allocate ( node_x_vals(len_node) )
     allocate ( node_y_vals(len_node) )
     allocate ( face_x_vals(len_face) )
     allocate ( face_y_vals(len_face) )
+    allocate ( edge_x_vals(len_edge) )
+    allocate ( edge_y_vals(len_edge) )
+    allocate ( mesh_face_nodes(fvertex_len, len_face) )
+    allocate ( mesh_face_nodes_dbl(fvertex_len, len_face) )
+    allocate ( mesh_edge_nodes(evertex_len, len_edge) )
+    allocate ( mesh_edge_nodes_dbl(evertex_len, len_edge) )
+    allocate ( face_y_bounds(fvertex_len, len_face) )
+    allocate ( face_x_bounds(fvertex_len, len_face) )
+    allocate ( edge_y_bounds(evertex_len, len_edge) )
+    allocate ( edge_x_bounds(evertex_len, len_edge) )
     print *, 'len_node= ', len_node
-    print *, 'len_edge= ', len_edge
     print *, 'len_face= ', len_face
+    print *, 'len_edge= ', len_edge
+    print *, 'fvertices: ', fvertex_len
     flush(output_unit)
+
 
     ! fetch coordinate value arrays from the input file
     call xios_get_domain_attr('cndata::', lonvalue_1d=node_x_vals, latvalue_1d=node_y_vals)
     call xios_get_domain_attr('cfdata::', lonvalue_1d=face_x_vals, latvalue_1d=face_y_vals)
-    print *, 'node xvals= ', node_x_vals, '\nnode yvals= ', node_y_vals
+    !call xios_get_domain_attr('cedata::', lonvalue_1d=edge_x_vals, latvalue_1d=edge_y_vals)
+    print *, 'node xvals= ', node_x_vals, 'node yvals= ', node_y_vals
+    print *, 'face xvals= ', face_x_vals, 'face yvals= ', face_y_vals
+    !print *, 'edge xvals= ', edge_x_vals, 'edge yvals= ', edge_y_vals
     flush(output_unit)
 
+    call xios_recv_field("mesh_face_nodes", mesh_face_nodes_dbl)
+    mesh_face_nodes = int(mesh_face_nodes_dbl)
+
+    do fvcount=1, fvertex_len
+      do fcount=1, len_face
+        ! print *, mesh_face_nodes(fvcount, fcount)
+        face_x_bounds(fvcount, fcount) = node_x_vals(mesh_face_nodes(fvcount, fcount))
+        face_y_bounds(fvcount, fcount) = node_y_vals(mesh_face_nodes(fvcount, fcount))
+      end do
+      
+    end do
+    print *, "face_x_bounds: ", shape(face_x_bounds), face_x_bounds
+    print *, "face_y_bounds: ", shape(face_y_bounds), face_y_bounds
+
+    call xios_recv_field("mesh_edge_nodes", mesh_edge_nodes_dbl)
+    mesh_edge_nodes = int(mesh_edge_nodes_dbl)
+    print *, "mesh_edge_nodes", mesh_edge_nodes
+
+    do ecount=1, len_edge
+      do evcount=1, evertex_len
+        edge_x_bounds(evcount, ecount) = node_x_vals(mesh_edge_nodes(evcount, ecount))
+        edge_y_bounds(evcount, ecount) = node_y_vals(mesh_edge_nodes(evcount, ecount))
+      end do
+      edge_x_vals(ecount) = edge_x_bounds(1, ecount) - 0.5 * &
+                            (edge_x_bounds(1, ecount) - edge_x_bounds(2, ecount))
+      edge_y_vals(ecount) = edge_y_bounds(1, ecount) - 0.5 * &
+                            (edge_y_bounds(1, ecount) - edge_y_bounds(2, ecount))
+    end do
+    print *, "edge_x: ", shape(edge_x_vals), edge_x_vals
+    print *, "edge_x_bounds: ", shape(edge_x_bounds)
+    print *, edge_x_bounds(1, :)
+    print *, edge_x_bounds(2, :)
+    print *, "edge_y: ", shape(edge_y_vals), edge_y_vals
+    print *, "edge_y_bounds: ", shape(edge_y_bounds)
+    print *, edge_y_bounds(1, :)
+    print *, edge_y_bounds(2, :)
+
+    
     ! finalise axis_check context, it no longer in use
     ! call xios_set_current_context('axis_check')
     call xios_context_finalize()
@@ -105,9 +168,13 @@ contains
                               latvalue_1d=node_y_vals, lonvalue_1d=node_x_vals)
     call xios_set_domain_attr("face_domain", ni_glo=len_face, ni=ni_face, ibegin=ibegin_face, &
                               nj_glo=len_face, nj=ni_face, jbegin=ibegin_face, &
-                              latvalue_1d=face_y_vals, lonvalue_1d=face_x_vals)
+                              latvalue_1d=face_y_vals, lonvalue_1d=face_x_vals, &
+                              bounds_lat_1d=face_y_bounds, bounds_lon_1d=face_x_bounds)
     call xios_set_domain_attr("edge_domain", ni_glo=len_edge, ni=ni_edge, ibegin=ibegin_edge, &
-                              nj_glo=len_edge, nj=ni_edge, jbegin=ibegin_edge)
+                              nj_glo=len_edge, nj=ni_edge, jbegin=ibegin_edge, &
+                              latvalue_1d=edge_y_vals, lonvalue_1d=edge_x_vals, &
+                              bounds_lat_1d=edge_y_bounds, bounds_lon_1d=edge_x_bounds)
+
     print *, "ready to close main context definition"
     flush(output_unit)
 
@@ -116,9 +183,27 @@ contains
     print *, "main context defined successfully"
     flush(output_unit)
     call xios_get_domain_attr('ndata::', lonvalue_1d=node_x_vals, latvalue_1d=node_y_vals)
-    print *, "x = ", node_x_vals, "y = ", node_y_vals
+    print *, "output node x = ", node_x_vals
+    print *, "output node y = ", node_y_vals
+    flush(output_unit)
+    call xios_get_domain_attr('fdata::', lonvalue_1d=face_x_vals, latvalue_1d=face_y_vals)
+    print *, "output face x = ", face_x_vals
+    print *, "output face y = ", face_y_vals
     flush(output_unit)
 
+    deallocate (node_x_vals)
+    deallocate (node_y_vals)
+    deallocate (face_x_vals)
+    deallocate (face_y_vals)
+    deallocate (edge_x_vals)
+    deallocate (edge_y_vals)
+    deallocate (face_y_bounds)
+    deallocate (face_x_bounds)
+    deallocate (edge_y_bounds)
+    deallocate (edge_x_bounds)
+    deallocate (mesh_face_nodes_dbl)
+    deallocate (mesh_face_nodes)
+    print *, "deallocations"
   end subroutine initialise
 
   subroutine finalise()
@@ -153,18 +238,18 @@ contains
     ! Allocatable arrays, size is taken from input file
     double precision, dimension (:), allocatable :: node_data, face_data, edge_data
 
+    print *, "simulation"
     ! obtain sizing of the grid for the array allocation
-
     call xios_get_domain_attr('ndata::', ni_glo=len_node)
     call xios_get_domain_attr('fdata::', ni_glo=len_face)
     call xios_get_domain_attr('edata::', ni_glo=len_edge)
 
     allocate ( node_data(len_node) )
-    allocate ( edge_data(len_edge) )
     allocate ( face_data(len_face) )
+    allocate ( edge_data(len_edge) )
     print *, 'len_node= ', len_node
-    print *, 'len_edge= ', len_edge
     print *, 'len_face= ', len_face
+    print *, 'len_edge= ', len_edge
     flush(output_unit)
 
     do ts=1, 2
@@ -177,8 +262,8 @@ contains
       
       do i=1, len_face
         face_data(i) = 10 * ts
-      call xios_send_field('fdata', face_data)
       end do
+      call xios_send_field('fdata', face_data)
       
       do i=1, len_edge
         edge_data(i) = 100 * ts
@@ -188,8 +273,8 @@ contains
     enddo
 
     deallocate (node_data)
-    deallocate (edge_data)
     deallocate (face_data)
+    deallocate (edge_data)
     print *, "fields sent, exiting simulation"
     flush(output_unit)
 

@@ -1,0 +1,298 @@
+netcdf data_output {
+dimensions:
+	axis_nbounds = 2 ;
+	Two = 2 ;
+	nnode_domain_node = 8 ;
+	nface_domain_node = 8 ;
+	nface_domain_edge = 12 ;
+	nface_domain_face = 6 ;
+	nface_domain_vertex = 4 ;
+	nedge_domain_node = 8 ;
+	nedge_domain_edge = 12 ;
+	time_counter = UNLIMITED ; // (2 currently)
+variables:
+	int node_domain ;
+		node_domain:cf_role = "mesh_topology" ;
+		node_domain:long_name = "Topology data of 2D unstructured mesh" ;
+		node_domain:topology_dimension = 2 ;
+		node_domain:node_coordinates = "node_domain_node_x node_domain_node_y" ;
+	float node_domain_node_x(nnode_domain_node) ;
+		node_domain_node_x:standard_name = "longitude" ;
+		node_domain_node_x:long_name = "Longitude of mesh nodes." ;
+		node_domain_node_x:units = "degrees_east" ;
+	float node_domain_node_y(nnode_domain_node) ;
+		node_domain_node_y:standard_name = "latitude" ;
+		node_domain_node_y:long_name = "Latitude of mesh nodes." ;
+		node_domain_node_y:units = "degrees_north" ;
+	int face_domain ;
+		face_domain:cf_role = "mesh_topology" ;
+		face_domain:long_name = "Topology data of 2D unstructured mesh" ;
+		face_domain:topology_dimension = 2 ;
+		face_domain:node_coordinates = "face_domain_node_x face_domain_node_y" ;
+		face_domain:edge_coordinates = "face_domain_edge_x face_domain_edge_y" ;
+		face_domain:edge_node_connectivity = "face_domain_edge_nodes" ;
+		face_domain:face_edge_connectivity = "face_domain_face_edges" ;
+		face_domain:edge_face_connectivity = "face_domain_edge_face_links" ;
+		face_domain:face_face_connectivity = "face_domain_face_links" ;
+		face_domain:face_coordinates = "face_domain_face_x face_domain_face_y" ;
+		face_domain:face_node_connectivity = "face_domain_face_nodes" ;
+	float face_domain_node_x(nface_domain_node) ;
+		face_domain_node_x:standard_name = "longitude" ;
+		face_domain_node_x:long_name = "Longitude of mesh nodes." ;
+		face_domain_node_x:units = "degrees_east" ;
+	float face_domain_node_y(nface_domain_node) ;
+		face_domain_node_y:standard_name = "latitude" ;
+		face_domain_node_y:long_name = "Latitude of mesh nodes." ;
+		face_domain_node_y:units = "degrees_north" ;
+	float face_domain_edge_x(nface_domain_edge) ;
+		face_domain_edge_x:standard_name = "longitude" ;
+		face_domain_edge_x:long_name = "Characteristic longitude of mesh edges." ;
+		face_domain_edge_x:units = "degrees_east" ;
+	float face_domain_edge_y(nface_domain_edge) ;
+		face_domain_edge_y:standard_name = "latitude" ;
+		face_domain_edge_y:long_name = "Characteristic latitude of mesh edges." ;
+		face_domain_edge_y:units = "degrees_north" ;
+	int face_domain_edge_nodes(nface_domain_edge, Two) ;
+		face_domain_edge_nodes:cf_role = "edge_node_connectivity" ;
+		face_domain_edge_nodes:long_name = "Maps every edge/link to two nodes that it connects." ;
+		face_domain_edge_nodes:start_index = 0 ;
+	float face_domain_face_x(nface_domain_face) ;
+		face_domain_face_x:standard_name = "longitude" ;
+		face_domain_face_x:long_name = "Characteristic longitude of mesh faces." ;
+		face_domain_face_x:units = "degrees_east" ;
+	float face_domain_face_y(nface_domain_face) ;
+		face_domain_face_y:standard_name = "latitude" ;
+		face_domain_face_y:long_name = "Characteristic latitude of mesh faces." ;
+		face_domain_face_y:units = "degrees_north" ;
+	int face_domain_face_nodes(nface_domain_face, nface_domain_vertex) ;
+		face_domain_face_nodes:cf_role = "face_node_connectivity" ;
+		face_domain_face_nodes:long_name = "Maps every face to its corner nodes." ;
+		face_domain_face_nodes:start_index = 0 ;
+	int face_domain_face_edges(nface_domain_face, nface_domain_vertex) ;
+		face_domain_face_edges:cf_role = "face_edge_connectivity" ;
+		face_domain_face_edges:long_name = "Maps every face to its edges." ;
+		face_domain_face_edges:start_index = 0 ;
+		face_domain_face_edges:_FillValue = 999999 ;
+	int face_domain_edge_face_links(nface_domain_edge, Two) ;
+		face_domain_edge_face_links:cf_role = "edge_face_connectivity" ;
+		face_domain_edge_face_links:long_name = "neighbor faces for edges" ;
+		face_domain_edge_face_links:start_index = 0 ;
+		face_domain_edge_face_links:_FillValue = -999 ;
+		face_domain_edge_face_links:comment = "missing neighbor faces are indicated using _FillValue" ;
+	int face_domain_face_links(nface_domain_face, nface_domain_vertex) ;
+		face_domain_face_links:cf_role = "face_face_connectivity" ;
+		face_domain_face_links:long_name = "Indicates which other faces neighbor each face" ;
+		face_domain_face_links:start_index = 0 ;
+		face_domain_face_links:_FillValue = 999999 ;
+		face_domain_face_links:flag_values = -1 ;
+		face_domain_face_links:flag_meanings = "out_of_mesh" ;
+	int edge_domain ;
+		edge_domain:cf_role = "mesh_topology" ;
+		edge_domain:long_name = "Topology data of 2D unstructured mesh" ;
+		edge_domain:topology_dimension = 2 ;
+		edge_domain:node_coordinates = "edge_domain_node_x edge_domain_node_y" ;
+		edge_domain:edge_node_connectivity = "edge_domain_edge_nodes" ;
+		edge_domain:edge_coordinates = "edge_domain_edge_x edge_domain_edge_y" ;
+	float edge_domain_node_x(nedge_domain_node) ;
+		edge_domain_node_x:standard_name = "longitude" ;
+		edge_domain_node_x:long_name = "Longitude of mesh nodes." ;
+		edge_domain_node_x:units = "degrees_east" ;
+	float edge_domain_node_y(nedge_domain_node) ;
+		edge_domain_node_y:standard_name = "latitude" ;
+		edge_domain_node_y:long_name = "Latitude of mesh nodes." ;
+		edge_domain_node_y:units = "degrees_north" ;
+	float edge_domain_edge_x(nedge_domain_edge) ;
+		edge_domain_edge_x:standard_name = "longitude" ;
+		edge_domain_edge_x:long_name = "Characteristic longitude of mesh edges." ;
+		edge_domain_edge_x:units = "degrees_east" ;
+	float edge_domain_edge_y(nedge_domain_edge) ;
+		edge_domain_edge_y:standard_name = "latitude" ;
+		edge_domain_edge_y:long_name = "Characteristic latitude of mesh edges." ;
+		edge_domain_edge_y:units = "degrees_north" ;
+	int edge_domain_edge_nodes(nedge_domain_edge, Two) ;
+		edge_domain_edge_nodes:cf_role = "edge_node_connectivity" ;
+		edge_domain_edge_nodes:long_name = "Maps every edge/link to two nodes that it connects." ;
+		edge_domain_edge_nodes:start_index = 0 ;
+	double time_instant(time_counter) ;
+		time_instant:standard_name = "time" ;
+		time_instant:long_name = "Time axis" ;
+		time_instant:calendar = "gregorian" ;
+		time_instant:units = "seconds since 2022-02-02 12:00:00" ;
+		time_instant:time_origin = "2022-02-02 12:00:00" ;
+		time_instant:bounds = "time_instant_bounds" ;
+	double time_instant_bounds(time_counter, axis_nbounds) ;
+	double time_counter(time_counter) ;
+		time_counter:axis = "T" ;
+		time_counter:standard_name = "time" ;
+		time_counter:long_name = "Time axis" ;
+		time_counter:calendar = "gregorian" ;
+		time_counter:units = "seconds since 2022-02-02 12:00:00" ;
+		time_counter:time_origin = "2022-02-02 12:00:00" ;
+		time_counter:bounds = "time_counter_bounds" ;
+	double time_counter_bounds(time_counter, axis_nbounds) ;
+	double arbitrary_node_data(time_counter, nnode_domain_node) ;
+		arbitrary_node_data:long_name = "Arbitrary data values" ;
+		arbitrary_node_data:units = "1" ;
+		arbitrary_node_data:mesh = "node_domain" ;
+		arbitrary_node_data:location = "node" ;
+		arbitrary_node_data:online_operation = "instant" ;
+		arbitrary_node_data:interval_operation = "1 h" ;
+		arbitrary_node_data:interval_write = "1 h" ;
+		arbitrary_node_data:cell_methods = "time: point" ;
+		arbitrary_node_data:coordinates = "time_instant node_domain_node_y node_domain_node_x" ;
+	double arbitrary_face_data(time_counter, nface_domain_face) ;
+		arbitrary_face_data:long_name = "Arbitrary data values" ;
+		arbitrary_face_data:units = "1" ;
+		arbitrary_face_data:mesh = "face_domain" ;
+		arbitrary_face_data:location = "face" ;
+		arbitrary_face_data:online_operation = "instant" ;
+		arbitrary_face_data:interval_operation = "1 h" ;
+		arbitrary_face_data:interval_write = "1 h" ;
+		arbitrary_face_data:cell_methods = "time: point" ;
+		arbitrary_face_data:coordinates = "time_instant face_domain_face_y face_domain_face_x" ;
+	double arbitrary_edge_data(time_counter, nedge_domain_edge) ;
+		arbitrary_edge_data:long_name = "Arbitrary data values" ;
+		arbitrary_edge_data:units = "1" ;
+		arbitrary_edge_data:mesh = "edge_domain" ;
+		arbitrary_edge_data:location = "edge" ;
+		arbitrary_edge_data:online_operation = "instant" ;
+		arbitrary_edge_data:interval_operation = "1 h" ;
+		arbitrary_edge_data:interval_write = "1 h" ;
+		arbitrary_edge_data:cell_methods = "time: point" ;
+		arbitrary_edge_data:coordinates = "time_instant edge_domain_edge_y edge_domain_edge_x" ;
+
+// global attributes:
+		:name = "data_output" ;
+		:description = "Created by xios" ;
+		:title = "Created by xios" ;
+		:Conventions = "UGRID" ;
+		:timeStamp = "2025-May-07 10:54:22 GMT" ;
+		:uuid = "9c8d7d0b-146b-4cf7-8cc4-126a43e7c413" ;
+data:
+
+ node_domain = _ ;
+
+ node_domain_node_x = -45, 45, 135, -135, 45, -45, 135, -135 ;
+
+ node_domain_node_y = 35.26439, 35.26439, 35.26439, 35.26439, -35.26439, 
+    -35.26439, -35.26439, -35.26439 ;
+
+ face_domain = _ ;
+
+ face_domain_node_x = -45, 45, 45, -45, 135, 135, -135, -135 ;
+
+ face_domain_node_y = -35.26439, -35.26439, 35.26439, 35.26439, -35.26439, 
+    35.26439, -35.26439, 35.26439 ;
+
+ face_domain_edge_x = 0, 45, 0, -45, 90, 135, 90, -135, -180, -180, -90, -90 ;
+
+ face_domain_edge_y = -35.26439, 0, 35.26439, 0, -35.26439, 0, 35.26439, 0, 
+    35.26439, -35.26439, 35.26439, -35.26439 ;
+
+ face_domain_edge_nodes =
+  1, 0,
+  2, 1,
+  3, 2,
+  0, 3,
+  4, 1,
+  5, 4,
+  2, 5,
+  7, 6,
+  5, 7,
+  6, 4,
+  7, 3,
+  0, 6 ;
+
+ face_domain_face_x = 2.754441e-15, 90, -180, -90, 0, 0 ;
+
+ face_domain_face_y = -5.508882e-15, -5.508882e-15, -5.508882e-15, 
+    -5.508882e-15, 90, -90 ;
+
+ face_domain_face_nodes =
+  0, 1, 2, 3,
+  1, 4, 5, 2,
+  6, 7, 5, 4,
+  0, 3, 7, 6,
+  3, 2, 5, 7,
+  0, 6, 4, 1 ;
+
+ face_domain_face_edges =
+  0, 1, 2, 3,
+  4, 5, 6, 1,
+  7, 8, 5, 9,
+  3, 10, 7, 11,
+  2, 6, 8, 10,
+  11, 9, 4, 0 ;
+
+ face_domain_edge_face_links =
+  0, 5,
+  0, 1,
+  0, 4,
+  0, 3,
+  1, 5,
+  1, 2,
+  1, 4,
+  2, 3,
+  2, 4,
+  2, 5,
+  3, 4,
+  3, 5 ;
+
+ face_domain_face_links =
+  5, 1, 4, 3,
+  5, 2, 4, 0,
+  3, 4, 1, 5,
+  0, 4, 2, 5,
+  0, 1, 2, 3,
+  3, 2, 1, 0 ;
+
+ edge_domain = _ ;
+
+ edge_domain_node_x = -45, 45, -45, 45, 135, 135, -135, -135 ;
+
+ edge_domain_node_y = 35.26439, 35.26439, -35.26439, -35.26439, 35.26439, 
+    -35.26439, 35.26439, -35.26439 ;
+
+ edge_domain_edge_x = 0, -45, 0, 90, 45, 90, 0, 135, 0, -90, -135, -90 ;
+
+ edge_domain_edge_y = 35.26439, 0, -35.26439, 35.26439, 0, -35.26439, 
+    35.26439, 0, -35.26439, 35.26439, 0, -35.26439 ;
+
+ edge_domain_edge_nodes =
+  0, 1,
+  2, 0,
+  3, 2,
+  1, 4,
+  3, 1,
+  5, 3,
+  4, 6,
+  5, 4,
+  7, 5,
+  6, 0,
+  7, 6,
+  2, 7 ;
+
+ time_instant = 27133200, 27136800 ;
+
+ time_instant_bounds =
+  27133200, 27133200,
+  27136800, 27136800 ;
+
+ time_counter = 27133200, 27136800 ;
+
+ time_counter_bounds =
+  27133200, 27133200,
+  27136800, 27136800 ;
+
+ arbitrary_node_data =
+  1, 1, 1, 1, 1, 1, 1, 1,
+  2, 2, 2, 2, 2, 2, 2, 2 ;
+
+ arbitrary_face_data =
+  10, 10, 10, 10, 10, 10,
+  20, 20, 20, 20, 20, 20 ;
+
+ arbitrary_edge_data =
+  100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
+  200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200 ;
+}

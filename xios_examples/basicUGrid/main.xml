@@ -4,7 +4,7 @@
 
   <domain_definition>
 
-    <domain id="node_domain" type="unstructured" nvertex="4">
+    <domain id="node_domain" type="unstructured" nvertex="1">
       <generate_rectilinear_domain/>
     </domain>
 
@@ -12,7 +12,7 @@
       <generate_rectilinear_domain/>
     </domain>
 
-    <domain id="edge_domain" type="unstructured" nvertex="4">
+    <domain id="edge_domain" type="unstructured" nvertex="2">
       <generate_rectilinear_domain/>
     </domain>
 
