@@ -3,18 +3,12 @@
 # `. azspiceEnv`
 
 # load Azure Spice Spack xios module
-module load xios
+module load csc/2025.3.20 gcc/12.2.0 mpich/4.2.3
+module load netcdf-c/4.9.2 netcdf-fortran/4.6.1
+module load xios/2701
 
-# provide specific sub_paths for the demonstration build
-export XIOS_INCDIR=$XIOS_ROOT/include
-export XIOS_LIBDIR=$XIOS_ROOT/lib
-export XIOS_BINDIR=$XIOS_ROOT/bin
-
-# ensure netcdf is on the LD path & flags
-export LD_LIBRARY_PATH=${NETCDFF_ROOT}/lib:$LD_LIBRARY_PATH
-export LDFLAGS="-L$XIOS_LIBDIR -lxios $(pkg-config --libs netcdf) $(pkg-config --libs netcdf-fortran) -lstdc++"
-
-export FCFLAGS="-g -I$XIOS_INCDIR $(pkg-config --cflags-only-I netcdf) $(pkg-config --cflags-only-I netcdf-fortran)"
+export FCFLAGS="-g $FFLAGS"
+export LDFLAGS="$LDFLAGS -lxios -lnetcdf -lnetcdff -lstdc++"
 export FC=mpif90
-
-export MVER=XIOS/trunk@2252
+export XIOS_BINDIR=`which xios_server.exe | xargs dirname`
+export MVER=XIOS2/trunk
