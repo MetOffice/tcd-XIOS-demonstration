@@ -1,0 +1,168 @@
+netcdf prog_file_2022121411-2022121412 {
+dimensions:
+	axis_nbounds = 2 ;
+	lon = 1 ;
+	lat = 1 ;
+	nvertex = 2 ;
+	levels = 39 ;
+	time_counter = UNLIMITED ; // (2 currently)
+variables:
+	float lat(lat) ;
+		lat:axis = "Y" ;
+		lat:standard_name = "latitude" ;
+		lat:long_name = "Latitude" ;
+		lat:units = "degrees_north" ;
+		lat:bounds = "bounds_lat" ;
+	float lon(lon) ;
+		lon:axis = "X" ;
+		lon:standard_name = "longitude" ;
+		lon:long_name = "Longitude" ;
+		lon:units = "degrees_east" ;
+		lon:bounds = "bounds_lon" ;
+	float bounds_lon(lat, lon, nvertex) ;
+	float bounds_lat(lat, lon, nvertex) ;
+	float levels(levels) ;
+		levels:name = "levels" ;
+		levels:units = "1" ;
+	double time_instant(time_counter) ;
+		time_instant:standard_name = "time" ;
+		time_instant:long_name = "Time axis" ;
+		time_instant:calendar = "gregorian" ;
+		time_instant:units = "seconds since 2022-12-13 01:00:00" ;
+		time_instant:time_origin = "2022-12-13 01:00:00" ;
+		time_instant:bounds = "time_instant_bounds" ;
+	double time_instant_bounds(time_counter, axis_nbounds) ;
+	double time_counter(time_counter) ;
+		time_counter:axis = "T" ;
+		time_counter:standard_name = "time" ;
+		time_counter:long_name = "Time axis" ;
+		time_counter:calendar = "gregorian" ;
+		time_counter:units = "seconds since 2022-12-13 01:00:00" ;
+		time_counter:time_origin = "2022-12-13 01:00:00" ;
+		time_counter:bounds = "time_counter_bounds" ;
+	double time_counter_bounds(time_counter, axis_nbounds) ;
+	float temperature(time_counter, levels, lat, lon) ;
+		temperature:standard_name = "air_temperature" ;
+		temperature:long_name = "Air Temperature" ;
+		temperature:units = "K" ;
+		temperature:online_operation = "instant" ;
+		temperature:interval_operation = "1 h" ;
+		temperature:interval_write = "1 h" ;
+		temperature:cell_methods = "time: point" ;
+		temperature:coordinates = "time_instant" ;
+
+// global attributes:
+		:name = "prog_file" ;
+		:description = "Created by xios" ;
+		:title = "Created by xios" ;
+		:Conventions = "CF-1.6" ;
+		:timeStamp = "2025-Jun-16 15:42:55 GMT" ;
+		:uuid = "e028f041-82a7-40c4-9c3d-6b2f42da086f" ;
+data:
+
+ lat = 51.5 ;
+
+ lon = -4.5 ;
+
+ bounds_lon =
+  -6, -3 ;
+
+ bounds_lat =
+  50, 53 ;
+
+ levels = 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 171, 18, 19, 
+    20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 
+    38, 39 ;
+
+ time_instant = 126000, 129600 ;
+
+ time_instant_bounds =
+  126000, 126000,
+  129600, 129600 ;
+
+ time_counter = 126000, 129600 ;
+
+ time_counter_bounds =
+  126000, 126000,
+  129600, 129600 ;
+
+ temperature =
+  289,
+  284,
+  279,
+  274,
+  269,
+  264,
+  259,
+  254,
+  249,
+  244,
+  239,
+  234,
+  229,
+  224,
+  219,
+  214,
+  209,
+  204,
+  199,
+  194,
+  189,
+  184,
+  179,
+  174,
+  169,
+  164,
+  159,
+  154,
+  149,
+  144,
+  139,
+  134,
+  129,
+  124,
+  119,
+  114,
+  109,
+  104,
+  99,
+  290,
+  285,
+  280,
+  275,
+  270,
+  265,
+  260,
+  255,
+  250,
+  245,
+  240,
+  235,
+  230,
+  225,
+  220,
+  215,
+  210,
+  205,
+  200,
+  195,
+  190,
+  185,
+  180,
+  175,
+  170,
+  165,
+  160,
+  155,
+  150,
+  145,
+  140,
+  135,
+  130,
+  125,
+  120,
+  115,
+  110,
+  105,
+  100 ;
+}

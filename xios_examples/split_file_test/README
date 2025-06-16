@@ -1,5 +1,4 @@
 split_file_test
 ---------------
 
-This example demonstrates XIOS split file output. It takes a canned dataset of temperature and pressure on 39 model levels at one lat-lon point and outputs
-the temperature and pressure fields split across different files.
+This example demonstrates XIOS split file output. It takes a canned dataset of temperature and pressure on 39 model levels at one lat-lon point and outputs the temperatur field split across different files.

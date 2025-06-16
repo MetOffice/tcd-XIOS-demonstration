@@ -14,30 +14,17 @@ this_dir = os.path.dirname(this_path)
 
 class SplitFile(xshared._TestCase):
     test_dir = this_dir
-    transient_inputs = []
-    transient_outputs = ["mixed_frequency.nc"]
+    executable = "./split_file_test.exe"
     rtol = 5e-03
 
     def test_split_file_output(self):
         """
         Check/test the split across files of outputted fields are correct.
         """
+        self.run_mpi_xios()
+
         with open("{}/xios.xml".format(self.test_dir)) as cxml:
             print(cxml.read(), flush=True)
-        subprocess.run(
-            [
-                "mpiexec",
-                "-n",
-                "1",
-                "./multiple_timestep.exe",
-                ":",
-                "-n",
-                "1",
-                "./xios_server.exe",
-            ],
-            cwd=self.test_dir,
-            check=True,
-        )
 
         cdl_files = [
             os.path.basename(f) for f in glob.glob(self.test_dir + "/split_file_*.cdl")
@@ -61,8 +48,6 @@ class SplitFile(xshared._TestCase):
 
             test_results_t_instants = netCDF4.Dataset(run_file, "r")["time_instant"][:]
             expected_t_instants = netCDF4.Dataset(comp_file, "r")["time_instant"][:]
-            test_results_p = netCDF4.Dataset(run_file, "r")["pressure"][:]
-            expected_p = netCDF4.Dataset(comp_file, "r")["pressure"][:]
             test_results_t = netCDF4.Dataset(run_file, "r")["temperature"][:]
             expected_t = netCDF4.Dataset(comp_file, "r")["temperature"][:]
 
@@ -75,7 +60,6 @@ class SplitFile(xshared._TestCase):
 
             self.assertTrue(
                 np.array_equal(test_results_t_instants, expected_t_instants)
-                and np.allclose(test_results_p, expected_p, rtol=self.rtol)
                 and np.allclose(test_results_t, expected_t, rtol=self.rtol),
                 msg=msg,
             )

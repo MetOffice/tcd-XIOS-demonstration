@@ -16,19 +16,19 @@
 
 .PHONY: all, clean, run
 
-all: multiple_timestep
+all: split_file_test
 
 # fortran compilation
 %.o: %.F90
 	$(FC) $(FCFLAGS) -c $<
 
 # fortran linking
-multiple_timestep: multiple_timestep.o
-	$(FC) -o multiple_timestep.exe multiple_timestep.o $(LDFLAGS) \
+split_file_test: split_file_test.o
+	$(FC) -o split_file_test.exe split_file_test.o $(LDFLAGS) \
 		&& ln -fs $(XIOS_BINDIR)/xios_server.exe .
 
 run:
-	mpiexec -n 1 ./multiple_timestep.exe : -n 1 ./xios_server.exe
+	mpiexec -n 1 ./split_file_test.exe : -n 1 ./xios_server.exe
 
 # cleanup
 clean:

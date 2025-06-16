@@ -7,8 +7,7 @@
     </axis_definition>
 
     <domain_definition>
-      <domain id="latlon1_domain" ni_glo="1" nj_glo="1" type="rectilinear" nvertex="2">
-      </domain>
+      <domain id="latlon1_domain" ni_glo="1" nj_glo="1" ni="1" nj="1" ibegin="0" jbegin="0" type="rectilinear" nvertex="2" />
     </domain_definition>
  
     <grid_definition>
@@ -18,20 +17,15 @@
       </grid>
     </grid_definition>
 
-    <field_definition freq_op="1ts" enabled=".TRUE." operation="instant" >
-      <field id="pressure" name="pressure" long_name="Air Pressure" standard_name="air_pressure" unit="Pa" grid_ref="model" />
-    </field_definition>
-
-    <field_definition freq_op="1ts" enabled=".TRUE." operation="instant" >
+    <field_definition freq_op="1ts" enabled=".true." operation="instant" >
       <field id="temperature" name="temperature" long_name="Air Temperature" standard_name="air_temperature" unit="K" grid_ref="model" />
     </field_definition>
 
 
-  <file_definition type="one_file" enabled=".TRUE.">
-    <file id="split_file" name="split_file" output_freq="1ts" split_freq="5ts" enabled=".TRUE.">
+  <file_definition type="one_file" enabled=".true.">
+    <file id="prog_file" name="prog_file" output_freq="1ts" split_freq="2ts" enabled=".true.">
       <field_group operation="instant">
-        <field field_ref="pressure" />
-        <field field_ref="temperature"/>
+        <field field_ref="temperature" />
       </field_group>
     </file>
   </file_definition>
