@@ -1,6 +1,6 @@
 import copy
 import glob
-import netCDF4
+from netCDF4 import Dataset
 import numpy as np
 import os
 import subprocess
@@ -67,7 +67,7 @@ class SplitFile(xshared._TestCase):
             )
 
             # Check time axis values and field values are what is expected
-            print(f"Comparing output file {output_file_path} to reference kgo file {kgo_file_path}")
+            print(f"Comparing output file {output_file_path} to reference kgo file {kgo_file_path}", flush=True)
 
             if "prog_file_" in output_file:
                test_results_t_instants = Dataset(output_file_path, "r")["time_instant"][:]
