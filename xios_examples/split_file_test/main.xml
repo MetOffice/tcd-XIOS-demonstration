@@ -23,9 +23,14 @@
 
 
   <file_definition type="one_file" enabled=".true.">
-    <file id="prog_file" name="prog_file" output_freq="1ts" split_freq="2ts" enabled=".true.">
+    <file id="prog_file" name="prog_file" output_freq="1ts" split_freq="4ts" enabled=".true.">
       <field_group operation="instant">
         <field field_ref="temperature" />
+      </field_group>
+    </file>
+    <file id="diag_file" name="diag_file" output_freq="3ts" split_freq="4ts" enabled=".true.">
+      <field_group operation="average" freq_op="3ts">
+        <field id="average_temperature" name="average_temperature" field_ref="temperature" />
       </field_group>
     </file>
   </file_definition>

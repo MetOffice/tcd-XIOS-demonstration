@@ -1,11 +1,11 @@
-netcdf prog_file_2022121323-2022121400 {
+netcdf diag_file_2022121405-2022121408 {
 dimensions:
 	axis_nbounds = 2 ;
 	lon = 1 ;
 	lat = 1 ;
 	nvertex = 2 ;
 	levels = 39 ;
-	time_counter = UNLIMITED ; // (2 currently)
+	time_counter = UNLIMITED ; // (1 currently)
 variables:
 	float lat(lat) ;
 		lat:axis = "Y" ;
@@ -24,14 +24,14 @@ variables:
 	float levels(levels) ;
 		levels:name = "levels" ;
 		levels:units = "1" ;
-	double time_instant(time_counter) ;
-		time_instant:standard_name = "time" ;
-		time_instant:long_name = "Time axis" ;
-		time_instant:calendar = "gregorian" ;
-		time_instant:units = "seconds since 2022-12-13 01:00:00" ;
-		time_instant:time_origin = "2022-12-13 01:00:00" ;
-		time_instant:bounds = "time_instant_bounds" ;
-	double time_instant_bounds(time_counter, axis_nbounds) ;
+	double time_centered(time_counter) ;
+		time_centered:standard_name = "time" ;
+		time_centered:long_name = "Time axis" ;
+		time_centered:calendar = "gregorian" ;
+		time_centered:units = "seconds since 2022-12-13 01:00:00" ;
+		time_centered:time_origin = "2022-12-13 01:00:00" ;
+		time_centered:bounds = "time_centered_bounds" ;
+	double time_centered_bounds(time_counter, axis_nbounds) ;
 	double time_counter(time_counter) ;
 		time_counter:axis = "T" ;
 		time_counter:standard_name = "time" ;
@@ -41,23 +41,23 @@ variables:
 		time_counter:time_origin = "2022-12-13 01:00:00" ;
 		time_counter:bounds = "time_counter_bounds" ;
 	double time_counter_bounds(time_counter, axis_nbounds) ;
-	float temperature(time_counter, levels, lat, lon) ;
-		temperature:standard_name = "air_temperature" ;
-		temperature:long_name = "Air Temperature" ;
-		temperature:units = "K" ;
-		temperature:online_operation = "instant" ;
-		temperature:interval_operation = "1 h" ;
-		temperature:interval_write = "1 h" ;
-		temperature:cell_methods = "time: point" ;
-		temperature:coordinates = "time_instant" ;
+	float average_temperature(time_counter, levels, lat, lon) ;
+		average_temperature:standard_name = "air_temperature" ;
+		average_temperature:long_name = "Air Temperature" ;
+		average_temperature:units = "K" ;
+		average_temperature:online_operation = "average" ;
+		average_temperature:interval_operation = "3 h" ;
+		average_temperature:interval_write = "3 h" ;
+		average_temperature:cell_methods = "time: mean" ;
+		average_temperature:coordinates = "time_centered" ;
 
 // global attributes:
-		:name = "prog_file" ;
+		:name = "diag_file" ;
 		:description = "Created by xios" ;
 		:title = "Created by xios" ;
 		:Conventions = "CF-1.6" ;
-		:timeStamp = "2025-Jun-16 15:42:55 GMT" ;
-		:uuid = "fdc4045f-63bc-44e9-8325-0fe314752490" ;
+		:timeStamp = "2025-Jun-17 07:58:53 GMT" ;
+		:uuid = "539d0cab-572d-4004-8591-f3bcbc792298" ;
 data:
 
  lat = 51.5 ;
@@ -74,19 +74,18 @@ data:
     20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 
     38, 39 ;
 
- time_instant = 82800, 86400 ;
+ time_centered = 102600 ;
 
- time_instant_bounds =
-  82800, 82800,
-  86400, 86400 ;
+ time_centered_bounds =
+  97200, 108000 ;
 
- time_counter = 82800, 86400 ;
+ time_counter = 102600 ;
 
  time_counter_bounds =
-  82800, 82800,
-  86400, 86400 ;
+  97200, 108000 ;
 
- temperature =
+ average_temperature =
+  284,
   279,
   274,
   269,
@@ -124,45 +123,5 @@ data:
   109,
   104,
   99,
-  94,
-  89,
-  278,
-  273,
-  268,
-  263,
-  258,
-  253,
-  248,
-  243,
-  238,
-  233,
-  228,
-  223,
-  218,
-  213,
-  208,
-  203,
-  198,
-  193,
-  188,
-  183,
-  178,
-  173,
-  168,
-  163,
-  158,
-  153,
-  148,
-  143,
-  138,
-  133,
-  128,
-  123,
-  118,
-  113,
-  108,
-  103,
-  98,
-  93,
-  88 ;
+  94 ;
 }

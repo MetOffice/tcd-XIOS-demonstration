@@ -14,6 +14,7 @@ this_dir = os.path.dirname(this_path)
 
 class SplitFile(xshared._TestCase):
     test_dir = this_dir
+    kgo_cdl_dir = this_dir
     executable = "./split_file_test.exe"
     rtol = 5e-03
 
@@ -26,36 +27,62 @@ class SplitFile(xshared._TestCase):
         with open("{}/xios.xml".format(self.test_dir)) as cxml:
             print(cxml.read(), flush=True)
 
-        cdl_files = [
-            os.path.basename(f) for f in glob.glob(self.test_dir + "/split_file_*.cdl")
+        kgo_cdl_files = [
+            "diag_file_2022121313-2022121316.cdl",
+            "diag_file_2022121317-2022121320.cdl",
+            "diag_file_2022121321-2022121400.cdl",
+            "diag_file_2022121401-2022121404.cdl",
+            "diag_file_2022121405-2022121408.cdl",
+            "diag_file_2022121409-2022121412.cdl",
+            "prog_file_2022121313-2022121316.cdl",
+            "prog_file_2022121317-2022121320.cdl",
+            "prog_file_2022121321-2022121400.cdl",
+            "prog_file_2022121401-2022121404.cdl",
+            "prog_file_2022121405-2022121408.cdl",
+            "prog_file_2022121409-2022121412.cdl",
         ]
-        output_files = [f.replace("cdl", "nc") for f in cdl_files]
 
-        for cdl_file, output_file in zip(cdl_files, output_files):
+        for cdl_file in kgo_cdl_files:
 
-            # Check output file with correct name was produced
-            run_file = "{}/{}".format(self.test_dir, output_file)
-            self.assertTrue(os.path.exists(run_file))
+            kgo_file = cdl_file.replace("cdl", "nc")
+            kgo_file_path = f"{self.test_dir}/kgo_{kgo_file}"
 
-            # Check time axis values and field values are what is expected
-            comp_file = "comp_{}".format(output_file)
+            # Check output file with same name as kgo file was produced
+            output_file = kgo_file
+            output_file_path = f"{self.test_dir}/{output_file}"
+            self.assertTrue(os.path.exists(output_file_path))
+
+            # Create netcdf kgo file
             subprocess.run(
-                ["ncgen", "-k", "nc4", "-o", comp_file, cdl_file],
-                cwd=self.test_dir,
+                [
+                    "ncgen",
+                    "-k",
+                    "nc4",
+                    "-o",
+                    kgo_file_path,
+                    cdl_file,
+                 ],
+                cwd=self.kgo_cdl_dir,
                 check=True,
             )
-            comp_file = "{}/{}".format(self.test_dir, comp_file)
 
-            test_results_t_instants = netCDF4.Dataset(run_file, "r")["time_instant"][:]
-            expected_t_instants = netCDF4.Dataset(comp_file, "r")["time_instant"][:]
-            test_results_t = netCDF4.Dataset(run_file, "r")["temperature"][:]
-            expected_t = netCDF4.Dataset(comp_file, "r")["temperature"][:]
+            # Check time axis values and field values are what is expected
+            print(f"Comparing output file {output_file_path} to reference kgo file {kgo_file_path}")
+
+            if "prog_file_" in output_file:
+               test_results_t_instants = Dataset(output_file_path, "r")["time_instant"][:]
+               expected_t_instants = Dataset(kgo_file_path, "r")["time_instant"][:]
+               test_results_t = Dataset(output_file_path, "r")["temperature"][:]
+               expected_t = Dataset(kgo_file_path, "r")["temperature"][:]
+
+            if "diag_file_" in output_file:
+               test_results_t_instants = Dataset(output_file_path, "r")["time_centered"][:]
+               expected_t_instants = Dataset(kgo_file_path, "r")["time_centered"][:]
+               test_results_t = Dataset(output_file_path, "r")["average_temperature"][:]
+               expected_t = Dataset(kgo_file_path, "r")["average_temperature"][:]
 
             msg = (
-                "The produced time series data in file {} "
-                "differs from that in the reference cdl file {}\n".format(
-                    output_file, cdl_file
-                )
+                f"Time series data in output file {output_file_path} differs from data in kgo file {kgo_file_path}"
             )
 
             self.assertTrue(
