@@ -18,6 +18,7 @@ class TestSplitFile(xshared._TestCase):
     executable = "./split_file_test.exe"
     rtol = 5e-03
 
+    @unittest.expectedFailure
     def test_split_file(self):
         """
         Check/test the split across files of outputted fields are correct.
