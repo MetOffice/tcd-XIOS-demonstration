@@ -20,6 +20,10 @@ variables:
 		alt:name = "alt" ;
 		alt:standard_name = "altitude" ;
 		alt:units = "metres" ;
+	float forecast_reference_time ;
+		forecast_reference_time:name = "forecast_reference_time" ;
+		forecast_reference_time:standard_name = "forecast_reference_time" ;
+		forecast_reference_time:units = "seconds since 2022-02-02 12:00:00" ;
 	double time_instant(time_counter) ;
 		time_instant:standard_name = "time" ;
 		time_instant:long_name = "Time axis" ;
@@ -44,14 +48,8 @@ variables:
 		original_data:interval_operation = "1 h" ;
 		original_data:interval_write = "1 h" ;
 		original_data:cell_methods = "time: point" ;
-		original_data:coordinates = "forecast_reference_time time_instant" ;
+		original_data:coordinates = "time_instant forecast_reference_time" ;
 		original_data:grid_mapping = "osgb: x y egm2008:alt" ;
-	float forecast_reference_time ;
-		forecast_reference_time:standard_name = "forecast_reference_time" ;
-		forecast_reference_time:units = "seconds since 2022-02-02 12:00:00" ;
-		forecast_reference_time:online_operation = "once" ;
-		forecast_reference_time:coordinates = "" ;
-		forecast_reference_time:calendar = "gregorian" ;
 	short osgb ;
 		osgb:online_operation = "once" ;
 		osgb:_FillValue = -32767s ;
@@ -68,8 +66,8 @@ variables:
 // global attributes:
 		:description = "LFRic file format v0.2.0" ;
 		:Conventions = "CF-1.6, UGRID" ;
-		:timeStamp = "2025-Apr-24 13:52:34 GMT" ;
-		:uuid = "d55b8279-19df-4311-9c07-fcf91dd62385" ;
+		:timeStamp = "2025-Jun-19 08:40:45 GMT" ;
+		:uuid = "4166ab59-b790-423d-9fa3-7693aa16a04a" ;
 		:name = "Attribute demonstration" ;
 		:title = "Attribute demonstration" ;
 data:
@@ -79,6 +77,8 @@ data:
  y = 107000, 109000, 111000, 113000, 115000 ;
 
  alt = 50 ;
+
+ forecast_reference_time = 2.71296e+07 ;
 
  time_instant = 27133200, 27136800 ;
 
@@ -103,8 +103,6 @@ data:
   4, 6, 8, 10, 12,
   6, 8, 10, 12, 14,
   8, 10, 12, 14, 16 ;
-
- forecast_reference_time = 2.71296e+07 ;
 
  osgb = _ ;
 

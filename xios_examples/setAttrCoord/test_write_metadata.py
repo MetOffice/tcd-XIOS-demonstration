@@ -41,7 +41,7 @@ class TestWriteMetadata(xshared._TestCase):
             assert(os.path.exists(runfile))
             run_cmd = ['ncdump', runfile]
             ncd = subprocess.run(run_cmd, check=True, capture_output=True)
-
+            
             with open(f'{this_dir}/expected_domain_output.cdl') as fin:
                 exptd = fin.read()
             emsg = ''
@@ -53,7 +53,7 @@ class TestWriteMetadata(xshared._TestCase):
                     if not (':timeStamp' in eline or ':uuid' in eline):
                         emsg += eline + '\n' + aline + '\n\tmismatch\n\n'
 
-            self.assertFalse(emsg, msg='\n\n' + emsg)
+            self.assertFalse(emsg, msg='\n\n' + emsg[0:300] + '\n... ...')
         return test_write_metadata
 
 

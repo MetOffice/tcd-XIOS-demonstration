@@ -30,6 +30,7 @@ contains
     integer :: lenx
     integer :: leny
     integer :: lenz
+    double precision :: frtv
     double precision, dimension (:), allocatable :: y_vals, x_vals, altvals
     character(len=64) :: t_origin
 
@@ -78,10 +79,6 @@ contains
     call xios_set_time_origin(origin)
     call xios_set_start_date(start)
     call xios_set_timestep(tstep)
-
-    ! define the horizontal domain and vertical axis using the input file
-    ! call xios_set_domain_attr("original_domain", ni_glo=lenx, ni=lenx, nj_glo=leny, nj=leny, ibegin=0, jbegin=0)
-    ! call xios_set_domain_attr("original_domain", lonvalue_1d=lonvals, latvalue_1d=latvals)
     
     call xios_set_axis_attr("x", n_glo=lenx, n=lenx, begin=0)
     call xios_set_axis_attr("x", value=x_vals)
@@ -98,7 +95,9 @@ contains
                               unit="m", long_name="y coordinate of projection")
     end if
     call xios_date_convert_to_string(origin, t_origin)
-    call xios_set_field_attr("frt", unit="seconds since "//t_origin)
+    call xios_set_scalar_attr("frt", unit="seconds since "//t_origin)
+    frtv = dble(xios_date_convert_to_seconds(start))
+    call xios_set_scalar_attr("frt", value=frtv)
 
     call xios_close_context_definition()
 
@@ -125,7 +124,6 @@ contains
     integer :: lenx
     integer :: leny
     integer :: lenz
-    double precision :: frtv
 
     ! Allocatable arrays, size is taken from input file
     double precision, dimension (:,:,:), allocatable :: inodata
@@ -144,14 +142,6 @@ contains
     do ts=1, 2
       call xios_update_calendar(ts)
       call xios_get_current_date(current)
-      ! hardcoded 9
-      frtv=9
-      ! send frt on ts0 only
-      if (ts == 1) then
-        call xios_get_start_date(start)
-        frtv = dble(xios_date_convert_to_seconds(start))
-        call xios_send_field("frt", frtv)
-      end if
       
       ! Send (copy) the original data to the output file.
       call xios_send_field('odata', inodata)
