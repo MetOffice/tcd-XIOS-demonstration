@@ -1,7 +1,7 @@
 # Make file for the multiple time step demonstartion XIOS programme
 # Targets provided our detailed below...
 #
-# all: (default) Build the multiple_timestep programme
+# all: (default) Build the split file reading programme
 # clean: Delete all final products and working files
 # run: run the programme
 #
