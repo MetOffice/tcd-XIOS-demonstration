@@ -1,0 +1,44 @@
+<context>
+
+  <calendar type="Gregorian"/>
+
+  <grid_definition>
+    <grid id="mfng" >
+      <axis id="fv" />
+      <axis id="nf" />
+    </grid>
+    <grid id="meng" >
+      <axis id="ev" />
+      <axis id="ne" />
+    </grid>
+  </grid_definition>
+
+  <domain_definition>
+
+    <domain id="mesh_node_domain" type="unstructured"  nvertex="1">
+      <generate_rectilinear_domain/>
+    </domain>
+
+    <domain id="mesh_face_domain" type="unstructured"  nvertex="4">
+      <generate_rectilinear_domain/>
+    </domain>
+
+    <domain id="mesh_edge_domain" type="unstructured"  nvertex="2">
+      <generate_rectilinear_domain/>
+    </domain>
+
+
+  </domain_definition>
+
+  
+  <file_definition type="one_file">
+    <file id="din" name="cubedsphere_mesh" output_freq="1ts" mode="read" enabled=".true." convention="UGRID">
+      <field id="cndata" name="node_empty_data_container" domain_ref="mesh_node_domain" operation="once" read_access=".true." />
+      <field id="cfdata" name="face_empty_data_container" domain_ref="mesh_face_domain" operation="instant" read_access=".true." />
+      <field id="cedata" name="edge_empty_data_container" domain_ref="mesh_edge_domain" operation="instant" read_access=".true." />
+      <field id="mesh_face_nodes" grid_ref="mfng" name="mesh_face_nodes"  operation="instant" read_access=".true." prec="2" />
+      <field id="mesh_edge_nodes" grid_ref="meng" name="mesh_edge_nodes"  operation="instant" read_access=".true." prec="2" />
+    </file>
+  </file_definition>
+  
+</context>
