@@ -24,7 +24,7 @@
 
   <file_definition type="one_file">
     <file id="typed_output" output_freq="1ts">
-      <field_group operation="instant" conversion_by_netcdf=".false.">
+      <field_group operation="instant">
         <field field_ref="floatdata" />
         <field field_ref="doubledata" />
       </field_group>
