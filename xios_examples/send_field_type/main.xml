@@ -1,0 +1,34 @@
+<context>
+
+  <calendar type="Gregorian"/>
+
+  <domain_definition>
+    <domain id="original_domain" type="rectilinear" ni_glo="4" nj_glo="5"/>
+    <generate_rectilinear_domain/>
+
+  </domain_definition>
+
+  <grid_definition>
+
+    <grid id="original_grid">
+      <domain domain_ref="original_domain" />
+    </grid>
+
+  </grid_definition>
+
+  <field_definition>
+    <field id="floatdata" name="float_data" grid_ref="original_grid" long_name="arbitrary data values" unit="1" prec="4" />
+    <field id="doubledata" name="double_data" grid_ref="original_grid" long_name="arbitrary data values" unit="1" prec="8" />
+  </field_definition>
+
+
+  <file_definition type="one_file">
+    <file id="typed_output" output_freq="1ts">
+      <field_group operation="instant" conversion_by_netcdf=".false.">
+        <field field_ref="floatdata" />
+        <field field_ref="doubledata" />
+      </field_group>
+    </file>
+  </file_definition>
+  
+</context>
