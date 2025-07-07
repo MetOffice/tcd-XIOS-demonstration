@@ -1,0 +1,105 @@
+netcdf sample_smaller {
+dimensions:
+	time = 2 ;
+	model_level_number = 4 ;
+	latitude = 95 ;
+	longitude = 127 ;
+	bnds = 2 ;
+variables:
+	float specific_humidity(time, model_level_number, latitude, longitude) ;
+		specific_humidity:standard_name = "specific_humidity" ;
+		specific_humidity:units = "kg kg-1" ;
+		specific_humidity:grid_mapping = "latitude_longitude" ;
+		specific_humidity:coordinates = "forecast_period forecast_reference_time level_height sigma surface_altitude" ;
+	int latitude_longitude ;
+		latitude_longitude:grid_mapping_name = "latitude_longitude" ;
+		latitude_longitude:longitude_of_prime_meridian = 0. ;
+		latitude_longitude:earth_radius = 6371229. ;
+	double time(time) ;
+		time:axis = "T" ;
+		time:units = "hours since 1970-01-01 00:00:00" ;
+		time:standard_name = "time" ;
+		time:calendar = "standard" ;
+	int model_level_number(model_level_number) ;
+		model_level_number:axis = "Z" ;
+		model_level_number:units = "1" ;
+		model_level_number:standard_name = "model_level_number" ;
+		model_level_number:positive = "up" ;
+	float latitude(latitude) ;
+		latitude:axis = "Y" ;
+		latitude:units = "degrees_north" ;
+		latitude:standard_name = "latitude" ;
+	float longitude(longitude) ;
+		longitude:axis = "X" ;
+		longitude:units = "degrees_east" ;
+		longitude:standard_name = "longitude" ;
+	double forecast_period ;
+		forecast_period:units = "hours" ;
+		forecast_period:standard_name = "forecast_period" ;
+	double forecast_reference_time(time) ;
+		forecast_reference_time:units = "hours since 1970-01-01 00:00:00" ;
+		forecast_reference_time:standard_name = "forecast_reference_time" ;
+		forecast_reference_time:calendar = "standard" ;
+	float level_height(model_level_number) ;
+		level_height:bounds = "level_height_bnds" ;
+		level_height:units = "m" ;
+		level_height:long_name = "level_height" ;
+		level_height:positive = "up" ;
+		level_height:standard_name = "atmosphere_hybrid_height_coordinate" ;
+		level_height:axis = "Z" ;
+		level_height:formula_terms = "a: level_height b: sigma orog: surface_altitude" ;
+	float level_height_bnds(model_level_number, bnds) ;
+	float sigma(model_level_number) ;
+		sigma:bounds = "sigma_bnds" ;
+		sigma:units = "1" ;
+		sigma:long_name = "sigma" ;
+	float sigma_bnds(model_level_number, bnds) ;
+	float surface_altitude(latitude, longitude) ;
+		surface_altitude:units = "m" ;
+		surface_altitude:standard_name = "surface_altitude" ;
+
+// global attributes:
+		:Conventions = "CF-1.7" ;
+data:
+
+ time = 481008, 481014 ;
+
+ model_level_number = 0, 1, 2, 3 ;
+
+ latitude = -89.95312, -89.85938, -89.76562, -89.67188, -89.57812, -89.48438, 
+    -89.39062, -89.29688, -89.20312, -89.10938, -89.01562, -88.92188, 
+    -88.82812, -88.73438, -88.64062, -88.54688, -88.45312, -88.35938, 
+    -88.26562, -88.17188, -88.07812, -87.98438, -87.89062, -87.79688, 
+    -87.70312, -87.60938, -87.51562, -87.42188, -87.32812, -87.23438, 
+    -87.14062, -87.04688, -86.95312, -86.85938, -86.76562, -86.67188, 
+    -86.57812, -86.48438, -86.39062, -86.29688, -86.20312, -86.10938, 
+    -86.01562, -85.92188, -85.82812, -85.73438, -85.64062, -85.54688, 
+    -85.45312, -85.35938, -85.26562, -85.17188, -85.07812, -84.98438, 
+    -84.89062, -84.79688, -84.70312, -84.60938, -84.51562, -84.42188, 
+    -84.32812, -84.23438, -84.14062, -84.04688, -83.95312, -83.85938, 
+    -83.76562, -83.67188, -83.57812, -83.48438, -83.39062, -83.29688, 
+    -83.20312, -83.10938, -83.01562, -82.92188, -82.82812, -82.73438, 
+    -82.64062, -82.54688, -82.45312, -82.35938, -82.26562, -82.17188, 
+    -82.07812, -81.98438, -81.89062, -81.79688, -81.70312, -81.60938, 
+    -81.51562, -81.42188, -81.32812, -81.23438, -81.14062 ;
+
+ longitude = 0.0703125, 0.2109375, 0.3515625, 0.4921875, 0.6328125, 
+    0.7734375, 0.9140625, 1.054688, 1.195312, 1.335938, 1.476562, 1.617188, 
+    1.757812, 1.898438, 2.039062, 2.179688, 2.320312, 2.460938, 2.601562, 
+    2.742188, 2.882812, 3.023438, 3.164062, 3.304688, 3.445312, 3.585938, 
+    3.726562, 3.867188, 4.007812, 4.148438, 4.289062, 4.429688, 4.570312, 
+    4.710938, 4.851562, 4.992188, 5.132812, 5.273438, 5.414062, 5.554688, 
+    5.695312, 5.835938, 5.976562, 6.117188, 6.257812, 6.398438, 6.539062, 
+    6.679688, 6.820312, 6.960938, 7.101562, 7.242188, 7.382812, 7.523438, 
+    7.664062, 7.804688, 7.945312, 8.085938, 8.226562, 8.367188, 8.507812, 
+    8.648438, 8.789062, 8.929688, 9.070312, 9.210938, 9.351562, 9.492188, 
+    9.632812, 9.773438, 9.914062, 10.05469, 10.19531, 10.33594, 10.47656, 
+    10.61719, 10.75781, 10.89844, 11.03906, 11.17969, 11.32031, 11.46094, 
+    11.60156, 11.74219, 11.88281, 12.02344, 12.16406, 12.30469, 12.44531, 
+    12.58594, 12.72656, 12.86719, 13.00781, 13.14844, 13.28906, 13.42969, 
+    13.57031, 13.71094, 13.85156, 13.99219, 14.13281, 14.27344, 14.41406, 
+    14.55469, 14.69531, 14.83594, 14.97656, 15.11719, 15.25781, 15.39844, 
+    15.53906, 15.67969, 15.82031, 15.96094, 16.10156, 16.24219, 16.38281, 
+    16.52344, 16.66406, 16.80469, 16.94531, 17.08594, 17.22656, 17.36719, 
+    17.50781, 17.64844, 17.78906 ;
+}

@@ -1,0 +1,22 @@
+<context>
+
+  <calendar type="Gregorian"/>
+
+
+ <grid_definition>
+    <grid id="mlev_grid">
+    <domain id="original_domain" type="rectilinear" >
+      <generate_rectilinear_domain/>
+    </domain>
+      <axis id="mlev" />
+      <axis id="t" />
+    </grid>
+ </grid_definition>
+
+  <file_definition type="one_file">
+    <file id="din" name="sample_smaller" output_freq="1ts" mode="read" enabled=".true.">
+      <field id="specific_humidity" name="specific_humidity" grid_ref="mlev_grid" operation="instant" read_access=".true." />
+    </file>
+  </file_definition>
+  
+</context>
