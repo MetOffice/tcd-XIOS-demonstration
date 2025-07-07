@@ -99,13 +99,14 @@ contains
 
     allocate ( inbfx(fvertex_len, ni_face) )
     allocate ( inbfy(fvertex_len, ni_face) )
-    print *, 'get bounds'
-    flush(output_unit)
+    ! print *, 'get bounds'
+    ! flush(output_unit)
     ! call xios_get_domain_attr('cfdata::', bounds_lon_1d=inbfx, bounds_lat_1d=inbfy)
     ! print *, 'inbfx=', inbfx
     ! print *, 'inbfy=', inbfy
     
-
+    print *, 'get coordinate values'
+    flush(output_unit)
     ! fetch coordinate value arrays from the input file
     call xios_get_domain_attr('cndata::', lonvalue_1d=node_x_vals, latvalue_1d=node_y_vals)
     call xios_get_domain_attr('cfdata::', lonvalue_1d=face_x_vals, latvalue_1d=face_y_vals)
