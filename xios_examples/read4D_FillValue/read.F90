@@ -58,19 +58,7 @@ contains
     call xios_set_timestep(tstep)
     print *, "ready to close context domain_check"
     call xios_close_context_definition()
-    print *, "context domain_check closed (read?)"
-
-    call xios_get_domain_attr("original_domain", &
-                              ni_glo=ni_glo, nj_glo=nj_glo, &
-                              ni=ni, nj=nj, &
-                              ibegin=ibegin, jbegin=jbegin)
-    print *, 'original_domain: rank,ni_glo,nj_glo,ni,nj,ibegin,jbegin ',rank,ni_glo,nj_glo,ni,nj,ibegin,jbegin
-    call xios_get_axis_attr("mlev", n_glo=nk_glo, n=nk, begin=kbegin)
-    print *, 'mlev: n_glo, n, begin', nk_glo, nk, kbegin
-    call xios_get_axis_attr("t", n_glo=nl_glo, n=nl, begin=lbegin)
-    print *, 't: n_glo, n, begin', nl_glo, nl, lbegin
-
-
+    print *, "context domain_check closed (read)"
 
   end subroutine initialise
 
@@ -78,7 +66,7 @@ contains
 
     integer :: mpi_error
 
-    print *, "! Finalise all XIOS contexts and MPI"
+    print *, "Finalise all XIOS contexts and MPI"
     call xios_set_current_context('domain_check')
     call xios_context_finalize()
     print *, "domain_check context finalised"
@@ -90,25 +78,24 @@ contains
   subroutine simulate()
 
     type(xios_date) :: current
-    integer :: ts
-    integer :: lenx
-    integer :: leny
-    integer :: lenz
-    integer :: lent
+    integer :: lenx = 127
+    integer :: leny = 95
+    integer :: lenz = 4
+    integer :: lent = 2
 
     ! Allocatable arrays, size is taken from input file
     double precision, dimension (:,:,:,:), allocatable :: inshdata
 
-    call xios_get_domain_attr("original_domain", ni=lenx, nj=leny)
-    call xios_get_axis_attr("mlev", n=lenz)
-    call xios_get_axis_attr("t", n=lent)
-
-
     allocate ( inshdata(lent, lenz, leny, lenx) )
     print *, "ready to load data from specific humidity array variable"
     ! Load data from the input file
+    print *, inshdata(1,1,1,1:5)
+    print *, "data is unitialised, values are indeterminate"
     call xios_recv_field('specific_humidity', inshdata)
     print *, "data loaded from specific humidity array variable"
+    print *, inshdata(1,1,1,1:5)
+    print *, "-1 is the file _FillValue"
+
     deallocate (inshdata)
 
   end subroutine simulate

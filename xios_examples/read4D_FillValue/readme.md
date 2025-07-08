@@ -1,8 +1,5 @@
-read4D
-------
+read4D_FillValue
+----------------
 
-This example reads in a sample NetCDF file of 4D structured data (data payload is `missing`).
+This example reads in a sample NetCDF file of 4D structured data (data payload is `_FillValue` and _FillValue is set in the file metadata).
 XIOS simply reads data from that file into memory.
-
-This is designed to be extensible, enabling much larger files to be read,
-across multiple client and server ranks, and performance analyses undertaken
