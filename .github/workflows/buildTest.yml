@@ -27,6 +27,7 @@ jobs:
           cd XIOS
           if [ ${{ matrix.version }} == 'XIOS2/trunk' ]; then
             git checkout XIOS2
+            cp ../arch/* arch/
           fi
           if [ ${{ matrix.version }} != 'XIOS2/trunk' ]; then
             sed -i 's/<variable_group id="parameters" >/<variable_group id="parameters" > <variable id="transport_protocol" type="string" >p2p<\/variable>/g' generic_testcase/iodef.xml
