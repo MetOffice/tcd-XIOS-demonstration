@@ -12,25 +12,25 @@ jobs:
     runs-on: ubuntu-24.04
     strategy:
       matrix:
-        version: [XIOS/trunk@2252, XIOS2/trunk, XIOS3/trunk]
+        version: [XIOS2/trunk, XIOS3/trunk]
     steps:
       # Check out repository branch
       - uses: actions/checkout@v4
       - name: Install dependencies
         run: |
             sudo apt update
-            sudo apt -yq install subversion
+            sudo apt -yq install git
             sudo apt -yq install $(<dependencies)
       - name: clone and build XIOS
         run: |
-          svn co http://forge.ipsl.fr/ioserver/svn/${{ matrix.version }} XIOS
-          cp arch/* XIOS/arch/
+          git clone https://gitlab.in2p3.fr/ipsl/projets/xios-projects/xios.git XIOS
           cd XIOS
-          if [ ${{ matrix.version }} == 'XIOS3/trunk' ]; then
+          if [ ${{ matrix.version }} == 'XIOS2/trunk' ]; then
+            git checkout XIOS2
+          fi
+          if [ ${{ matrix.version }} != 'XIOS2/trunk' ]; then
             sed -i 's/<variable_group id="parameters" >/<variable_group id="parameters" > <variable id="transport_protocol" type="string" >p2p<\/variable>/g' generic_testcase/iodef.xml
             cat generic_testcase/iodef.xml
-          elif [ ${{ matrix.version }} == 'XIOS/trunk@2252' ]; then
-            patch -p0 < ../patches/xios2/compilePatches.r2252.patch
           fi
           ./make_xios --job 2 --arch GCC_LINUX_APT --debug
           cd ..
@@ -43,7 +43,7 @@ jobs:
           sed -i 's/nb_proc_atm=4/nb_proc_atm=1/g' param.def
           mpiexec -n 1 ./generic_testcase.exe : -n 1 ./xios_server.exe
           cd ../..
-      - name: run resample example
+      - name: run demonstration examples
         run: |
           export XIOS_BINDIR=$PWD/XIOS/bin
           export XIOS_INCDIR=$PWD/XIOS/inc
