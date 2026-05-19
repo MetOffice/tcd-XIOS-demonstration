@@ -1,5 +1,7 @@
+make
 g++
-libboost-mpi1.74-dev
+lld
+libboost-mpi-dev
 libhdf5-openmpi-dev
 libnetcdff-dev
 libnetcdf-mpi-dev
