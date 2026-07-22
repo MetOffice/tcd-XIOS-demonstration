@@ -1,0 +1,36 @@
+<!--
+Input file to test reading axis values from an input file in XIOS.
+
+The input file is read using the independent read mode.
+-->
+
+<context>
+
+  <calendar type="Gregorian"/>
+
+  <axis_definition>
+    <axis id="x" comment="Dimensions set by the client"/>
+    <axis id="y" comment="Dimensions set by the client"/>
+  </axis_definition>
+
+  <grid_definition>
+    <grid id="model">
+      <axis axis_ref="x"/>
+      <axis axis_ref="y"/>
+    </grid>
+  </grid_definition>
+
+  <field_definition freq_op="1ts" enabled=".TRUE." operation="instant">
+    <field id="pressure" long_name="Air Pressure" standard_name="air_pressure" unit="Pa" grid_ref="model"/>
+  </field_definition>
+
+  <file_definition type="one_file">
+    <file id="input_data" mode="read" output_freq="1ts" par_access="independent">
+      <field id="pressure_in" name="pressure" freq_op="1ts" operation="instant" grid_ref="model"/>
+    </file>
+    <file id="output_data" output_freq="1ts">
+      <field field_ref="pressure"/>
+    </file>
+  </file_definition>
+
+</context>

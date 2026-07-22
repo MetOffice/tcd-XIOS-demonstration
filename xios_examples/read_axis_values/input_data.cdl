@@ -1,0 +1,71 @@
+netcdf input_data {
+dimensions:
+	axis_nbounds = 2 ;
+	x = 10 ;
+	y = 10 ;
+	time_counter = UNLIMITED ; // (1 currently)
+variables:
+  float x(x) ;
+		x:name = "x" ;
+  float y(y) ;
+		y:name = "y" ;
+	double time_instant(time_counter) ;
+		time_instant:standard_name = "time" ;
+		time_instant:long_name = "Time axis" ;
+		time_instant:calendar = "gregorian" ;
+		time_instant:units = "seconds since 2022-12-12 12:00:00" ;
+		time_instant:time_origin = "2022-12-12 12:00:00" ;
+		time_instant:bounds = "time_instant_bounds" ;
+	double time_instant_bounds(time_counter, axis_nbounds) ;
+	double time_counter(time_counter) ;
+		time_counter:axis = "T" ;
+		time_counter:standard_name = "time" ;
+		time_counter:long_name = "Time axis" ;
+		time_counter:calendar = "gregorian" ;
+		time_counter:units = "seconds since 2022-12-12 12:00:00" ;
+		time_counter:time_origin = "2022-12-12 12:00:00" ;
+		time_counter:bounds = "time_counter_bounds" ;
+	double time_counter_bounds(time_counter, axis_nbounds) ;
+	float pressure(time_counter, y, x) ;
+		pressure:standard_name = "air_pressure" ;
+		pressure:long_name = "Air Pressure" ;
+		pressure:units = "Pa" ;
+		pressure:online_operation = "instant" ;
+		pressure:interval_operation = "1 h" ;
+		pressure:interval_write = "1 h" ;
+		pressure:cell_methods = "time: point" ;
+		pressure:coordinates = "time_instant" ;
+
+// global attributes:
+		:name = "output_data" ;
+		:description = "Created by xios" ;
+		:title = "Created by xios" ;
+		:Conventions = "CF-1.6" ;
+		:timeStamp = "2025-Oct-15 14:52:57 GMT" ;
+		:uuid = "ed357d3a-500f-42a9-bbfc-021070a7790b" ;
+data:
+
+ time_instant = 3600 ;
+
+ time_instant_bounds = 3600, 3600 ;
+
+ time_counter = 3600 ;
+
+ time_counter_bounds = 3600, 3600 ;
+
+ x = 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ;
+
+ y = 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ;
+
+ pressure =
+  111, 112, 113, 114, 115, 116, 117, 118, 119, 120,
+  121, 122, 123, 124, 125, 126, 127, 128, 129, 130,
+  131, 132, 133, 134, 135, 136, 137, 138, 139, 140,
+  141, 142, 143, 144, 145, 146, 147, 148, 149, 150,
+  151, 152, 153, 154, 155, 156, 157, 158, 159, 160,
+  161, 162, 163, 164, 165, 166, 167, 168, 169, 170,
+  171, 172, 173, 174, 175, 176, 177, 178, 179, 180,
+  181, 182, 183, 184, 185, 186, 187, 188, 189, 190,
+  191, 192, 193, 194, 195, 196, 197, 198, 199, 200,
+  201, 202, 203, 204, 205, 206, 207, 208, 209, 210 ;
+}
