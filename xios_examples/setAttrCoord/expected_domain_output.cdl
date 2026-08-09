@@ -1,0 +1,110 @@
+netcdf data_output {
+dimensions:
+	axis_nbounds = 2 ;
+	x = 5 ;
+	y = 5 ;
+	alt = 1 ;
+	time_counter = UNLIMITED ; // (2 currently)
+variables:
+	float x(x) ;
+		x:name = "x" ;
+		x:standard_name = "projection_x_coordinate" ;
+		x:long_name = "x coordinate of projection" ;
+		x:units = "m" ;
+	float y(y) ;
+		y:name = "y" ;
+		y:standard_name = "projection_y_coordinate" ;
+		y:long_name = "y coordinate of projection" ;
+		y:units = "m" ;
+	float alt(alt) ;
+		alt:name = "alt" ;
+		alt:standard_name = "altitude" ;
+		alt:units = "metres" ;
+	float forecast_reference_time ;
+		forecast_reference_time:name = "forecast_reference_time" ;
+		forecast_reference_time:standard_name = "forecast_reference_time" ;
+		forecast_reference_time:units = "seconds since 2022-02-02 12:00:00" ;
+	double time_instant(time_counter) ;
+		time_instant:standard_name = "time" ;
+		time_instant:long_name = "Time axis" ;
+		time_instant:calendar = "gregorian" ;
+		time_instant:units = "seconds since 2022-02-02 12:00:00" ;
+		time_instant:time_origin = "2022-02-02 12:00:00" ;
+		time_instant:bounds = "time_instant_bounds" ;
+	double time_instant_bounds(time_counter, axis_nbounds) ;
+	double time_counter(time_counter) ;
+		time_counter:axis = "T" ;
+		time_counter:standard_name = "time" ;
+		time_counter:long_name = "Time axis" ;
+		time_counter:calendar = "gregorian" ;
+		time_counter:units = "seconds since 2022-02-02 12:00:00" ;
+		time_counter:time_origin = "2022-02-02 12:00:00" ;
+		time_counter:bounds = "time_counter_bounds" ;
+	double time_counter_bounds(time_counter, axis_nbounds) ;
+	double original_data(time_counter, alt, y, x) ;
+		original_data:long_name = "Arbitrary data values" ;
+		original_data:units = "1" ;
+		original_data:online_operation = "instant" ;
+		original_data:interval_operation = "1 h" ;
+		original_data:interval_write = "1 h" ;
+		original_data:cell_methods = "time: point" ;
+		original_data:coordinates = "time_instant forecast_reference_time" ;
+		original_data:grid_mapping = "osgb: x y egm2008:alt" ;
+	short osgb ;
+		osgb:online_operation = "once" ;
+		osgb:_FillValue = -32767s ;
+		osgb:missing_value = -32767s ;
+		osgb:coordinates = "" ;
+		osgb:crs_wkt = "PROJCRS[\"OSGB36 / British National Grid\",BASEGEOGCRS[\"OSGB36\",DATUM[\"Ordnance Survey of Great Britain 1936\",ELLIPSOID[\"Airy 1830\",6377563.396,299.3249646,LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]],ID[\"EPSG\",7001]],ID[\"EPSG\",6277]],ID[\"EPSG\",4277]],CONVERSION[\"British National Grid\",METHOD[\"Transverse Mercator\",ID[\"EPSG\",9807]],PARAMETER[\"Latitude of natural origin\",49,ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9102]],ID[\"EPSG\",8801]],PARAMETER[\"Longitude of natural origin\",-2,ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9102]],ID[\"EPSG\",8802]],PARAMETER[\"Scale factor at natural origin\",0.9996012717,SCALEUNIT[\"unity\",1,ID[\"EPSG\",9201]],ID[\"EPSG\",8805]],PARAMETER[\"False easting\",400000,LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]],ID[\"EPSG\",8806]],PARAMETER[\"False northing\",-100000,LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]],ID[\"EPSG\",8807]],ID[\"EPSG\",19916]],CS[Cartesian,2,ID[\"EPSG\",4400]],AXIS[\"Easting (E)\",east],AXIS[\"Northing (N)\",north],LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]],ID[\"EPSG\",27700]]" ;
+	short egm2008 ;
+		egm2008:online_operation = "once" ;
+		egm2008:_FillValue = -32767s ;
+		egm2008:missing_value = -32767s ;
+		egm2008:coordinates = "" ;
+		egm2008:crs_wkt = "VERTCRS[\"EGM2008 height\",VDATUM[\"EGM2008 geoid\",ID[\"EPSG\",1027]],CS[vertical,1,ID[\"EPSG\",6499]],AXIS[\"Gravity-related height (H)\",up],LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]],GEOIDMODEL[\"WGS 84 to EGM2008 height (1)\",ID[\"EPSG\",3858]],GEOIDMODEL[\"WGS 84 to EGM2008 height (2)\",ID[\"EPSG\",3859]],ID[\"EPSG\",3855]]" ;
+
+// global attributes:
+		:description = "LFRic file format v0.2.0" ;
+		:Conventions = "CF-1.6, UGRID" ;
+		:timeStamp = "2025-Jun-19 08:40:45 GMT" ;
+		:uuid = "4166ab59-b790-423d-9fa3-7693aa16a04a" ;
+		:name = "Attribute demonstration" ;
+		:title = "Attribute demonstration" ;
+data:
+
+ x = 303000, 305000, 307000, 309000, 311000 ;
+
+ y = 107000, 109000, 111000, 113000, 115000 ;
+
+ alt = 50 ;
+
+ forecast_reference_time = 2.71296e+07 ;
+
+ time_instant = 27133200, 27136800 ;
+
+ time_instant_bounds =
+  27133200, 27133200,
+  27136800, 27136800 ;
+
+ time_counter = 27133200, 27136800 ;
+
+ time_counter_bounds =
+  27133200, 27133200,
+  27136800, 27136800 ;
+
+ original_data =
+  0, 2, 4, 6, 8,
+  2, 4, 6, 8, 10,
+  4, 6, 8, 10, 12,
+  6, 8, 10, 12, 14,
+  8, 10, 12, 14, 16,
+  0, 2, 4, 6, 8,
+  2, 4, 6, 8, 10,
+  4, 6, 8, 10, 12,
+  6, 8, 10, 12, 14,
+  8, 10, 12, 14, 16 ;
+
+ osgb = _ ;
+
+ egm2008 = _ ;
+}
