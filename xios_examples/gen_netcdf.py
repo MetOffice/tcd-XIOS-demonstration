@@ -136,24 +136,24 @@ def create_ncfile_unstructured(ncmeshout, meshin_file, meshin_varname, nlev, fun
 
     for face_coord in meshin_var.face_coordinates.split(" "):
         face_coordvar = ncmeshin.variables[face_coord]
-        if face_coordvar.standard_name == 'longitude':
+        if face_coordvar.standard_name in ['longitude', 'projection_x_coordinate']:
             face_lon = face_coordvar[:]
-        elif face_coordvar.standard_name == 'latitude':
+        elif face_coordvar.standard_name in ['latitude', 'projection_y_coordinate']:
             face_lat = face_coordvar[:]
 
     for node_coord in meshin_var.node_coordinates.split(" "):
         node_coordvar = ncmeshin.variables[node_coord]
-        if node_coordvar.standard_name == 'longitude':
+        if node_coordvar.standard_name in ['longitude', 'projection_x_coordinate']:
             node_lon = node_coordvar[:]
-        elif node_coordvar.standard_name == 'latitude':
+        elif node_coordvar.standard_name in ['latitude', 'projection_y_coordinate']:
             node_lat = node_coordvar[:]
 
     if 'edge_coordinates' in meshin_var.ncattrs():
         for edge_coord in meshin_var.edge_coordinates.split(" "):
             edge_coordvar = ncmeshin.variables[edge_coord]
-            if edge_coordvar.standard_name == 'longitude':
+            if edge_coordvar.standard_name in ['longitude', 'projection_x_coordinate']:
                 edge_lon = edge_coordvar[:]
-            elif edge_coordvar.standard_name == 'latitude':
+            elif edge_coordvar.standard_name in ['latitude', 'projection_y_coordinate']:
                 edge_lat = edge_coordvar[:]
 
     meshout_varname = 'Mesh2d'
