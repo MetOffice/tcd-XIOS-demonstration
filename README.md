@@ -3,6 +3,8 @@ Demonstration code for XML I/O server XIOS usage.
 
 Demonstrations of using XIOS are provided with Continuous Integration testing with respect to XIOS2 trunk.
 
+IPSL develop and maintain the code base, which is open source and freely available. Code management is administered via https://gitlab.in2p3.fr/ipsl/projets/xios-projects/xios.
+
 ## Environments
 
 Environments are managed, with a little complication, to enable running on scientific desktop and on Github  Continuous Integration.
